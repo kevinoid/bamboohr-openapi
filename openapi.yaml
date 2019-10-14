@@ -1,0 +1,1529 @@
+openapi: '3.0.2'
+
+# API metadata
+info:
+  title: BambooHR API
+  version: 1.0.0
+  description: |
+    BambooHR provides companies a human capital management software as a
+    service.
+  contact:
+    name: BambooHR
+    email: support@bamboohr.com
+    url: https://www.bamboohr.com/contact.php
+    x-twitter: bamboohr
+  termsOfService: https://www.bamboohr.com/terms-of-service/
+  license:
+    name: BambooHR API Terms of Use
+    url: https://partners.bamboohr.com/bamboohr-api-terms-of-use/
+
+  # APIs.guru Extensions
+  # https://github.com/APIs-guru/openapi-directory/wiki/specification-extensions
+  x-apiClientRegistration: https://www.bamboohr.com/signup/
+  x-apisguru-categories:
+  - enterprise
+  x-description-language: en
+  # More logos at https://www.bamboohr.com/about/press.php#mediaAssets
+  x-logo:
+    backgroundColor: '#FFFFFF'
+    url: https://www.bamboohr.com/img/new-press-images/bamboohr-green-png.png
+  x-unofficialSpec: true
+
+externalDocs:
+  description: BambooHR API Documentation
+  url: https://documentation.bamboohr.com/docs
+
+servers:
+- url: https://api.bamboohr.com/api/gateway.php/{subdomain}/v1
+  variables:
+    subdomain:
+      default: mycompany
+      description: >-
+        The subdomain used to access your account (If you access BambooHR at
+        https://mycompany.bamboohr.com, then the subdomain is "mycompany")
+
+security:
+- apiKey: []
+
+tags:
+- name: Employees
+  externalDocs:
+    url: https://www.bamboohr.com/api/documentation/employees.php
+- name: Metadata
+  externalDocs:
+    url: https://www.bamboohr.com/api/documentation/metadata.php
+- name: Tables
+  externalDocs:
+    url: https://www.bamboohr.com/api/documentation/tables.php
+
+components:
+  securitySchemes:
+    apiKey:
+      description: >-
+        Requests to the BambooHR API are authenticated by sending an "API Key"
+        for the user to be authenticated as the HTTP Basic username.  The
+        password is ignored, but is commonly shown as "x" in the documentation.
+
+        See https://documentation.bamboohr.com/docs#section-authentication
+      type: http
+      scheme: basic
+
+  parameters:
+    companyFileId:
+      name: fileId
+      in: path
+      description: ID of a company file
+      required: true
+      schema:
+        type: integer
+        minimum: 0
+    employeeFields:
+      name: fields
+      in: query
+      description: Employee fields to return in the response.
+      required: true
+      schema:
+        type: array
+        items:
+          type: string
+    employeeFileId:
+      name: fileId
+      in: path
+      description: ID of an employee file
+      required: true
+      schema:
+        type: integer
+        minimum: 0
+    employeeId:
+      name: id
+      in: path
+      description: Employee ID
+      required: true
+      schema:
+        type: integer
+        minimum: 0
+    filterDuplicates:
+      name: fd
+      in: query
+      description: Apply standard duplicate field filtering?  Default yes
+      schema:
+        $ref: '#/components/schemas/YesNo'
+    reportFormat:
+      name: format
+      in: query
+      description: File format of the report.
+      required: true
+      schema:
+        $ref: '#/components/schemas/ReportFormat'
+    reportId:
+      name: id
+      in: path
+      description: Report ID
+      required: true
+      schema:
+        type: integer
+        minimum: 0
+
+  schemas:
+    YesNo:
+      type: string
+      enum:
+      - yes
+      - no
+
+    EmployeeField:
+      type: string
+      enum:
+      - address1
+      - address2
+      - age
+      - bestEmail
+      - birthday
+      - city
+      - country
+      - dateOfBirth
+      - department
+      - division
+      - eeo
+      - employeeNumber
+      - employmentHistoryStatus
+      - ethnicity
+      - exempt
+      - firstName
+      - flsaCode
+      - fullName1
+      - fullName2
+      - fullName3
+      - fullName4
+      - fullName5
+      - displayName
+      - gender
+      - hireDate
+      - originalHireDate
+      - homeEmail
+      - homePhone
+      - id
+      - jobTitle
+      - lastChanged
+      - lastName
+      - location
+      - maritalStatus
+      - middleName
+      - mobilePhone
+      - payChangeReason
+      - payGroup
+      - payGroupId
+      - payRate
+      - payRateEffectiveDate
+      - payType
+      - payPer
+      - paidPer
+      - paySchedule
+      - payScheduleId
+      - payFrequency
+      - includeInPayroll
+      - timeTrackingEnabled
+      - preferredName
+      - ssn
+      - sin
+      - state
+      - stateCode
+      - status
+      - supervisor
+      - supervisorId
+      - supervisorEId
+      - terminationDate
+      - workEmail
+      - workPhone
+      - workPhonePlusExtension
+      - workPhoneExtension
+      - zipcode
+      - isPhotoUploaded
+      - acaStatus
+      - acaStatusCategory
+      - standardHoursPerWeek
+      - bonusDate
+      - bonusAmount
+      - bonusReason
+      - bonusComment
+      - commissionDate
+      - commisionDate
+      - commissionAmount
+      - commissionComment
+      - employmentStatus
+      - nickname
+      - payPeriod
+      - canUploadPhoto
+      - photoUploaded
+      - photoUrl
+      - nin
+      - nationalId
+      - nationality
+      - facebook
+      - linkedIn
+      - skypeUsername
+      x-enum-descriptions:
+      - The employee's first address line.
+      - The employee's second address line.
+      - The employee's age. To change age, update dateOfBirth field.
+      - The employee's work email if set, otherwise their home email.
+      - The employee's month and day of birth. To change birthday, update dateOfBirth field.
+      - The employee's city.
+      - The employee's country.
+      - The date the employee was born.
+      - The employee's CURRENT department.
+      - The employee's CURRENT division.
+      - The employee's EEO job category. These are defined by the U.S. Equal Employment Opportunity Commission.
+      - Employee number (assigned by your company).
+      - The employee's CURRENT employment status. Options are customized by account. Read-only starting with version 1.1; update using the employmentStatus table.
+      - The employee's ethnicity.
+      - The FLSA Overtime Status (Exempt or Non-exempt).
+      - The employee's first name.
+      - Deprecated please use 'exempt'
+      - The employee's first and last name. (e.g., John Doe). Read only.
+      - The employee's last and first name. (e.g., Doe, John). Read only.
+      - The employee's full name and their preferred name. (e.g., Doe, John Quentin (JDog)). Read only.
+      - The employee's full name without their preferred name, last name first. (e.g., Doe, John Quentin). Read only.
+      - The employee's full name without their preferred name, first name first. (e.g., John Quentin Doe). Read only.
+      - The employee's name displayed in a format configured by the user. Read only.
+      - The employee's gender (Male or Female).
+      - The date the employee was hired.
+      - The date the employee was originally hired. Available starting with version 1.1.
+      - The employee's home email address.
+      - The employee's home phone number.
+      - The employee ID automatically assigned by BambooHR. Read only.
+      - The CURRENT value of the employee's job title, updating this field will create a new row in position history.
+      - The date and time that the employee record was last changed.
+      - The employee's last name.
+      - The employee's CURRENT location.
+      - The employee's marital status (Single, Married, or Domestic Partnership).
+      - The employee's middle name.
+      - The employee's mobile phone number.
+      - The reason for the employee's last pay rate change.
+      - The custom pay group that the employee belongs to.
+      - The ID value corresponding to the pay group that an employee belongs to.
+      - The employee's CURRENT pay rate (e.g., $8.25).
+      - The day the most recent change was made.
+      - The employee's CURRENT pay type. ie: "hourly","salary","commission","exception hourly","monthly","weekly","piece rate","contract","daily","pro rata".
+      - The employee's CURRENT pay per. ie: "Hour", "Day", "Week", "Month", "Quarter", "Year".
+      - The employee's CURRENT pay per. ie: "Hour", "Day", "Week", "Month", "Quarter", "Year".
+      - The employee's CURRENT pay schedule.
+      - The ID value corresponding to the pay schedule that an employee belongs to.
+      - The employee's CURRENT pay frequency. ie: "Weekly", "Every other week", "Twice a month", "Monthly", "Quarterly", "Twice a year", or "Yearly"
+      - Should employee be included in payroll (Yes or No)
+      - Should time tracking be enabled for the employee (Yes or No)
+      - The employee's preferred name.
+      - The employee's Social Security number.
+      - The employee's Canadian Social Insurance Number.
+      - The employee's state/province.
+      - The 2 character abbreviation for the employee's state (US only). Read only.
+      - The employee's employee status (Active or Inactive).
+      - The employee’s CURRENT supervisor. Read only.
+      - The 'employeeNumber' of the employee's CURRENT supervisor. Read only.
+      - The ID of the employee's CURRENT supervisor. Read only.
+      - The date the employee was terminated. Read-only starting with version 1.1; update using the employmentStatus table.
+      - The employee's work email address.
+      - The employee's work phone number, without extension.
+      - The employee's work phone and extension. Read only.
+      - The employee's work phone extension (if any).
+      - The employee's ZIP code.
+      - Whether the employee is permitted to upload a photo.
+      - Whether a photo has been uploaded for the employee. Read only.
+      - Employee photo url
+      - The employee's ACA (Affordable Care Act) Full-Time status. Options are yes, no, non-assessment
+      - The employee's ACA (Affordable Care Act) status.
+      - The number of hours the employee works in a standard week.
+      - The date of the last bonus.
+      - The amount of the most recent bonus.
+      - The reason for the most recent bonus.
+      - Comment about the most recent bonus.
+      - The date of the last commission.
+      - This field name contains a typo, and exists for backwards compatibility.
+      - The amount of the most recent commission.
+      - Comment about the most recent commission.
+      - DEPRECATED. Please use "status" instead. The employee's employee status (Active or Inactive).
+      - DEPRECATED. Please use "preferredName" instead. The employee's preferred name.
+      - DEPRECATED. Please use paySchedule or payFrequency instead. The employee's CURRENT pay period. ie: "Daily", "Weekly", "Every other week", "Twice a month", "Monthly", "Quarterly", "Twice a year", "Yearly".
+      - DEPRECATED. Please use "isPhotoUploaded" instead. The employee has uploaded a photo. Read only.
+      - The employee's NIN number
+      - The employee's National ID number
+      - The employee's nationality
+      - The employee's Facebook username
+      - The employee's LinkedIn URL
+      - The employee's Skype username
+
+    EmployeeGender:
+      type: string
+      enum:
+      - Female
+      - Male
+
+    EmployeeStatus:
+      type: string
+      enum:
+      - Active
+      - Inactive
+
+    EmployeeStatusDeprecated:
+      deprecated: true
+      type: string
+      enum:
+      - Active
+      - Inactive
+
+    MaritalStatus:
+      type: string
+      enum:
+      - Single
+      - Married
+      - Common Law
+      - Domestic Partnership
+
+    PayFrequency:
+      type: string
+      enum:
+      - Weekly
+      - Every other week
+      - Twice a month
+      - Monthly
+      - Quarterly
+      - Twice a year
+      - Yearly
+
+    PayPer:
+      type: string
+      enum:
+      - Hour
+      - Day
+      - Week
+      - Month
+      - Quarter
+      - Year
+
+    PayType:
+      type: string
+      enum:
+      - Hourly
+      - Salary
+      - Commission
+      - Exception Hourly
+      - Monthly
+      - Piece Rate
+      - Contract
+      - Daily
+
+    Field:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/EmployeeField'
+        type:
+          type: string
+        name:
+          type: string
+
+    Employee:
+      type: object
+      properties:
+        address1:
+          description: The employee's first address line.
+          type: string
+        address2:
+          description: The employee's second address line.
+          type: string
+        age:
+          description: The employee's age. To change age, update dateOfBirth field.
+          type: integer
+        bestEmail:
+          description: The employee's work email if set, otherwise their home email.
+          type: string
+          format: email
+        birthday:
+          description: The employee's month and day of birth. To change birthday, update dateOfBirth field.
+          type: string
+        city:
+          description: The employee's city.
+          type: string
+        country:
+          description: The employee's country.
+          type: string
+        dateOfBirth:
+          description: The date the employee was born.
+          type: string
+          format: date
+        department:
+          description: The employee's CURRENT department.
+          type: list
+        division:
+          description: The employee's CURRENT division.
+          type: list
+        eeo:
+          description: The employee's EEO job category. These are defined by the U.S. Equal Employment Opportunity Commission.
+          type: list
+        employeeNumber:
+          description: Employee number (assigned by your company).
+          type: string
+        employmentHistoryStatus:
+          description: The employee's CURRENT employment status. Options are customized by account. Read-only starting with version 1.1; update using the employmentStatus table.
+          type: list
+        ethnicity:
+          description: The employee's ethnicity.
+          type: list
+        exempt:
+          description: The FLSA Overtime Status (Exempt or Non-exempt).
+          type: list
+        firstName:
+          description: The employee's first name.
+          type: string
+        flsaCode:
+          description: Deprecated please use 'exempt'
+          type: list
+        fullName1:
+          description: The employee's first and last name. (e.g., John Doe). Read only.
+          type: string
+        fullName2:
+          description: The employee's last and first name. (e.g., Doe, John). Read only.
+          type: string
+        fullName3:
+          description: The employee's full name and their preferred name. (e.g., Doe, John Quentin (JDog)). Read only.
+          type: string
+        fullName4:
+          description: The employee's full name without their preferred name, last name first. (e.g., Doe, John Quentin). Read only.
+          type: string
+        fullName5:
+          description: The employee's full name without their preferred name, first name first. (e.g., John Quentin Doe). Read only.
+          type: string
+        displayName:
+          description: The employee's name displayed in a format configured by the user. Read only.
+          type: string
+        gender:
+          $ref: '#/components/schemas/EmployeeGender'
+        hireDate:
+          description: The date the employee was hired.
+          type: string
+          format: date
+        originalHireDate:
+          description: The date the employee was originally hired. Available starting with version 1.1.
+          type: string
+          format: date
+        homeEmail:
+          description: The employee's home email address.
+          type: string
+          format: email
+        homePhone:
+          description: The employee's home phone number.
+          type: string
+        id:
+          description: The employee ID automatically assigned by BambooHR.
+          readOnly: true
+          type: integer
+          minimum: 0
+        jobTitle:
+          description: The CURRENT value of the employee's job title, updating this field will create a new row in position history.
+          type: list
+        lastChanged:
+          description: The date and time that the employee record was last changed.
+          type: string
+          format: date-time
+        lastName:
+          description: The employee's last name.
+          type: string
+        location:
+          description: The employee's CURRENT location.
+          type: string
+        maritalStatus:
+          $ref: '#/components/schemas/MaritalStatus'
+        middleName:
+          description: The employee's middle name.
+          type: string
+        mobilePhone:
+          description: The employee's mobile phone number.
+          type: string
+        payChangeReason:
+          description: The reason for the employee's last pay rate change.
+          type: string
+        payGroup:
+          description: The custom pay group that the employee belongs to.
+          type: string
+        payGroupId:
+          description: The ID value corresponding to the pay group that an employee belongs to.
+          type: integer
+        payRate:
+          description: The employee's CURRENT pay rate (e.g., $8.25).
+          type: string
+          format: decimal
+        payRateEffectiveDate:
+          description: The day the most recent change was made.
+          type: string
+          format: date
+        payType:
+          $ref: '#/components/schemas/PayType'
+        payPer:
+          $ref: '#/components/schemas/PayPer'
+        paidPer:
+          $ref: '#/components/schemas/PayPer'
+        paySchedule:
+          description: The employee's CURRENT pay schedule.
+          type: string
+        payScheduleId:
+          description: The ID value corresponding to the pay schedule that an employee belongs to.
+          type: integer
+        payFrequency:
+          $ref: '#/components/schemas/PayFrequency'
+        includeInPayroll:
+          description: Should employee be included in payroll
+          type: boolean
+        timeTrackingEnabled:
+          description: Should time tracking be enabled for the employee
+          type: boolean
+        preferredName:
+          description: The employee's preferred name.
+          type: string
+        ssn:
+          description: The employee's Social Security number.
+          type: string
+          pattern: '^[0-9]{3}-[0-9]{2}-[0-9]{4}$'
+        sin:
+          description: The employee's Canadian Social Insurance Number.
+          type: string
+          pattern: '^[0-9]{3}-[0-9]{3}-[0-9]{3}$'
+        state:
+          description: The employee's state/province.
+          type: string
+        stateCode:
+          description: The 2 character abbreviation for the employee's state (US only). Read only.
+          type: string
+          pattern: '^[A-Z]{2}$'
+        status:
+          $ref: '#/components/schemas/EmployeeStatus'
+        supervisor:
+          description: The employee’s CURRENT supervisor as last name-comma-first name-space-middle name.
+          readOnly: true
+          type: string
+        supervisorId:
+          description: The 'employeeNumber' of the employee's CURRENT supervisor.
+          readOnly: true
+          type: integer
+        supervisorEId:
+          description: The ID of the employee's CURRENT supervisor.
+          readOnly: true
+          type: integer
+        terminationDate:
+          description: The date the employee was terminated. Read-only starting with version 1.1; update using the employmentStatus table.
+          readOnly: true
+          type: string
+          format: date
+        workEmail:
+          description: The employee's work email address.
+          type: string
+          format: email
+        workPhone:
+          description: The employee's work phone number, without extension.
+          type: string
+        workPhonePlusExtension:
+          description: The employee's work phone and extension. Read only.
+          type: string
+        workPhoneExtension:
+          description: The employee's work phone extension (if any).
+          type: string
+        zipcode:
+          description: The employee's ZIP code.
+          type: string
+        isPhotoUploaded:
+          description: Whether a photo has been uploaded for the employee. Read only.
+          type: boolean
+        acaStatus:
+          description: The employee's ACA (Affordable Care Act) Full-Time status. Options are yes, no, non-assessment
+          type: string
+        acaStatusCategory:
+          description: The employee's ACA (Affordable Care Act) status.
+          type: string
+        standardHoursPerWeek:
+          description: The number of hours the employee works in a standard week.
+          type: integer
+        bonusDate:
+          description: The date of the last bonus.
+          type: string
+          format: date
+        bonusAmount:
+          description: The amount of the most recent bonus.
+          type: string
+          format: decimal
+        bonusReason:
+          description: The reason for the most recent bonus.
+          type: string
+        bonusComment:
+          description: Comment about the most recent bonus.
+          type: string
+        commissionDate:
+          description: The date of the last commission.
+          type: string
+          format: date
+        commisionDate:
+          description: This field name contains a typo, and exists for backwards compatibility.
+          type: string
+          format: date
+        commissionAmount:
+          description: The amount of the most recent commission.
+          type: string
+          format: decimal
+        commissionComment:
+          description: Comment about the most recent commission.
+          type: string
+        employmentStatus:
+          description: DEPRECATED. Please use "status" instead. The employee's employee status (Active or Inactive).
+          type: string
+          deprecated: true
+        nickname:
+          description: DEPRECATED. Please use "preferredName" instead. The employee's preferred name.
+          type: string
+          deprecated: true
+        payPeriod:
+          description: DEPRECATED. Please use paySchedule or payFrequency instead. The employee's CURRENT pay period. ie: "Daily", "Weekly", "Every other week", "Twice a month", "Monthly", "Quarterly", "Twice a year", "Yearly".
+          type: string
+          deprecated: true
+        canUploadPhoto:
+          type: boolean
+        photoUploaded:
+          description: DEPRECATED. Please use "isPhotoUploaded" instead. The employee has uploaded a photo. Read only.
+          readOnly: true
+          type: boolean
+          deprecated: true
+        photoUrl:
+          description: Employee photo url
+          type: string
+          format: url
+        nin:
+          description: The employee's NIN number
+          type: string
+        nationalId:
+          description: The employee's National ID number
+          type: string
+        nationality:
+          description: The employee's nationality
+          type: string
+        facebook:
+          type: string
+        linkedIn:
+          description: LinkedIn URL
+          type: string
+          format: url
+        skypeUsername:
+          type: string
+      # https://github.com/OAI/OpenAPI-Specification/issues/687
+      #patternProperties:
+      #  customField.*:
+      #    type: string
+      additionalProperties:
+        type: string
+      # Note: Only id is required due to how employeeFields parameter works
+      required:
+      - id
+
+    AddEmployeeRequest:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+      required:
+      - firstName
+      - lastName
+
+    EmployeeDirectory:
+      type: object
+      properties:
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/Field'
+        employees:
+          type: array
+          items:
+            $ref: '#/components/schemas/Employee'
+      required:
+      - fields
+      - employees
+
+    ReportFilters:
+      type: object
+      properties:
+        lastChanged:
+          includeNull:
+            $ref: '#/components/schemas/YesNo'
+          value:
+            type: string
+            format: date-time
+
+    CustomReportRequest:
+      type: object
+      properties:
+        title:
+          type: string
+        filters:
+          $ref: '#/components/schemas/ReportFilters'
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/EmployeeField'
+
+    CustomReport:
+      allOf:
+      - $ref: '#/components/schemas/EmployeeDirectory'
+      - type: object
+        properties:
+          title:
+            type: string
+        required:
+        - title
+
+    ReportFormat:
+      type: string
+      enum:
+      - CSV
+      - JSON
+      - PDF
+      - XLS
+      - XML
+
+    File:
+      xml:
+        name: file
+      type: object
+      properties:
+        id:
+          xml:
+            attribute: true
+          readOnly: true
+          type: integer
+          minimum: 0
+        name:
+          description: File name
+          type: string
+        originalFileName:
+          type: string
+        size:
+          description: Size of the file content, in bytes.
+          type: integer
+          minimum: 0
+        dateCreated:
+          type: string
+          format: date-time
+        createdBy:
+          description: Full name of the user who uploaded the file.
+          type: string
+        shareWithEmployee:
+          $ref: '#/components/schemas/YesNo'
+
+    FileCategory:
+      xml:
+        name: category
+      type: object
+      properties:
+        id:
+          xml:
+            attribute: true
+          readOnly: true
+          type: integer
+          minimum: 0
+        name:
+          type: string
+      required:
+      - id
+      - name
+
+    EmployeeFile:
+      allOf:
+      - $ref: '#/components/schemas/File'
+      - type: object
+        properties:
+          canRenameFile:
+            $ref: '#/components/schemas/YesNo'
+          canDeleteFile:
+            $ref: '#/components/schemas/YesNo'
+          canChangeShareWithEmployeeFieldValue:
+            $ref: '#/components/schemas/YesNo'
+
+    EmployeeFileCategory:
+      allOf:
+      - $ref: '#/components/schemas/FileCategory'
+      - type: object
+        properties:
+          canRenameCategory:
+            $ref: '#/components/schemas/YesNo'
+          canDeleteCategory:
+            $ref: '#/components/schemas/YesNo'
+          canUploadFiles:
+            $ref: '#/components/schemas/YesNo'
+          displayIfEmpty:
+            $ref: '#/components/schemas/YesNo'
+          files:
+            type: array
+            items:
+              $ref: '#/components/schemas/EmployeeFile'
+        required:
+        - canRenameCategory
+        - canDeleteCategory
+        - canUploadFiles
+        - displayIfEmpty
+        - files
+
+    EmployeeFiles:
+      type: object
+      properties:
+        employee:
+          $ref: '#/components/schemas/Employee'
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/EmployeeFileCategory'
+      required:
+      - employee
+      - categories
+
+    CompanyFile:
+      allOf:
+      - $ref: '#/components/schemas/File'
+
+    CompanyFileCategory:
+      allOf:
+      - $ref: '#/components/schemas/FileCategory'
+      - type: object
+        properties:
+          files:
+            type: array
+            items:
+              $ref: '#/components/schemas/CompanyFile'
+        required:
+        - files
+
+    CompanyFiles:
+      xml:
+        name: files
+      type: array
+      items:
+        $ref: '#/components/schemas/CompanyFileCategory'
+
+    UpdateFileRequest:
+      xml:
+        name: file
+      type: object
+      properties:
+        name:
+          type: string
+        categoryId:
+          type: integer
+          minimum: 0
+        shareWithEmployee:
+          $ref: '#/components/schemas/YesNo'
+
+    AddCompanyFileCategoryRequest:
+      xml:
+        name: files
+        wrapped: true
+      type: array
+      items:
+        xml:
+          name: category
+        type: string
+
+    AddEmployeeFileCategoryRequest:
+      xml:
+        name: employee
+        wrapped: true
+      type: array
+      items:
+        xml:
+          name: category
+        type: string
+
+    UploadFileRequest:
+      type: object
+      properties:
+        category:
+          description: Category ID in which to place the uploaded file.
+          type: integer
+          minimum: 0
+        fileName:
+          type: string
+        share:
+          $ref: '#/components/schemas/YesNo'
+        file:
+          description: Content of file to upload.
+          type: string
+          format: binary
+
+  responses:
+    Error:
+      description: Error
+      headers:
+        x-bamboohr-error-message:
+          description: Error message
+          schema:
+            type: string
+
+paths:
+  /employees/:
+    post:
+      tags:
+      - Employees
+      operationId: addEmployee
+      summary: Add an employee
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/employees.php#addEmployee
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddEmployeeRequest'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '201':
+          description: Success
+          headers:
+            location:
+              description: API URL for the new employee.
+              schema:
+                type: string
+
+  /employees/directory:
+    get:
+      tags:
+      - Employees
+      operationId: getDirectory
+      summary: Get a directory of employees
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/employees.php#getEmployeeDirectory
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeDirectory'
+        '403':
+          description: The directory has not been shared company-wide.
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+
+  /employees/{id}:
+    parameters:
+    - $ref: '#/components/parameters/employeeId'
+    get:
+      tags:
+      - Employees
+      operationId: getEmployee
+      summary: Get employee
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/employees.php#getEmployee
+      parameters:
+      - $ref: '#/components/parameters/employeeFields'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+        '403':
+          description: User does not have permission to view employee
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+        '404':
+          description: Employee not found
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+    post:
+      tags:
+      - Employees
+      operationId: updateEmployee
+      summary: Update employee
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/employees.php#updateEmployee
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+        '403':
+          description: User does not have permission to update ANY of the requested fields
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+        '404':
+          description: Employee not found
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+
+  /employees/{id}/files/:
+    parameters:
+    - $ref: '#/components/parameters/employeeId'
+    post:
+      tags:
+      - Employees
+      operationId: uploadEmployeeFile
+      summary: Upload an employee file
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/employees.php#uploadEmployeeFile
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UploadFileRequest'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '201':
+          description: Success
+        '403':
+          description: User does not have permission to see the requested employee or the employee's files.
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+        '404':
+          description: The category ID was not found.
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+        '413':
+          description: The file size exceeds 20MB or the storage limit for the company.
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+
+  /employees/{id}/files/categories/:
+    parameters:
+    - $ref: '#/components/parameters/employeeId'
+    post:
+      tags:
+      - Employees
+      operationId: addEmployeeFileCategory
+      summary: Add an employee file category
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/employees.php#addEmployeeCategory
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddEmployeeFileCategoryRequest'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '201':
+          description: Success
+        '403':
+          description: User does not have permission to see the requested employee or the employee's files.
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+        '404':
+          description: No files are found for the requested employee.
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+
+  /employees/{id}/files/view/:
+    parameters:
+    - $ref: '#/components/parameters/employeeId'
+    get:
+      tags:
+      - Employees
+      operationId: listEmployeeFiles
+      summary: List employee files and categories
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/employees.php#listEmployeeFiles
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeFiles'
+        '403':
+          description: User does not have permission to see the requested employee or the employee's files.
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+        '404':
+          description: No files are found for the requested employee.
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+
+  /employees/{id}/files/{fileId}/:
+    parameters:
+    - $ref: '#/components/parameters/employeeId'
+    - $ref: '#/components/parameters/employeeFileId'
+    delete:
+      tags:
+      - Employees
+      operationId: deleteEmployeeFile
+      summary: Delete an employee file
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/employees.php#deleteEmployeeFile
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+        '403':
+          description: User does not have permission to see the requested employee or the employee's files.
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+        '404':
+          description: The requested employee or file was not found
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+    get:
+      tags:
+      - Employees
+      operationId: downloadEmployeeFile
+      summary: Download an employee file
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/employees.php#downloadEmployeeFile
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            '*/*':
+              schema:
+                type: string
+                format: binary
+        '403':
+          description: User does not have permission to see the requested employee or the employee's files.
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+        '404':
+          description: The requested employee or file was not found
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+    post:
+      tags:
+      - Employees
+      operationId: updateEmployeeFile
+      summary: Update an employee file
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/employees.php#updateEmployeeFile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateFileRequest'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+        '403':
+          description: User does not have permission to see the requested employee or the employee's files.
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+        '404':
+          description: The requested employee or category was not found
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+
+  /files/view/:
+    get:
+      tags:
+      - Employees
+      operationId: listCompanyFiles
+      summary: List company files and categories
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/employees.php#listCompanyFiles
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompanyFiles'
+        '403':
+          description: User does not have permission to see the company files.
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+        '404':
+          description: No files or categories are found.
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+
+  /files/categories/:
+    post:
+      tags:
+      - Employees
+      operationId: addCompanyFileCategory
+      summary: Add a company file category
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/employees.php#addCompanyCategory
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddCompanyFileCategoryRequest'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '201':
+          description: Success
+        '403':
+          description: User does not have permission to see the requested employee or the employee's files.
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+        '404':
+          description: No files are found for the requested employee.
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+
+  /files/{fileId}/:
+    parameters:
+    - $ref: '#/components/parameters/companyFileId'
+    delete:
+      tags:
+      - Employees
+      operationId: deleteCompanyFile
+      summary: Delete a company file
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/employees.php#deleteCompanyFile
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+        '403':
+          description: User does not have permission to see the requested file.
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+        '404':
+          description: The file was not found.
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+    get:
+      tags:
+      - Employees
+      operationId: downloadCompanyFile
+      summary: Download a company file
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/employees.php#downloadCompanyFile
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            '*/*':
+              schema:
+                type: string
+                format: binary
+        '403':
+          description: User does not have permission to see the company files.
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+        '404':
+          description: The file was not found.
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+    post:
+      tags:
+      - Employees
+      operationId: updateCompanyFile
+      summary: Update a company file
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/employees.php#updateCompanyFile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateFileRequest'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+        '403':
+          description: User does not have permission to see the company files.
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+        '404':
+          description: The file or category was not found.
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+
+  /files/:
+    post:
+      tags:
+      - Employees
+      operationId: uploadCompanyFile
+      summary: Upload a company file
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/employees.php#uploadCompanyFile
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UploadFileRequest'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '201':
+          description: Success
+        '403':
+          description: User does not have permission to see the company files.
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+        '404':
+          description: The category ID was not found.
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+        '413':
+          description: The file size exceeds 20MB or the storage limit for the company.
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+
+  /reports/{id}:
+    parameters:
+    - $ref: '#/components/parameters/reportId'
+    get:
+      tags:
+      - Employees
+      operationId: getReport
+      summary: Request a company report
+      description: >-
+        Use this resource to request one of your pre-existing company reports
+        from the reporting section. You can get the report number by hovering
+        over the report name on the reports page and grabbing the ID. At
+        present, only reports from the Company Reports section are supported.
+        In the future we may implement reports from the Report Library section
+        if there is enough demand for it. The report numbers used in this
+        request are different in each company.
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/employees.php#requestCompanyReport
+      parameters:
+      - $ref: '#/components/parameters/reportFormat'
+      - $ref: '#/components/parameters/filterDuplicates'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            '*/*':
+              schema:
+                type: string
+                format: binary
+        '404':
+          description: Nonexistent report id
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+
+  /reports/custom:
+    post:
+      tags:
+      - Employees
+      operationId: getCustomReport
+      summary: Request a custom report
+      description: >-
+        Use this resource to request BambooHR generate a report. You must
+        specify a type of either "PDF", "XLS", "CSV", "JSON", or "XML". You
+        must specify a list of fields to show on the report. The list of fields
+        is available here. The custom report will return employees regardless
+        of their status, "Active" or "Inactive". This differs from the UI,
+        which by default applies a quick filter to display only "Active"
+        employees. 
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/employees.php#requestCustomReport
+      parameters:
+      - $ref: '#/components/parameters/reportFormat'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomReportRequest'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            '*/*':
+              schema:
+                type: string
+                format: binary
+        '404':
+          description: Nonexistent report id
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
