@@ -34,7 +34,7 @@ externalDocs:
   url: https://documentation.bamboohr.com/docs
 
 servers:
-- url: https://api.bamboohr.com/api/gateway.php/{subdomain}/v1
+- url: https://api.bamboohr.com/api/gateway.php/{subdomain}
   variables:
     subdomain:
       default: mycompany
@@ -102,6 +102,13 @@ components:
       schema:
         type: integer
         minimum: 0
+    employeeTableName:
+      name: tableName
+      in: path
+      description: Table name
+      required: true
+      schema:
+        $ref: '#/components/schemas/EmployeeTableName'
     filterDuplicates:
       name: fd
       in: query
@@ -123,6 +130,22 @@ components:
       schema:
         type: integer
         minimum: 0
+    rowId:
+      name: rowId
+      in: path
+      description: Row ID
+      required: true
+      schema:
+        type: integer
+        minimum: 0
+    since:
+      name: since
+      in: query
+      description: Get changes since a given date
+      required: true
+      schema:
+        type: string
+        format: date-time
 
   schemas:
     YesNo:
@@ -130,6 +153,331 @@ components:
       enum:
       - yes
       - no
+
+    CurrencyCode:
+      description: ISO 4217 currency code supported by BambooHR
+      type: string
+      # Extracted from /ajax/currency.php response
+      enum:
+      - AED
+      - AFN
+      - ALL
+      - AMD
+      - ANG
+      - AOA
+      - ARS
+      - AUD
+      - AWG
+      - AZN
+      - BAM
+      - BBD
+      - BDT
+      - BGN
+      - BHD
+      - BIF
+      - BMD
+      - BND
+      - BOB
+      - BRL
+      - BSD
+      - BWP
+      - BYR
+      - BZD
+      - CAD
+      - CDF
+      - CHF
+      - CLP
+      - CNY
+      - COP
+      - CRC
+      - CUP
+      - CZK
+      - DKK
+      - DOP
+      - DZD
+      - ECS
+      - EEK
+      - EGP
+      - ETB
+      - EUR
+      - FJD
+      - FKP
+      - GBP
+      - GEL
+      - GGP
+      - GHC
+      - GHS
+      - GIP
+      - GNF
+      - GTQ
+      - GYD
+      - HKD
+      - HNL
+      - HRK
+      - HTG
+      - HUF
+      - IDR
+      - ILS
+      - IMP
+      - INR
+      - IQD
+      - IRR
+      - ISK
+      - JEP
+      - JMD
+      - JOD
+      - JPY
+      - KES
+      - KGS
+      - KHR
+      - KPW
+      - KRW
+      - KWD
+      - KYD
+      - KZT
+      - LAK
+      - LBP
+      - LKR
+      - LRD
+      - LTL
+      - LVL
+      - MAD
+      - MCR
+      - MKD
+      - MMK
+      - MNT
+      - MOP
+      - MUR
+      - MWK
+      - MXN
+      - MYR
+      - MZN
+      - NAD
+      - NGN
+      - NIO
+      - NOK
+      - NPR
+      - NZD
+      - OMR
+      - PAB
+      - PEN
+      - PGK
+      - PHP
+      - PKR
+      - PLN
+      - PYG
+      - QAR
+      - RON
+      - RSD
+      - RUB
+      - RWF
+      - SAR
+      - SBD
+      - SCR
+      - SDG
+      - SEK
+      - SGD
+      - SHP
+      - SLL
+      - SOS
+      - SRD
+      - SVC
+      - SYP
+      - THB
+      - TND
+      - TOP
+      - TRL
+      - TRY
+      - TTD
+      - TVD
+      - TWD
+      - TZS
+      - UAH
+      - UGX
+      - USD
+      - UYU
+      - UZS
+      - VEF
+      - VES
+      - VND
+      - VUV
+      - XAF
+      - XCD
+      - XOF
+      - YER
+      - ZAR
+      - ZMW
+      - ZWD
+      x-enum-descriptions:
+      - UAE dirham
+      - Afghanistan Afghani
+      - Albania Lek
+      - Armenian Dram
+      - Netherlands Antilles Guilder
+      - Angolan Kwanza
+      - Argentine Peso
+      - Australian Dollar
+      - Aruba Guilder
+      - Azerbaijan New Manat
+      - Bosnia and Herzegovina Convertible Marka
+      - Barbados Dollar
+      - Bangladeshi Taka
+      - Bulgaria Lev
+      - Bahraini Dinar
+      - Burundian Franc
+      - Bermuda Dollar
+      - Brunei Darussalam Dollar
+      - Bolivia Boliviano
+      - Brazilian Real
+      - Bahamas Dollar
+      - Botswana Pula
+      - Belarus Ruble
+      - Belize Dollar
+      - Canadian Dollar
+      - Congolese Francs
+      - Swiss Franc
+      - Chile Peso
+      - Chinese Yuan Renminbi
+      - Colombia Peso
+      - Costa Rica Colon
+      - Cuba Peso
+      - Czech Republic Koruna
+      - Denmark Krone
+      - Dominican Republic Peso
+      - Algerian Dinar
+      - Ecuadorian Sucres
+      - Estonia Kroon
+      - Egypt Pound
+      - Ethiopian Birr
+      - Euro
+      - Fiji Dollar
+      - Falkland Islands (Malvinas) Pound
+      - British Pound
+      - Georgian Lari
+      - Guernsey Pound
+      - Ghana Cedis
+      - Ghanaian Cedi
+      - Gibraltar Pound
+      - Guinean Franc
+      - Guatemala Quetzal
+      - Guyana Dollar
+      - Hong Kong Dollar
+      - Honduras Lempira
+      - Croatia Kuna
+      - Haitian Gourde
+      - Hungary Forint
+      - Indonesian Rupiah
+      - Israel Shekel
+      - Isle of Man Pound
+      - Indian Rupee
+      - Iraqui Dinar
+      - Iran Rial
+      - Iceland Krona
+      - Jersey Pound
+      - Jamaica Dollar
+      - Jordanian Dinar
+      - Yen
+      - Kenyan Shilling
+      - Kyrgyzstan Som
+      - Cambodia Riel
+      - Korea (North) Won
+      - South Korean Won
+      - Kuwaiti Dinar
+      - Cayman Islands Dollar
+      - Kazakhstan Tenge
+      - Laos Kip
+      - Lebanon Pound
+      - Sri Lanka Rupee
+      - Liberia Dollar
+      - Lithuania Litas
+      - Latvia Lat
+      - Moroccan dirham
+      - Maldivian Rufiyaa
+      - Macedonia Denar
+      - Burmese Kyat
+      - Mongolia Tughrik
+      - Macau Pataca
+      - Mauritius Rupee
+      - Malawian Kwacha
+      - Mexican Peso
+      - Malaysian ringgit
+      - Mozambique Metical
+      - Namibia Dollar
+      - Nigerian Naira
+      - Nicaragua Cordoba
+      - Norway Krone
+      - Nepal Rupee
+      - New Zealand Dollar
+      - Oman Rial
+      - Panama Balboa
+      - Peru Nuevo Sol
+      - Papua New Guinean Kina
+      - Philippine Peso
+      - Pakistani Rupee
+      - Polish złoty
+      - Paraguay Guarani
+      - Qatari Riyal
+      - Romania New Leu
+      - Serbia Dinar
+      - Russia Ruble
+      - Rwandan Franc
+      - Saudi Arabia Riyal
+      - Solomon Islands Dollar
+      - Seychelles Rupee
+      - Sudanese Pound
+      - Swedish Krona
+      - Singapore Dollar
+      - Saint Helena Pound
+      - Sierra Leonean Leone
+      - Somalia Shilling
+      - Suriname Dollar
+      - El Salvador Colon
+      - Syria Pound
+      - Thai Baht
+      - Tunisian dinar
+      - Tongan pa'anga
+      - Turkey Lira
+      - Turkey Lira
+      - Trinidad and Tobago Dollar
+      - Tuvalu Dollar
+      - Taiwan New Dollar
+      - Tanzanian Shilling
+      - Ukraine Hryvna
+      - Uganda Shilling
+      - US Dollar
+      - Uruguay Peso
+      - Uzbekistan Som
+      - Venezuela Bolivar Fuerte
+      - Venezuelan Bolívar Soberano
+      - Vietnamese đồng
+      - Vanuatu Vatu
+      - Central African Franc
+      - East Caribbean Dollar
+      - West African Franc
+      - Yemen Rial
+      - South African Rand
+      - Zambian Kwacha
+      - Zimbabwe Dollar
+
+    CurrencyAmount:
+      type: object
+      properties:
+        currency:
+          $ref: '#/components/schemas/CurrencyCode'
+        value:
+          type: string
+          format: decimal
+      required:
+      - currency
+      - value
+
+    CurrencyAmountString:
+      description: |-
+        String representing an amount of a particular currency.
+        Note: In some fields the number can be omitted (e.g. in bonusAmount)
+        presumably this should be interpreted as 0.
+      type: string
+      pattern: '^([0-9]+(\.[0-9]+)?)? [A-Z]{3}$'
 
     EmployeeField:
       type: string
@@ -312,11 +660,315 @@ components:
       - The employee's LinkedIn URL
       - The employee's Skype username
 
+    AcademicDegree:
+      description: >-
+        Degree, as defined in Employee Fields Settings
+        https://{company}.bamboohr.com/settings/list.php?id=3500
+      type: string
+
+    CompensationChangeReason:
+      description: >-
+        Compensation change reason, as defined in Employee Fields Settings
+        https://{company}.bamboohr.com/settings/list.php?id=3493
+      type: string
+
+    Country:
+      description: Countries recognized by BambooHR
+      type: string
+      enum:
+      - Afghanistan
+      - Albania
+      - Algeria
+      - American Samoa
+      - Andorra
+      - Angola
+      - Anguilla
+      - Antarctica
+      - Antigua and Barbuda
+      - Argentina
+      - Armenia
+      - Aruba
+      - Australia
+      - Austria
+      - Azerbaijan
+      - Åland Islands
+      - Bahamas
+      - Bahrain
+      - Bangladesh
+      - Barbados
+      - Belarus
+      - Belgium
+      - Belize
+      - Benin
+      - Bermuda
+      - Bhutan
+      - Bolivia
+      - Bonaire, Sint Eustatius and Saba
+      - Bosnia and Herzegovina
+      - Botswana
+      - Bouvet Island
+      - Brazil
+      - British Indian Ocean Territory
+      - Brunei Darussalam
+      - Bulgaria
+      - Burkina Faso
+      - Burundi
+      - Cambodia
+      - Cameroon
+      - Canada
+      - Cape Verde
+      - Cayman Islands
+      - Central African Republic
+      - Chad
+      - Chile
+      - China
+      - Christmas Island
+      - Cocos (Keeling Islands)
+      - Colombia
+      - Comoros
+      - Congo
+      - Congo, the Democratic Republic of the
+      - Cook Islands
+      - Costa Rica
+      - Cote D'Ivoire (Ivory Coast)
+      - Croatia (Hrvatska)
+      - Cuba
+      - Curaçao
+      - Cyprus
+      - Czech Republic
+      - Denmark
+      - Djibouti
+      - Dominica
+      - Dominican Republic
+      - East Timor
+      - Ecuador
+      - Egypt
+      - El Salvador
+      - Equatorial Guinea
+      - Eritrea
+      - Estonia
+      - Ethiopia
+      - Falkland Islands (Malvinas)
+      - Faroe Islands
+      - Fiji
+      - Finland
+      - France
+      - France, Metropolitan
+      - French Guiana
+      - French Polynesia
+      - French Southern Territories
+      - French West Indies
+      - Gabon
+      - Gambia
+      - Georgia
+      - Germany
+      - Ghana
+      - Gibraltar
+      - Greece
+      - Greenland
+      - Grenada
+      - Guadeloupe
+      - Guam
+      - Guatemala
+      - Guernsey
+      - Guinea
+      - Guinea-Bissau
+      - Guyana
+      - Haiti
+      - Heard and McDonald Islands
+      - Honduras
+      - Hong Kong
+      - Hungary
+      - Iceland
+      - India
+      - Indonesia
+      - Iran
+      - Iraq
+      - Ireland
+      - Isle of Man
+      - Israel
+      - Italy
+      - Jamaica
+      - Japan
+      - Jersey
+      - Jordan
+      - Kazakhstan
+      - Kenya
+      - Kiribati
+      - Korea (North)
+      - Korea (South)
+      - Kosovo
+      - Kuwait
+      - Kyrgyzstan
+      - Laos
+      - Latvia
+      - Lebanon
+      - Lesotho
+      - Liberia
+      - Libya
+      - Liechtenstein
+      - Lithuania
+      - Luxembourg
+      - Macao
+      - Macedonia
+      - Madagascar
+      - Malawi
+      - Malaysia
+      - Maldives
+      - Mali
+      - Malta
+      - Marshall Islands
+      - Martinique
+      - Mauritania
+      - Mauritius
+      - Mayotte
+      - Mexico
+      - Micronesia
+      - Moldova
+      - Monaco
+      - Mongolia
+      - Montenegro
+      - Montserrat
+      - Morocco
+      - Mozambique
+      - Myanmar
+      - Namibia
+      - Nauru
+      - Nepal
+      - Netherlands
+      - Netherlands Antilles
+      - New Caledonia
+      - New Zealand
+      - Nicaragua
+      - Niger
+      - Nigeria
+      - Niue
+      - Norfolk Island
+      - Northern Mariana Islands
+      - Norway
+      - Oman
+      - Pakistan
+      - Palau
+      - Palestinian Territories
+      - Panama
+      - Papua New Guinea
+      - Paraguay
+      - Peru
+      - Philippines
+      - Pitcairn
+      - Poland
+      - Portugal
+      - Puerto Rico
+      - Qatar
+      - Reunion
+      - Romania
+      - Russian Federation
+      - Rwanda
+      - Saint Barthélemy
+      - Saint Kitts and Nevis
+      - Saint Lucia
+      - Saint Vincent and the Grenadines
+      - Samoa
+      - San Marino
+      - Sao Tome and Principe
+      - Saudi Arabia
+      - Senegal
+      - Serbia
+      - Seychelles
+      - Sierra Leone
+      - Singapore
+      - Sint Maarten (Dutch part)
+      - Slovakia
+      - Slovenia
+      - Solomon Islands
+      - Somalia
+      - South Africa
+      - South Georgia and the South Sandwich Islands
+      - South Sudan
+      - Spain
+      - Sri Lanka
+      - St. Helena
+      - St. Pierre and Miquelon
+      - Sudan
+      - Suriname
+      - Svalbard
+      - Swaziland
+      - Sweden
+      - Switzerland
+      - Syria
+      - Taiwan
+      - Tajikistan
+      - Tanzania
+      - Thailand
+      - Togo
+      - Tokelau
+      - Tonga
+      - Trinidad and Tobago
+      - Tunisia
+      - Turkey
+      - Turkmenistan
+      - Turks and Caicos Islands
+      - Tuvalu
+      - Uganda
+      - Ukraine
+      - United Arab Emirates
+      - United Kingdom
+      - United States
+      - Uruguay
+      - US Minor Outlying Islands
+      - Uzbekistan
+      - Vanuatu
+      - Vatican City State
+      - Venezuela
+      - Viet Nam
+      - Virgin Islands (British)
+      - Virgin Islands, U.S.
+      - Wallis and Futuna Islands
+      - Western Sahara
+      - Yemen
+      - Yugoslavia
+      - Zaire
+      - Zambia
+      - Zimbabwe
+
+    Department:
+      description: >-
+        Department, as defined in Employee Fields Settings
+        https://{company}.bamboohr.com/settings/list.php?id=3478
+      type: string
+
+    DependentRelationship:
+      type: string
+      enum:
+      - spouse
+      - child
+      - domestic partner
+      - step child
+      - foster child
+
+    Division:
+      description: >-
+        Division, as defined in Employee Fields Settings
+        https://{company}.bamboohr.com/settings/list.php?id=3487
+      type: string
+
+    EmergencyContactRelationship:
+      description: >-
+        Emergency contact relationship, as defined in Employee Fields Settings
+        https://{company}.bamboohr.com/settings/list.php?id=3491
+      type: string
+
     EmployeeGender:
       type: string
       enum:
       - Female
       - Male
+
+    EmployeeOvertimeExemptStatus:
+      type: string
+      enum:
+      - Exempt
+      - Non-exempt
 
     EmployeeStatus:
       type: string
@@ -330,6 +982,35 @@ components:
       enum:
       - Active
       - Inactive
+
+    EmploymentStatus:
+      description: >-
+        Compensation change reason, as defined in Employee Fields Settings
+        https://{company}.bamboohr.com/settings/list.php?id=3475
+      type: string
+
+    Ethnicity:
+      type: string
+      enum:
+      - American Indian or Alaska Native
+      - Asian
+      - Black or African American
+      - Hispanic or Latino
+      - Native Hawaiian or Other Pacific Islander
+      - Two or More Races
+      - White
+
+    JobTitle:
+      description: >-
+        Job title, as defined in Employee Fields Settings
+        https://{company}.bamboohr.com/settings/list.php?id=3476
+      type: string
+
+    Location:
+      description: >-
+        Location, as defined in Employee Fields Settings
+        https://{company}.bamboohr.com/settings/list.php?id=3477
+      type: string
 
     MaritalStatus:
       type: string
@@ -350,6 +1031,12 @@ components:
       - Twice a year
       - Yearly
 
+    PayGroup:
+      description: >-
+        Pay groups, as defined in Employee Fields Settings
+        https://{company}.bamboohr.com/settings/list.php?id=pay_group
+      type: string
+
     PayPer:
       type: string
       enum:
@@ -359,6 +1046,12 @@ components:
       - Month
       - Quarter
       - Year
+
+    PaySchedule:
+      description: >-
+        Pay schedules, as defined in Employee Fields Settings
+        https://{company}.bamboohr.com/settings/pay_schedules
+      type: string
 
     PayType:
       type: string
@@ -371,6 +1064,210 @@ components:
       - Piece Rate
       - Contract
       - Daily
+
+    ProvinceCode:
+      description: |-
+        Canadian province codes recognized by BambooHR.
+        Matches postal abbreviations for states and possessions,
+        excluding military abbreviations (AA, AE, AP)
+      type: string
+      enum:
+      - AB
+      - BC
+      - MB
+      - NB
+      - NL
+      - NS
+      - NT
+      - NU
+      - ON
+      - PE
+      - QC
+      - SK
+      - YT
+      x-enum-descriptions:
+      - Alberta
+      - British Columbia
+      - Manitoba
+      - New Brunswick
+      - Newfoundland and Labrador
+      - Nova Scotia
+      - Northwest Territories
+      - Nunavut
+      - Ontario
+      - Prince Edward Island
+      - Quebec
+      - Saskatchewan
+      - Yukon
+
+    SocialInsuranceNumber:
+      description: Canadian Social Insurance number
+      type: string
+      pattern: '^[0-9]{3}-[0-9]{3}-[0-9]{3}$'
+
+    SocialSecurityNumber:
+      description: Social Security number
+      type: string
+      pattern: '^[0-9]{3}-[0-9]{2}-[0-9]{4}$'
+
+    StateCode:
+      description: |-
+        State codes recognized by BambooHR.
+        Matches postal abbreviations for states and possessions,
+        excluding military abbreviations (AA, AE, AP)
+      type: string
+      enum:
+      - AL
+      - AK
+      - AS
+      - AZ
+      - AR
+      - CA
+      - CO
+      - CT
+      - DE
+      - DC
+      - FM
+      - FL
+      - GA
+      - GU
+      - HI
+      - ID
+      - IL
+      - IN
+      - IA
+      - KS
+      - KY
+      - LA
+      - ME
+      - MH
+      - MD
+      - MA
+      - MI
+      - MN
+      - MS
+      - MO
+      - MT
+      - NE
+      - NV
+      - NH
+      - NJ
+      - NM
+      - NY
+      - NC
+      - ND
+      - MP
+      - OH
+      - OK
+      - OR
+      - PW
+      - PA
+      - PR
+      - RI
+      - SC
+      - SD
+      - TN
+      - TX
+      - UT
+      - VT
+      - VI
+      - VA
+      - WA
+      - WV
+      - WI
+      - WY
+      x-enum-descriptions:
+      - Alabama
+      - Alaska
+      - American Samoa
+      - Arizona
+      - Arkansas
+      - California
+      - Colorado
+      - Connecticut
+      - Delaware
+      - District of Columbia
+      - Federated States of Micronesia
+      - Florida
+      - Georgia
+      - Guam
+      - Hawaii
+      - Idaho
+      - Illinois
+      - Indiana
+      - Iowa
+      - Kansas
+      - Kentucky
+      - Louisiana
+      - Maine
+      - Marshall Islands
+      - Maryland
+      - Massachusetts
+      - Michigan
+      - Minnesota
+      - Mississippi
+      - Missouri
+      - Montana
+      - Nebraska
+      - Nevada
+      - New Hampshire
+      - New Jersey
+      - New Mexico
+      - New York
+      - North Carolina
+      - North Dakota
+      - Northern Mariana Islands
+      - Ohio
+      - Oklahoma
+      - Oregon
+      - Palau
+      - Pennsylvania
+      - Puerto Rico
+      - Rhode Island
+      - South Carolina
+      - South Dakota
+      - Tennessee
+      - Texas
+      - Utah
+      - Vermont
+      - Virgin Islands
+      - Virginia
+      - Washington
+      - West Virginia
+      - Wisconsin
+      - Wyoming
+
+    TerminationReason:
+      description: >-
+        Termination reason, as defined in Employee Fields Settings
+        https://{company}.bamboohr.com/settings/list.php?id=3483
+      type: string
+
+    EmployeeCustomTableName:
+      type: string
+      pattern: '^custom.*'
+
+    EmployeeStandardTableName:
+      type: string
+      enum:
+      - contacts
+      - compensation
+      - dependents
+      - emergencyContacts
+      - employmentStatus
+      - jobInfo
+      x-enum-descriptions:
+      - Emergency Contacts Table
+      - Compensation Table
+      - Dependents Table
+      - Emergency Contacts Table
+      - Employment Status Table
+      - Job Info Table
+
+    EmployeeTableName:
+      anyOf:
+      - $ref: '#/components/schemas/EmployeeCustomTableName'
+      - $ref: '#/components/schemas/EmployeeStandardTableName'
 
     Field:
       type: object
@@ -394,6 +1291,7 @@ components:
         age:
           description: The employee's age. To change age, update dateOfBirth field.
           type: integer
+          minimum: 0
         bestEmail:
           description: The employee's work email if set, otherwise their home email.
           type: string
@@ -405,18 +1303,21 @@ components:
           description: The employee's city.
           type: string
         country:
-          description: The employee's country.
-          type: string
+          # description: The employee's country.
+          # https://github.com/OAI/OpenAPI-Specification/issues/556
+          $ref: '#/components/schemas/Country'
         dateOfBirth:
           description: The date the employee was born.
           type: string
           format: date
         department:
-          description: The employee's CURRENT department.
-          type: list
+          # description: The employee's CURRENT department.
+          # https://github.com/OAI/OpenAPI-Specification/issues/556
+          $ref: '#/components/schemas/Department'
         division:
-          description: The employee's CURRENT division.
-          type: list
+          # description: The employee's CURRENT division.
+          # https://github.com/OAI/OpenAPI-Specification/issues/556
+          $ref: '#/components/schemas/Division'
         eeo:
           description: The employee's EEO job category. These are defined by the U.S. Equal Employment Opportunity Commission.
           type: list
@@ -424,20 +1325,24 @@ components:
           description: Employee number (assigned by your company).
           type: string
         employmentHistoryStatus:
-          description: The employee's CURRENT employment status. Options are customized by account. Read-only starting with version 1.1; update using the employmentStatus table.
-          type: list
+          # description: The employee's CURRENT employment status. Options are customized by account. Read-only starting with version 1.1; update using the employmentStatus table.
+          # https://github.com/OAI/OpenAPI-Specification/issues/556
+          $ref: '#/components/schemas/EmploymentStatus'
         ethnicity:
-          description: The employee's ethnicity.
-          type: list
+          # description: The employee's ethnicity.
+          # https://github.com/OAI/OpenAPI-Specification/issues/556
+          $ref: '#/components/schemas/Ethnicity'
         exempt:
-          description: The FLSA Overtime Status (Exempt or Non-exempt).
-          type: list
+          # description: The FLSA Overtime Status (Exempt or Non-exempt).
+          # https://github.com/OAI/OpenAPI-Specification/issues/556
+          $ref: '#/components/schemas/EmployeeOvertimeExemptStatus'
         firstName:
           description: The employee's first name.
           type: string
         flsaCode:
-          description: Deprecated please use 'exempt'
-          type: list
+          # description: Deprecated please use 'exempt'
+          # https://github.com/OAI/OpenAPI-Specification/issues/556
+          $ref: '#/components/schemas/EmployeeOvertimeExemptStatus'
         fullName1:
           description: The employee's first and last name. (e.g., John Doe). Read only.
           type: string
@@ -479,8 +1384,9 @@ components:
           type: integer
           minimum: 0
         jobTitle:
-          description: The CURRENT value of the employee's job title, updating this field will create a new row in position history.
-          type: list
+          # description: The CURRENT value of the employee's job title, updating this field will create a new row in position history.
+          # https://github.com/OAI/OpenAPI-Specification/issues/556
+          $ref: '#/components/schemas/JobTitle'
         lastChanged:
           description: The date and time that the employee record was last changed.
           type: string
@@ -489,8 +1395,9 @@ components:
           description: The employee's last name.
           type: string
         location:
-          description: The employee's CURRENT location.
-          type: string
+          # description: The employee's CURRENT location.
+          # https://github.com/OAI/OpenAPI-Specification/issues/556
+          $ref: '#/components/schemas/Location'
         maritalStatus:
           $ref: '#/components/schemas/MaritalStatus'
         middleName:
@@ -503,15 +1410,17 @@ components:
           description: The reason for the employee's last pay rate change.
           type: string
         payGroup:
-          description: The custom pay group that the employee belongs to.
-          type: string
+          # description: The custom pay group that the employee belongs to.
+          # https://github.com/OAI/OpenAPI-Specification/issues/556
+          $ref: '#/components/schemas/PayGroup'
         payGroupId:
           description: The ID value corresponding to the pay group that an employee belongs to.
           type: integer
+          minimum: 0
         payRate:
-          description: The employee's CURRENT pay rate (e.g., $8.25).
-          type: string
-          format: decimal
+          # description: The employee's CURRENT pay rate
+          # https://github.com/OAI/OpenAPI-Specification/issues/556
+          $ref: '#/components/schemas/CurrencyAmountString'
         payRateEffectiveDate:
           description: The day the most recent change was made.
           type: string
@@ -523,11 +1432,13 @@ components:
         paidPer:
           $ref: '#/components/schemas/PayPer'
         paySchedule:
-          description: The employee's CURRENT pay schedule.
-          type: string
+          # description: The employee's CURRENT pay schedule.
+          # https://github.com/OAI/OpenAPI-Specification/issues/556
+          $ref: '#/components/schemas/PaySchedule'
         payScheduleId:
           description: The ID value corresponding to the pay schedule that an employee belongs to.
           type: integer
+          minimum: 0
         payFrequency:
           $ref: '#/components/schemas/PayFrequency'
         includeInPayroll:
@@ -540,20 +1451,25 @@ components:
           description: The employee's preferred name.
           type: string
         ssn:
-          description: The employee's Social Security number.
-          type: string
-          pattern: '^[0-9]{3}-[0-9]{2}-[0-9]{4}$'
+          # description: The employee's Social Security number.
+          # https://github.com/OAI/OpenAPI-Specification/issues/556
+          $ref: '#/components/schemas/SocialSecurityNumber'
         sin:
-          description: The employee's Canadian Social Insurance Number.
-          type: string
-          pattern: '^[0-9]{3}-[0-9]{3}-[0-9]{3}$'
+          # description: The employee's Social Security number.
+          # https://github.com/OAI/OpenAPI-Specification/issues/556
+          $ref: '#/components/schemas/SocialInsuranceNumber'
         state:
-          description: The employee's state/province.
-          type: string
+          description: >-
+            The employee's province code (if Canada) or state/province name
+            (if not Canada).
+          anyOf:
+          - $ref: '#/components/schemas/ProvinceCode'
+          - type: string
         stateCode:
-          description: The 2 character abbreviation for the employee's state (US only). Read only.
-          type: string
-          pattern: '^[A-Z]{2}$'
+          # description: The 2 character abbreviation for the employee's state (US only). Read only.
+          # https://github.com/OAI/OpenAPI-Specification/issues/556
+          # readOnly: true
+          $ref: '#/components/schemas/StateCode'
         status:
           $ref: '#/components/schemas/EmployeeStatus'
         supervisor:
@@ -563,11 +1479,12 @@ components:
         supervisorId:
           description: The 'employeeNumber' of the employee's CURRENT supervisor.
           readOnly: true
-          type: integer
+          type: string
         supervisorEId:
           description: The ID of the employee's CURRENT supervisor.
           readOnly: true
           type: integer
+          minimum: 0
         terminationDate:
           description: The date the employee was terminated. Read-only starting with version 1.1; update using the employmentStatus table.
           readOnly: true
@@ -601,14 +1518,15 @@ components:
         standardHoursPerWeek:
           description: The number of hours the employee works in a standard week.
           type: integer
+          minimum: 0
         bonusDate:
           description: The date of the last bonus.
           type: string
           format: date
         bonusAmount:
-          description: The amount of the most recent bonus.
-          type: string
-          format: decimal
+          # description: The amount of the most recent bonus
+          # https://github.com/OAI/OpenAPI-Specification/issues/556
+          $ref: '#/components/schemas/CurrencyAmountString'
         bonusReason:
           description: The reason for the most recent bonus.
           type: string
@@ -624,16 +1542,17 @@ components:
           type: string
           format: date
         commissionAmount:
-          description: The amount of the most recent commission.
-          type: string
-          format: decimal
+          # description: The amount of the most recent commission.
+          # https://github.com/OAI/OpenAPI-Specification/issues/556
+          $ref: '#/components/schemas/CurrencyAmountString'
         commissionComment:
           description: Comment about the most recent commission.
           type: string
         employmentStatus:
-          description: DEPRECATED. Please use "status" instead. The employee's employee status (Active or Inactive).
-          type: string
-          deprecated: true
+          # description: DEPRECATED. Please use "status" instead. The employee's employee status (Active or Inactive).
+          # deprecated: true
+          # https://github.com/OAI/OpenAPI-Specification/issues/556
+          $ref: '#/components/schemas/EmployeeStatus'
         nickname:
           description: DEPRECATED. Please use "preferredName" instead. The employee's preferred name.
           type: string
@@ -914,6 +1833,247 @@ components:
           type: string
           format: binary
 
+    CompensationChange:
+      type: object
+      properties:
+        id:
+          type: string
+          format: integer
+          readOnly: true
+        employeeId:
+          type: string
+          format: integer
+          readOnly: true
+        startDate:
+          type: string
+          format: date
+        rate:
+          $ref: '#/components/schemas/CurrencyAmount'
+        type:
+          $ref: '#/components/schemas/PayType'
+        exempt:
+          $ref: '#/components/schemas/EmployeeOvertimeExemptStatus'
+        reason:
+          $ref: '#/components/schemas/CompensationChangeReason'
+        comment:
+          type: string
+        paidPer:
+          $ref: '#/components/schemas/PayPer'
+        paySchedule:
+          $ref: '#/components/schemas/PaySchedule'
+
+    Dependent:
+      type: object
+      properties:
+        id:
+          type: string
+          format: integer
+          readOnly: true
+        employeeId:
+          type: string
+          format: integer
+          readOnly: true
+        firstName:
+          type: string
+          nullable: true
+        middleName:
+          type: string
+          nullable: true
+        lastName:
+          type: string
+          nullable: true
+        relationship:
+          # https://github.com/OAI/OpenAPI-Specification/issues/556
+          # nullable: true
+          $ref: '#/components/schemas/DependentRelationship'
+        gender:
+          # https://github.com/OAI/OpenAPI-Specification/issues/556
+          # nullable: true
+          $ref: '#/components/schemas/EmployeeGender'
+        addressLine1:
+          type: string
+          nullable: true
+        addressLine2:
+          type: string
+          nullable: true
+        ssn:
+          # https://github.com/OAI/OpenAPI-Specification/issues/556
+          # nullable: true
+          $ref: '#/components/schemas/SocialSecurityNumber'
+        sin:
+          # https://github.com/OAI/OpenAPI-Specification/issues/556
+          # nullable: true
+          $ref: '#/components/schemas/SocialInsuranceNumber'
+        dateOfBirth:
+          type: string
+          format: date
+          nullable: true
+        city:
+          type: string
+          nullable: true
+        state:
+          description: >-
+            State code, province code, or province name (if code unavailable)
+            of dependent's address
+          nullable: true
+          anyOf:
+          - $ref: '#/components/schemas/StateCode'
+          - $ref: '#/components/schemas/ProvinceCode'
+          - type: string
+        homePhone:
+          type: string
+          nullable: true
+        country:
+          # https://github.com/OAI/OpenAPI-Specification/issues/556
+          # nullable: true
+          $ref: '#/components/schemas/Country'
+        zipcode:
+          type: string
+          nullable: true
+
+    EmergencyContact:
+      type: object
+      properties:
+        id:
+          type: string
+          format: integer
+          readOnly: true
+        employeeId:
+          type: string
+          format: integer
+          readOnly: true
+        name:
+          type: string
+        relationship:
+          # https://github.com/OAI/OpenAPI-Specification/issues/556
+          # nullable: true
+          $ref: '#/components/schemas/EmergencyContactRelationship'
+        homePhone:
+          type: string
+          nullable: true
+        addressLine1:
+          type: string
+          nullable: true
+        addressLine2:
+          type: string
+          nullable: true
+        mobilePhone:
+          type: string
+          nullable: true
+        email:
+          type: string
+          format: email
+          nullable: true
+        zipcode:
+          type: string
+          nullable: true
+        city:
+          type: string
+          nullable: true
+        state:
+          description: >-
+            State code, province code, or province name (if code unavailable)
+            of emergency contact's address
+          nullable: true
+          anyOf:
+          - $ref: '#/components/schemas/StateCode'
+          - $ref: '#/components/schemas/ProvinceCode'
+          - type: string
+        country:
+          # https://github.com/OAI/OpenAPI-Specification/issues/556
+          # nullable: true
+          $ref: '#/components/schemas/Country'
+        workPhone:
+          type: string
+          nullable: true
+        workPhoneExtension:
+          type: string
+          nullable: true
+
+    EmploymentStatusChange:
+      type: object
+      properties:
+        id:
+          type: string
+          format: integer
+          readOnly: true
+        employeeId:
+          type: string
+          format: integer
+          readOnly: true
+        date:
+          type: string
+          format: date
+        employmentStatus:
+          $ref: '#/components/schemas/EmploymentStatus'
+        comment:
+          type: string
+          nullable: true
+        terminationReasonId:
+          type: string
+          format: integer
+        terminationTypeId:
+          type: string
+          format: integer
+        terminationRehireId:
+          type: string
+          format: integer
+        benetracStatus:
+          type: string
+          nullable: true
+        gusto:
+          type: string
+          nullable: true
+      required:
+      - id
+      - employeeId
+      - date
+      - employmentStatus
+      - comment
+      - terminationReasonId
+      - terminationTypeId
+      - terminationRehireId
+      - benetracStatus
+      - gusto
+
+    JobInfoChange:
+      type: object
+      properties:
+        id:
+          type: string
+          format: integer
+          readOnly: true
+        employeeId:
+          type: string
+          format: integer
+          readOnly: true
+        date:
+          type: string
+          format: date
+        location:
+          $ref: '#/components/schemas/Location'
+        division:
+          # description: The employee's CURRENT division.
+          # https://github.com/OAI/OpenAPI-Specification/issues/556
+          $ref: '#/components/schemas/Division'
+        department:
+          # description: The employee's CURRENT department.
+          # https://github.com/OAI/OpenAPI-Specification/issues/556
+          $ref: '#/components/schemas/Department'
+        jobTitle:
+          $ref: '#/components/schemas/JobTitle'
+        reportsTo:
+          type: string
+      required:
+      - id
+      - employeeId
+      - date
+      - location
+      - division
+      - department
+      - jobTitle
+      - reportsTo
+
   responses:
     Error:
       description: Error
@@ -924,7 +2084,7 @@ components:
             type: string
 
 paths:
-  /employees/:
+  /v1/employees/:
     post:
       tags:
       - Employees
@@ -949,7 +2109,7 @@ paths:
               schema:
                 type: string
 
-  /employees/directory:
+  /v1/employees/directory:
     get:
       tags:
       - Employees
@@ -974,7 +2134,7 @@ paths:
               schema:
                 type: string
 
-  /employees/{id}:
+  /v1/employees/{id}:
     parameters:
     - $ref: '#/components/parameters/employeeId'
     get:
@@ -1040,7 +2200,7 @@ paths:
               schema:
                 type: string
 
-  /employees/{id}/files/:
+  /v1/employees/{id}/files/:
     parameters:
     - $ref: '#/components/parameters/employeeId'
     post:
@@ -1083,7 +2243,7 @@ paths:
               schema:
                 type: string
 
-  /employees/{id}/files/categories/:
+  /v1/employees/{id}/files/categories/:
     parameters:
     - $ref: '#/components/parameters/employeeId'
     post:
@@ -1119,7 +2279,7 @@ paths:
               schema:
                 type: string
 
-  /employees/{id}/files/view/:
+  /v1/employees/{id}/files/view/:
     parameters:
     - $ref: '#/components/parameters/employeeId'
     get:
@@ -1153,7 +2313,7 @@ paths:
               schema:
                 type: string
 
-  /employees/{id}/files/{fileId}/:
+  /v1/employees/{id}/files/{fileId}/:
     parameters:
     - $ref: '#/components/parameters/employeeId'
     - $ref: '#/components/parameters/employeeFileId'
@@ -1247,7 +2407,552 @@ paths:
               schema:
                 type: string
 
-  /files/view/:
+  /v1/employees/{id}/tables/compensation:
+    parameters:
+    - $ref: '#/components/parameters/employeeId'
+    get:
+      tags:
+      - Tables
+      operationId: getCompensationTable
+      summary: Get the Compensation table for an employee
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/tables.php#getTable
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CompensationChange'
+
+  /v1/employees/all/tables/compensation:
+    get:
+      tags:
+      - Tables
+      operationId: getAllCompensationTables
+      summary: Get the Compensation tables for all employees
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/tables.php#getTables
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CompensationChange'
+
+  /v1/employees/changed/tables/compensation:
+    parameters:
+    - $ref: '#/components/parameters/since'
+    get:
+      tags:
+      - Tables
+      operationId: getChangedCompensationTable
+      summary: Get the Compensation tables for changed employees
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/tables.php#getTables
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CompensationChange'
+
+  /v1_1/employees/{id}/tables/compensation:
+    parameters:
+    - $ref: '#/components/parameters/employeeId'
+    post:
+      tags:
+      - Tables
+      operationId: addCompensationTableRow
+      summary: Add a row to the Compensation table for an employee
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/tables.php#addRowOnePointOne
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompensationChange'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+
+  /v1_1/employees/{id}/tables/compensation/{rowId}:
+    parameters:
+    - $ref: '#/components/parameters/employeeId'
+    - $ref: '#/components/parameters/rowId'
+    post:
+      tags:
+      - Tables
+      operationId: updateCompensationTableRow
+      summary: Update a row of the Compensation table for an employee
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/tables.php#updateRowOnePointOne
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CompensationChange'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+
+  /v1/employees/{id}/tables/dependents:
+    parameters:
+    - $ref: '#/components/parameters/employeeId'
+    get:
+      tags:
+      - Tables
+      operationId: getDependentsTable
+      summary: Get the Dependents table for an employee
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/tables.php#getTable
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dependent'
+
+  /v1/employees/all/tables/dependents:
+    get:
+      tags:
+      - Tables
+      operationId: getAllDependentsTables
+      summary: Get the Dependents tables for all employees
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/tables.php#getTables
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dependent'
+
+  /v1/employees/changed/tables/dependents:
+    parameters:
+    - $ref: '#/components/parameters/since'
+    get:
+      tags:
+      - Tables
+      operationId: getChangedDependentsTable
+      summary: Get the Dependents tables for changed employees
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/tables.php#getTables
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Dependent'
+
+  /v1_1/employees/{id}/tables/dependents:
+    parameters:
+    - $ref: '#/components/parameters/employeeId'
+    post:
+      tags:
+      - Tables
+      operationId: addDependentsTableRow
+      summary: Add a row to the Dependents table for an employee
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/tables.php#addRowOnePointOne
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dependent'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+
+  /v1_1/employees/{id}/tables/dependents/{rowId}:
+    parameters:
+    - $ref: '#/components/parameters/employeeId'
+    - $ref: '#/components/parameters/rowId'
+    post:
+      tags:
+      - Tables
+      operationId: updateDependentsTableRow
+      summary: Update a row of the Dependents table for an employee
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/tables.php#updateRowOnePointOne
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dependent'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+
+  /v1/employees/{id}/tables/emergencyContacts:
+    parameters:
+    - $ref: '#/components/parameters/employeeId'
+    get:
+      tags:
+      - Tables
+      operationId: getEmergencyContactsTable
+      summary: Get the Emergency Contacts table for an employee
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/tables.php#getTable
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EmergencyContact'
+
+  /v1/employees/all/tables/emergencyContacts:
+    get:
+      tags:
+      - Tables
+      operationId: getAllEmergencyContactsTables
+      summary: Get the Emergency Contacts tables for all employees
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/tables.php#getTables
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EmergencyContact'
+
+  /v1/employees/changed/tables/emergencyContacts:
+    parameters:
+    - $ref: '#/components/parameters/since'
+    get:
+      tags:
+      - Tables
+      operationId: getChangedEmergencyContactsTable
+      summary: Get the Emergency Contacts tables for changed employees
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/tables.php#getTables
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EmergencyContact'
+
+  /v1_1/employees/{id}/tables/emergencyContacts:
+    parameters:
+    - $ref: '#/components/parameters/employeeId'
+    post:
+      tags:
+      - Tables
+      operationId: addEmergencyContactsTableRow
+      summary: Add a row to the Emergency Contacts table for an employee
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/tables.php#addRowOnePointOne
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmergencyContact'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+
+  /v1_1/employees/{id}/tables/emergencyContacts/{rowId}:
+    parameters:
+    - $ref: '#/components/parameters/employeeId'
+    - $ref: '#/components/parameters/rowId'
+    post:
+      tags:
+      - Tables
+      operationId: updateEmergencyContactsTableRow
+      summary: Update a row of the Emergency Contacts table for an employee
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/tables.php#updateRowOnePointOne
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmergencyContact'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+
+  /v1/employees/{id}/tables/employmentStatus:
+    parameters:
+    - $ref: '#/components/parameters/employeeId'
+    get:
+      tags:
+      - Tables
+      operationId: getEmploymentStatusTable
+      summary: Get the Employment Status table for an employee
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/tables.php#getTable
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EmploymentStatusChange'
+
+  /v1/employees/all/tables/employmentStatus:
+    get:
+      tags:
+      - Tables
+      operationId: getAllEmploymentStatusTables
+      summary: Get the Employment Status tables for all employees
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/tables.php#getTables
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EmploymentStatusChange'
+
+  /v1/employees/changed/tables/employmentStatus:
+    parameters:
+    - $ref: '#/components/parameters/since'
+    get:
+      tags:
+      - Tables
+      operationId: getChangedEmploymentStatusTable
+      summary: Get the Employment Status tables for changed employees
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/tables.php#getTables
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EmploymentStatusChange'
+
+  /v1_1/employees/{id}/tables/employmentStatus:
+    parameters:
+    - $ref: '#/components/parameters/employeeId'
+    post:
+      tags:
+      - Tables
+      operationId: addEmploymentStatusTableRow
+      summary: Add a row to the Employment Status table for an employee
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/tables.php#addRowOnePointOne
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmploymentStatusChange'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+
+  /v1_1/employees/{id}/tables/employmentStatus/{rowId}:
+    parameters:
+    - $ref: '#/components/parameters/employeeId'
+    - $ref: '#/components/parameters/rowId'
+    post:
+      tags:
+      - Tables
+      operationId: updateEmploymentStatusTableRow
+      summary: Update a row of the Employment Status table for an employee
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/tables.php#updateRowOnePointOne
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmploymentStatusChange'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+
+  /v1/employees/{id}/tables/jobInfo:
+    parameters:
+    - $ref: '#/components/parameters/employeeId'
+    get:
+      tags:
+      - Tables
+      operationId: getJobInfoTable
+      summary: Get the Job Info table for an employee
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/tables.php#getTable
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/JobInfoChange'
+
+  /v1/employees/all/tables/jobInfo:
+    get:
+      tags:
+      - Tables
+      operationId: getAllJobInfoTables
+      summary: Get the Job Info tables for all employees
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/tables.php#getTables
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/JobInfoChange'
+
+  /v1/employees/changed/tables/jobInfo:
+    parameters:
+    - $ref: '#/components/parameters/since'
+    get:
+      tags:
+      - Tables
+      operationId: getChangedJobInfoTable
+      summary: Get the Job Info tables for changed employees
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/tables.php#getTables
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/JobInfoChange'
+
+  /v1_1/employees/{id}/tables/jobInfo:
+    parameters:
+    - $ref: '#/components/parameters/employeeId'
+    post:
+      tags:
+      - Tables
+      operationId: addJobInfoTableRow
+      summary: Add a row to the Job Info table for an employee
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/tables.php#addRowOnePointOne
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JobInfoChange'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+
+  /v1_1/employees/{id}/tables/jobInfo/{rowId}:
+    parameters:
+    - $ref: '#/components/parameters/employeeId'
+    - $ref: '#/components/parameters/rowId'
+    post:
+      tags:
+      - Tables
+      operationId: updateJobInfoTableRow
+      summary: Update a row of the Job Info table for an employee
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/tables.php#updateRowOnePointOne
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JobInfoChange'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+
+  /v1/files/view/:
     get:
       tags:
       - Employees
@@ -1279,7 +2984,7 @@ paths:
               schema:
                 type: string
 
-  /files/categories/:
+  /v1/files/categories/:
     post:
       tags:
       - Employees
@@ -1313,7 +3018,7 @@ paths:
               schema:
                 type: string
 
-  /files/{fileId}/:
+  /v1/files/{fileId}/:
     parameters:
     - $ref: '#/components/parameters/companyFileId'
     delete:
@@ -1406,7 +3111,7 @@ paths:
               schema:
                 type: string
 
-  /files/:
+  /v1/files/:
     post:
       tags:
       - Employees
@@ -1447,7 +3152,7 @@ paths:
               schema:
                 type: string
 
-  /reports/{id}:
+  /v1/reports/{id}:
     parameters:
     - $ref: '#/components/parameters/reportId'
     get:
@@ -1486,7 +3191,7 @@ paths:
               schema:
                 type: string
 
-  /reports/custom:
+  /v1/reports/custom:
     post:
       tags:
       - Employees
