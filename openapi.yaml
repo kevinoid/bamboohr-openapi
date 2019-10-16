@@ -55,6 +55,9 @@ tags:
 - name: Tables
   externalDocs:
     url: https://www.bamboohr.com/api/documentation/tables.php
+- name: TimeOff
+  externalDocs:
+    url: https://www.bamboohr.com/api/documentation/time_off.php
 
 components:
   securitySchemes:
@@ -109,12 +112,27 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/EmployeeTableName'
+    endDate:
+      name: end
+      in: query
+      description: End date of (inclusive) date range to include
+      required: true
+      schema:
+        type: string
+        format: date
     filterDuplicates:
       name: fd
       in: query
       description: Apply standard duplicate field filtering?  Default yes
       schema:
         $ref: '#/components/schemas/YesNo'
+    precision:
+      name: precision
+      in: query
+      description: Number of digits after the decimal point to include.
+      schema:
+        type: integer
+        minimum: 0
     reportFormat:
       name: format
       in: query
@@ -146,6 +164,71 @@ components:
       schema:
         type: string
         format: date-time
+    startDate:
+      name: start
+      in: query
+      description: Start date of (inclusive) date range to include
+      required: true
+      schema:
+        type: string
+        format: date
+    timeOffRequestAction:
+      name: action
+      in: query
+      description: Limit to requests that the user has a particular level of access to.
+      schema:
+        $ref: '#/components/schemas/TimeOffRequestAction'
+    timeOffRequestEmployeeId:
+      name: id
+      in: query
+      description: Limit response to a given employee ID
+      schema:
+        type: integer
+        minimum: 0
+    timeOffRequestId:
+      name: id
+      in: path
+      description: Time off request ID
+      schema:
+        type: integer
+        minimum: 0
+    timeOffRequestIdQuery:
+      name: id
+      in: query
+      description: Limit response to a given time off request ID
+      schema:
+        type: integer
+        minimum: 0
+    timeOffRequestStatus:
+      name: status
+      in: query
+      description: Time off request statuses to include
+      schema:
+        $ref: '#/components/schemas/TimeOffRequestStatus'
+    timeOffType:
+      name: type
+      in: query
+      description: Time off types to include
+      schema:
+        $ref: '#/components/schemas/TimeOffType'
+    whoIsOutEndDate:
+      name: end
+      in: query
+      description: >-
+        End of the date range to consider.
+        Defaults to 14 days from the start date.
+      schema:
+        type: string
+        format: date
+    whoIsOutStartDate:
+      name: start
+      in: query
+      description: >-
+        Start of the date range to consider.
+        Defaults to current date.
+      schema:
+        type: string
+        format: date
 
   schemas:
     YesNo:
@@ -612,12 +695,12 @@ components:
       - The ID value corresponding to the pay group that an employee belongs to.
       - The employee's CURRENT pay rate (e.g., $8.25).
       - The day the most recent change was made.
-      - The employee's CURRENT pay type. ie: "hourly","salary","commission","exception hourly","monthly","weekly","piece rate","contract","daily","pro rata".
-      - The employee's CURRENT pay per. ie: "Hour", "Day", "Week", "Month", "Quarter", "Year".
-      - The employee's CURRENT pay per. ie: "Hour", "Day", "Week", "Month", "Quarter", "Year".
+      - The employee's CURRENT pay type.
+      - The employee's CURRENT pay per.
+      - The employee's CURRENT pay per.
       - The employee's CURRENT pay schedule.
       - The ID value corresponding to the pay schedule that an employee belongs to.
-      - The employee's CURRENT pay frequency. ie: "Weekly", "Every other week", "Twice a month", "Monthly", "Quarterly", "Twice a year", or "Yearly"
+      - The employee's CURRENT pay frequency.
       - Should employee be included in payroll (Yes or No)
       - Should time tracking be enabled for the employee (Yes or No)
       - The employee's preferred name.
@@ -651,7 +734,7 @@ components:
       - Comment about the most recent commission.
       - DEPRECATED. Please use "status" instead. The employee's employee status (Active or Inactive).
       - DEPRECATED. Please use "preferredName" instead. The employee's preferred name.
-      - DEPRECATED. Please use paySchedule or payFrequency instead. The employee's CURRENT pay period. ie: "Daily", "Weekly", "Every other week", "Twice a month", "Monthly", "Quarterly", "Twice a year", "Yearly".
+      - DEPRECATED. Please use paySchedule or payFrequency instead. The employee's CURRENT pay period.
       - DEPRECATED. Please use "isPhotoUploaded" instead. The employee has uploaded a photo. Read only.
       - The employee's NIN number
       - The employee's National ID number
@@ -1558,9 +1641,10 @@ components:
           type: string
           deprecated: true
         payPeriod:
-          description: DEPRECATED. Please use paySchedule or payFrequency instead. The employee's CURRENT pay period. ie: "Daily", "Weekly", "Every other week", "Twice a month", "Monthly", "Quarterly", "Twice a year", "Yearly".
-          type: string
-          deprecated: true
+          # description: DEPRECATED. Please use paySchedule or payFrequency instead. The employee's CURRENT pay period.
+          # deprecated: true
+          # https://github.com/OAI/OpenAPI-Specification/issues/556
+          $ref: '#/components/schemas/PayFrequency'
         canUploadPhoto:
           type: boolean
         photoUploaded:
@@ -2074,6 +2158,442 @@ components:
       - jobTitle
       - reportsTo
 
+    TimeOffPolicyType:
+      type: string
+      enum:
+      - accruing
+      - discretionary
+      - manual
+
+    TimeOffRequestAction:
+      type: string
+      enum:
+      - approve
+      - view
+
+    TimeOffUnit:
+      type: string
+      enum:
+      - days
+      - hours
+
+    TimeOffActions:
+      type: object
+      properties:
+        view:
+          type: boolean
+        edit:
+          type: boolean
+        cancel:
+          type: boolean
+        approve:
+          type: boolean
+        deny:
+          type: boolean
+        bypass:
+          type: boolean
+      required:
+      - view
+      - edit
+      - cancel
+      - approve
+      - deny
+      - bypass
+
+    TimeOffAmount:
+      xml:
+        name: amount
+      type: object
+      properties:
+        unit:
+          # https://github.com/OAI/OpenAPI-Specification/issues/556
+          # xml:
+          #   attribute: true
+          $ref: '#/components/schemas/TimeOffUnit'
+        amount:
+          type: string
+          format: integer
+      required:
+      - unit
+      - amount
+
+    TimeOffDates:
+      description: Maps ISO date string to number of time-off hours requested.
+      type: object
+      additionalProperties:
+        type: string
+        format: integer
+
+    TimeOffNote:
+      type: object
+      properties:
+        employee:
+          type: string
+        manager:
+          type: string
+
+    TimeOffType:
+      description: |-
+        Time off types defined in the Metadata API
+        https://www.bamboohr.com/api/documentation/metadata.php#timeOffTypes
+      type: string
+      enum:
+      - 1
+      - 3
+      x-enum-descriptions:
+      - PTO
+      - Leave Without Pay
+
+    TimeOffTypeInfo:
+      xml:
+        name: type
+      type: object
+      properties:
+        id:
+          # https://github.com/OAI/OpenAPI-Specification/issues/556
+          # xml:
+          #   attribute: true
+          $ref: '#/components/schemas/TimeOffRequestStatus'
+        name:
+          type: string
+        icon:
+          xml:
+            attribute: true
+          type: string
+      required:
+      - id
+      - name
+
+    TimeOffRequestStatus:
+      type: string
+      enum:
+      - approved
+      - canceled
+      - declined
+      - denied
+      - requested
+      - superceded
+
+    TimeOffRequestStatusLastChanged:
+      xml:
+        name: status
+      type: object
+      properties:
+        lastChanged:
+          xml:
+            attribute: true
+          type: string
+          format: date
+        lastChangedByUserId:
+          xml:
+            attribute: true
+          type: string
+          format: integer
+        status:
+          # https://github.com/OAI/OpenAPI-Specification/issues/556
+          # xml:
+          #   attribute: true
+          $ref: '#/components/schemas/TimeOffRequestStatus'
+      required:
+      - lastChanged
+      - lastChangedByUserId
+      - status
+
+    TimeOffRequest:
+      xml:
+        name: request
+      type: object
+      properties:
+        id:
+          type: string
+          format: integer
+        employeeId:
+          type: string
+          format: integer
+        status:
+          $ref: '#/components/schemas/TimeOffRequestStatusLastChanged'
+        name:
+          type: string
+        start:
+          type: string
+          format: date
+        end:
+          type: string
+          format: date
+        created:
+          type: string
+          format: date
+        type:
+          $ref: '#/components/schemas/TimeOffTypeInfo'
+        amount:
+          $ref: '#/components/schemas/TimeOffAmount'
+        actions:
+          $ref: '#/components/schemas/TimeOffActions'
+        dates:
+          $ref: '#/components/schemas/TimeOffDates'
+        notes:
+          anyOf:
+          - $ref: '#/components/schemas/TimeOffNote'
+          - type: array
+            items:
+              $ref: '#/components/schemas/TimeOffNote'
+      required:
+      - id
+      - employeeId
+      - status
+      - name
+      - start
+      - end
+      - created
+      - type
+      - amount
+
+    TimeOffRequests:
+      xml:
+        name: requests
+        wrapped: true
+      type: array
+      items:
+        $ref: '#/components/schemas/TimeOffRequest'
+
+    AddTimeOffRequest:
+      xml:
+        name: request
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/TimeOffRequestStatus'
+        start:
+          type: string
+          format: date
+        end:
+          type: string
+          format: date
+        timeOffTypeId:
+          $ref: '#/components/schemas/TimeOffType'
+        amount:
+          description: >-
+            The number of days/hours to update the employee's balance by.
+            The unit will be whatever the time off type is configured for.
+          type: number
+          exclusiveMinimum: 0
+        notes:
+          $ref: '#/components/schemas/TimeOffNote'
+        dates:
+          # https://github.com/OAI/OpenAPI-Specification/issues/556
+          # description: >-
+          # The <dates></dates> section is optional. If you don't provide it
+          # then all of the time off for the request will be deducted on the
+          # first day of the request.
+          #
+          # If you do provide details for the dates, then the amount
+          # for the overall request is ignored and the total amount of
+          # time requested is simply the sum of the amounts for each day.
+          $ref: '#/components/schemas/TimeOffDates'
+        previousRequest:
+          description: >-
+            If you supply the "previousRequest" parameter with a valid "time
+            off request ID" then the original request will be canceled and the
+            new request will be marked as its successor. This allows you to
+            change a request that has already been approved. A request can be
+            changed any time before the start date of the time off. The new
+            request must list the same employee ID as the original request.
+          type: integer
+          minimum: 0
+
+    UpdateTimeOffRequestStatusRequest:
+      xml:
+        name: request
+      type: object
+      properties:
+        status:
+          $ref: '#/components/schemas/TimeOffRequestStatus'
+        note:
+          type: string
+      required:
+      - status
+
+    AddTimeOffHistoryRequest:
+      description: |-
+        Base type for addHistoryEntryOrOverride operation.
+        Do not use this class directly, use a subclass!
+
+        Should be abstract, since request must be a subtype:
+        - https://github.com/OpenAPITools/openapi-generator/issues/3962
+        - https://github.com/Azure/autorest/issues/995
+      xml:
+        name: history
+      type: object
+      discriminator:
+        propertyName: eventType
+        mapping:
+          used: AddTimeOffHistoryEntryRequest
+          override: AddTimeOffHistoryOverrideRequest
+      properties:
+        date:
+          description: >-
+            By convention, the date of the history entry should be the first
+            date of the time off range.
+          type: string
+          format: date
+        eventType:
+          type: string
+        note:
+          description: Note attached to the history entry.
+          type: string
+      required:
+      - date
+      - eventType
+
+    AddTimeOffHistoryEntryRequest:
+      allOf:
+      - $ref: '#/components/schemas/AddTimeOffHistoryRequest'
+      - type: object
+        properties:
+          timeOffRequestId:
+            description: Time off request this history entry is linked to.
+            type: integer
+            minimum: 0
+        required:
+        - timeOffRequestId
+
+    AddTimeOffHistoryOverrideRequest:
+      allOf:
+      - $ref: '#/components/schemas/AddTimeOffHistoryRequest'
+      - type: object
+        properties:
+          timeOffTypeId:
+            $ref: '#/components/schemas/TimeOffType'
+          amount:
+            description: >-
+              The number of days/hours of requested time off.
+              The unit will be whatever the time off type is configured for.
+            type: number
+            # Note: example amount in docs is -5
+
+    TimeOffPolicy:
+      type: object
+      properties:
+        timeOffPolicyId:
+          type: integer
+          exclusiveMinimum: 0
+        timeOffTypeId:
+          $ref: '#/components/schemas/TimeOffType'
+        accrualStartDate:
+          description: |
+            Date on which this policy starts.  null removes the assignment.
+          type: string
+          format: date
+          nullable: true
+      required:
+      - timeOffPolicyId
+      - timeOffTypeId
+      - accrualStartDate
+
+    TimeOffEstimate:
+      xml:
+        name: estimate
+      type: object
+      properties:
+        timeOffType:
+          xml:
+            attribute: true
+          type: string
+          format: integer
+        name:
+          xml:
+            attribute: true
+          type: string
+        units:
+          # https://github.com/OAI/OpenAPI-Specification/issues/556
+          # xml:
+          #   attribute: true
+          $ref: '#/components/schemas/TimeOffUnit'
+        balance:
+          xml:
+            attribute: true
+          type: string
+          format: decimal
+          # Note: example in docs is -2.5 so negative is allowed
+        policyType:
+          # https://github.com/OAI/OpenAPI-Specification/issues/556
+          # xml:
+          #   attribute: true
+          $ref: '#/components/schemas/TimeOffPolicyType'
+        usedYearToDate:
+          xml:
+            attribute: true
+          type: string
+          format: decimal
+        end:
+          xml:
+            attribute: true
+          type: string
+          format: date
+      required:
+      - timeOffType
+      - name
+      - units
+      - balance
+      - policyType
+      - usedYearToDate
+      - end
+
+    TimeOffEstimates:
+      xml:
+        name: estimates
+        wrapped: true
+      type: array
+      items:
+        $ref: '#/components/schemas/TimeOffEstimate'
+
+    WhoIsOutType:
+      type: string
+      enum:
+      - holiday
+      - timeOff
+
+    WhoIsOutEntry:
+      xml:
+        name: item
+      type: object
+      properties:
+        id:
+          description: Time off request ID
+          type: integer
+          exclusiveMinimum: 0
+        type:
+          $ref: '#/components/schemas/WhoIsOutType'
+        employeeId:
+          type: integer
+          exclusiveMinimum: 0
+        name:
+          description: |-
+            Holiday name if type is "holiday".
+            Employee name if type is "timeOff".
+          type: string
+        start:
+          type: string
+          format: date
+        end:
+          type: string
+          format: date
+      required:
+      - id
+      - type
+      - employeeId
+      - name
+      - start
+      - end
+
+    WhoIsOutCalendar:
+      xml:
+        name: calendar
+        wrapped: true
+      type: array
+      items:
+        $ref: '#/components/schemas/WhoIsOutEntry'
+
   responses:
     Error:
       description: Error
@@ -2108,6 +2628,7 @@ paths:
               description: API URL for the new employee.
               schema:
                 type: string
+                format: url
 
   /v1/employees/directory:
     get:
@@ -2952,6 +3473,120 @@ paths:
         '200':
           description: Success
 
+  /v1/employees/{id}/time_off/calculator/:
+    parameters:
+    - $ref: '#/components/parameters/employeeId'
+    get:
+      tags:
+      - TimeOff
+      operationId: estimateFutureBalance
+      summary: Estimate future time off balances
+      description: >-
+        The results will only contain time off types that the API user is
+        authorized to see.
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/time_off.php#estimateFutureBalance
+      parameters:
+      - $ref: '#/components/parameters/endDate'
+      - $ref: '#/components/parameters/precision'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimeOffEstimates'
+
+  /v1/employees/{id}/time_off/history/:
+    parameters:
+    - $ref: '#/components/parameters/employeeId'
+    put:
+      tags:
+      - TimeOff
+      # Can't define multiple operations on same path in OAS3
+      # https://github.com/OAI/OpenAPI-Specification/issues/182
+      operationId: addHistoryEntryOrOverride
+      summary: Add a time off history entry or override
+      description: |-
+        This operation is a combination of two operations with the same path:
+        https://www.bamboohr.com/api/documentation/time_off.php#addHistoryOverride
+        https://www.bamboohr.com/api/documentation/time_off.php#addHistoryEntry
+      externalDocs:
+        # Only one url is permitted in OAS3
+        # https://github.com/OAI/OpenAPI-Specification/issues/1034
+        # url: https://www.bamboohr.com/api/documentation/time_off.php#addHistoryOverride
+        url: https://www.bamboohr.com/api/documentation/time_off.php#addHistoryEntry
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddTimeOffHistoryRequest'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '201':
+          description: Success
+          headers:
+            location:
+              description: API URL for the new time off request.
+              schema:
+                type: string
+                format: url
+
+  /v1_1/employees/{id}/time_off/policies/:
+    parameters:
+    - $ref: '#/components/parameters/employeeId'
+    get:
+      tags:
+      - TimeOff
+      operationId: listTimeOffPolicies
+      summary: List assigned Time Off Policies for an Employee
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/time_off.php#listTimeOffPoliciesOnePointOne
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TimeOffPolicy'
+    put:
+      tags:
+      - TimeOff
+      operationId: assignTimeOffPolicies
+      summary: Assign Time Off Policies for an Employee
+      description: >-
+        A time off policy will be assigned to the employee with accruals
+        starting on the date specified.
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/time_off.php#assignTimeOffPoliciesOnePointOne
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/TimeOffPolicy'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TimeOffPolicy'
+
   /v1/files/view/:
     get:
       tags:
@@ -3232,3 +3867,131 @@ paths:
               description: Error message
               schema:
                 type: string
+
+  /v1/time_off/requests/:
+    get:
+      tags:
+      - TimeOff
+      operationId: getTimeOffRequests
+      summary: Get time off requests
+      description: >-
+        The response will be limited to those employees and time off types that
+        the owner of the API key used to make the request has view access to.
+
+        When using start and/or end dates the time off will show up if any day
+        in the time off request falls within the dates specified, even if part
+        of time off falls outside of the time specified.
+
+        Clients should be ready for any number of "note" elements.
+
+        If there are zero notes for a request then the "notes" tag will not be
+        included in the response.
+
+        Newer time off requests may also include details for each day of the
+        request in a <dates> element.
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/time_off.php#getRequests
+      parameters:
+      - $ref: '#/components/parameters/timeOffRequestIdQuery'
+      - $ref: '#/components/parameters/timeOffRequestAction'
+      - $ref: '#/components/parameters/timeOffRequestEmployeeId'
+      - $ref: '#/components/parameters/startDate'
+      - $ref: '#/components/parameters/endDate'
+      - $ref: '#/components/parameters/timeOffType'
+      - $ref: '#/components/parameters/timeOffRequestStatus'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/parameters/TimeOffRequests'
+    put:
+      tags:
+      - TimeOff
+      operationId: addTimeOffRequest
+      summary: Add a time off request
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/time_off.php#addRequest
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddTimeOffRequest'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '201':
+          description: Success
+
+  /v1/time_off/requests/{id}/status/:
+    parameters:
+    - $ref: '#/components/parameters/timeOffRequestId'
+    put:
+      tags:
+      - TimeOff
+      operationId: updateTimeOffRequestStatus
+      summary: Change a request status
+      description: >-
+        Any email alerts that would normally be triggered by the web UI will be
+        triggered by the use of this API.
+
+        The note provided will be used as the manager's note if the status is
+        approved or denied.
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/time_off.php#changeRequest
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTimeOffRequestStatusRequest'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+        '403':
+          description: User doesn't have access to change the status in this way.
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+        '404':
+          description: The time off request ID doesn't exist.
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+
+  /v1/time_off/whos_out/:
+    get:
+      tags:
+      - TimeOff
+      operationId: getWhosOut
+      summary: Get a list of who's out, including company holidays
+      description: >-
+        This API will return a list, sorted by date, of employees who will be
+        out, and company holidays, for a period of time.
+
+        The results may contain time off elements for which the API user cannot
+        request details.
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/time_off.php#getWhosOut
+      parameters:
+      - $ref: '#/components/parameters/whoIsOutStartDate'
+      - $ref: '#/components/parameters/whoIsOutEndDate'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WhoIsOutCalendar'
