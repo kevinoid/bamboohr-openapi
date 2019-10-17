@@ -52,6 +52,9 @@ tags:
 - name: Employees
   externalDocs:
     url: https://www.bamboohr.com/api/documentation/employees.php
+- name: Login
+  externalDocs:
+    url: https://www.bamboohr.com/api/documentation/login.php
 - name: Metadata
   externalDocs:
     url: https://www.bamboohr.com/api/documentation/metadata.php
@@ -3019,6 +3022,7 @@ components:
         lastName:
           type: string
         email:
+          type: string
           format: email
         status:
           $ref: '#/components/schemas/UserStatus'
@@ -3076,6 +3080,50 @@ components:
       required:
       - latest
       - employees
+
+    LoginRequest:
+      type: object
+      properties:
+        user:
+          description: The user's email address.
+          type: string
+          format: email
+        password:
+          description: The user's password.
+          type: string
+          format: password
+        applicationKey:
+          description: The application key provided to you by BambooHR.
+          type: string
+        deviceId:
+          description: >-
+            An ID for the user's mobile device. This deviceId can be generated
+            when the app is first installed on a device, and should be unique
+            enough to prevent collisions between users within the same company.
+          type: string
+      required:
+      - user
+      - password
+      - applicationKey
+
+    AuthResponse:
+      xml:
+        name: auth
+      type: object
+      properties:
+        success:
+          type: boolean
+        userId:
+          type: integer
+          exclusiveMinimum: 0
+        employeeId:
+          type: integer
+          minimum: 0
+        key:
+          type: string
+      required:
+      - userId
+      - key
 
   responses:
     Error:
@@ -4362,6 +4410,31 @@ paths:
               description: Error message
               schema:
                 type: string
+
+  /v1/login:
+    post:
+      tags:
+      - Login
+      operationId: requestSecretKey
+      summary: Login
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/login.php
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
 
   /v1/meta/fields/:
     get:
