@@ -52,6 +52,8 @@ tags:
 - name: Metadata
   externalDocs:
     url: https://www.bamboohr.com/api/documentation/metadata.php
+- name: Photos
+  url: https://www.bamboohr.com/api/documentation/photos.php
 - name: Tables
   externalDocs:
     url: https://www.bamboohr.com/api/documentation/tables.php
@@ -126,6 +128,33 @@ components:
       description: Apply standard duplicate field filtering?  Default yes
       schema:
         $ref: '#/components/schemas/YesNo'
+    hashedEmail:
+      name: h
+      in: query
+      description: |-
+        The hash of the employee's work email. If they don't have a work email
+        then the hash of the home email will work. If they do have a work email
+        then the home email will not work.
+
+        The email address must be representable in ASCII.
+
+        The hash is computed as the following md5(strtolower(trim($email))),
+        where the trim() function eliminates ASCII whitespace, the strtolower()
+        function converts ASCII text to lowercase and the md5 function produces
+        a hex string representing the MD5 hash of the data. In PHP you can use
+        these exact functions, in other languages there will be equivalent
+        functions you can use.
+      required: true
+      schema:
+        type: string
+        pattern: '^[a-f0-9]{32}$'
+    photoSize:
+      name: size
+      in: path
+      description: Photo size
+      required: true
+      schema:
+        $ref: '#/components/schemas/PhotoSize'
     precision:
       name: precision
       in: query
@@ -1148,6 +1177,12 @@ components:
       - Contract
       - Daily
 
+    PhotoSize:
+      type: string
+      enum:
+      - small
+      - tiny
+
     ProvinceCode:
       description: |-
         Canadian province codes recognized by BambooHR.
@@ -1916,6 +1951,20 @@ components:
           description: Content of file to upload.
           type: string
           format: binary
+
+    UploadPhotoRequest:
+      type: object
+      properties:
+        name:
+          description: |-
+            Photo to upload.
+            The width and height of the photo must be the same number of pixels.
+            The source photo must be a JPEG, GIF, or PNG.
+            The photo file may not be larger than 20MB.
+          type: string
+          format: binary
+      required:
+      - name
 
     CompensationChange:
       type: object
@@ -2736,21 +2785,14 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/UploadFileRequest'
+              $ref: '#/components/schemas/UploadPhotoRequest'
       responses:
         default:
           $ref: '#/components/responses/Error'
         '201':
           description: Success
-        '403':
-          description: User does not have permission to see the requested employee or the employee's files.
-          headers:
-            x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
         '404':
-          description: The category ID was not found.
+          description: The employee ID was not found.
           headers:
             x-bamboohr-error-message:
               description: Error message
@@ -2758,6 +2800,13 @@ paths:
                 type: string
         '413':
           description: The file size exceeds 20MB or the storage limit for the company.
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+        '415':
+          description: The file format is not supported or the width doesn't match the height.
           headers:
             x-bamboohr-error-message:
               description: Error message
@@ -2927,6 +2976,48 @@ paths:
               description: Error message
               schema:
                 type: string
+
+  /v1/employees/{id}/photo:
+    parameters:
+    - $ref: '#/components/parameters/employeeId'
+    post:
+      tags:
+      - Photos
+      operationId: uploadEmployeePhoto
+      summary: Upload an employee photo
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/photos.php#postPhoto
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '201':
+          description: Success
+          content:
+            multipart/form-data:
+              schema:
+                $ref: '#/components/schemas/UploadFileRequest'
+
+  /v1/employees/{id}/photo/{size}:
+    parameters:
+    - $ref: '#/components/parameters/employeeId'
+    - $ref: '#/components/parameters/photoSize'
+    get:
+      tags:
+      - Photos
+      operationId: downloadEmployeePhoto
+      summary: Get an employee photo
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/photos.php#getPhoto
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
 
   /v1/employees/{id}/tables/compensation:
     parameters:
@@ -3586,6 +3677,36 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/TimeOffPolicy'
+
+  /v1/employees/photos:
+    parameters:
+    - $ref: '#/components/parameters/hashedEmail'
+    get:
+      tags:
+      - Photos
+      operationId: downloadEmployeePhoto
+      summary: Get an employee photo
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/photos.php#getPhoto
+      security: []
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+        '301':
+          description: Success
+          headers:
+            location:
+              description: Redirect to a blank employee photo.
+              schema:
+                type: string
+                format: url
 
   /v1/files/view/:
     get:
