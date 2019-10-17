@@ -46,6 +46,9 @@ security:
 - apiKey: []
 
 tags:
+- name: Changes
+  externalDocs:
+    url: https://www.bamboohr.com/api/documentation/changes.php
 - name: Employees
   externalDocs:
     url: https://www.bamboohr.com/api/documentation/employees.php
@@ -74,6 +77,12 @@ components:
       scheme: basic
 
   parameters:
+    changeType:
+      name: type
+      in: query
+      description: Limit changes to a given type
+      schema:
+        $ref: '#/components/schemas/ChangeType'
     companyFileId:
       name: fileId
       in: path
@@ -286,6 +295,13 @@ components:
       enum:
       - yes
       - no
+
+    ChangeType:
+      type: string
+      enum:
+      - Deleted
+      - Inserted
+      - Updated
 
     CurrencyCode:
       description: ISO 4217 currency code supported by BambooHR
@@ -3024,6 +3040,43 @@ components:
       additionalProperties:
         $ref: '#/components/schemas/User'
 
+    EmployeeChange:
+      xml:
+        name: employee
+      type: object
+      properties:
+        id:
+          type: string
+          format: integer
+        action:
+          $ref: '#/components/schemas/ChangeType'
+        lastChanged:
+          type: string
+          format: date-time
+      required:
+      - id
+      - action
+      - lastChanged
+
+    EmployeeChanges:
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/EmployeeChange'
+
+    ChangeList:
+      xml:
+        name: changeList
+      type: object
+      properties:
+        latest:
+          type: string
+          format: date-time
+        employees:
+          $ref: '#/components/schemas/EmployeeChanges'
+      required:
+      - latest
+      - employees
+
   responses:
     Error:
       description: Error
@@ -3879,8 +3932,6 @@ paths:
                   $ref: '#/components/schemas/JobInfoChange'
 
   /v1/employees/changed/tables/jobInfo:
-    parameters:
-    - $ref: '#/components/parameters/since'
     get:
       tags:
       - Tables
@@ -3888,6 +3939,8 @@ paths:
       summary: Get the Job Info tables for changed employees
       externalDocs:
         url: https://www.bamboohr.com/api/documentation/tables.php#getTables
+      parameters:
+      - $ref: '#/components/parameters/since'
       responses:
         default:
           $ref: '#/components/responses/Error'
@@ -4058,6 +4111,27 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/TimeOffPolicy'
+
+  /v1/employees/changed/:
+    get:
+      tags:
+      - Changes
+      operationId: getChangedEmployees
+      summary: Changed employees
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/changes.php
+      parameters:
+      - $ref: '#/components/parameters/since'
+      - $ref: '#/components/parameters/changeType'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChangeList'
 
   /v1/employees/photos:
     parameters:
