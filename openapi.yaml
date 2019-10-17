@@ -122,6 +122,14 @@ components:
       schema:
         type: string
         format: date
+    fieldId:
+      name: id
+      in: path
+      description: Field ID to update
+      required: true
+      schema:
+        type: integer
+        exclusiveMinimum: 0
     filterDuplicates:
       name: fd
       in: query
@@ -240,6 +248,19 @@ components:
       description: Time off types to include
       schema:
         $ref: '#/components/schemas/TimeOffType'
+    timeOffTypesMode:
+      name: mode
+      in: query
+      description: >-
+        Set to "request" to get a list of all time off types with which this
+        user can create a time off request. The default is to return the list
+        of time off types the user has permissions on. This distinction is
+        important, as employees can request time off for types that they don't
+        have permission to view balances and requests for.
+      schema:
+        type: string
+        enum:
+        - request
     whoIsOutEndDate:
       name: end
       in: query
@@ -771,6 +792,45 @@ components:
       - The employee's Facebook username
       - The employee's LinkedIn URL
       - The employee's Skype username
+
+    EmployeeFieldType:
+      type: string
+      enum:
+      - aca_status
+      - benefit_group
+      - benefit_history
+      - bonus
+      - checkbox
+      - contact_url
+      - country
+      - currency
+      - date
+      - email
+      - employee
+      - employee_access
+      - employee_contacts
+      - employee_number
+      - exempt
+      - gender
+      - int
+      - list
+      - marital_status
+      - multilist
+      - paid_per
+      - pay_period
+      - pay_type
+      - percentage
+      - phone
+      - relationship
+      - ssn
+      - state
+      - status
+      - text
+      - textarea
+      - time_off_type
+      - time_off_type_exists
+      - training_type
+      - twitter_handle
 
     AcademicDegree:
       description: >-
@@ -1525,8 +1585,9 @@ components:
           description: The employee's mobile phone number.
           type: string
         payChangeReason:
-          description: The reason for the employee's last pay rate change.
-          type: string
+          # description: The reason for the employee's last pay rate change.
+          # https://github.com/OAI/OpenAPI-Specification/issues/556
+          $ref: '#/components/schemas/CompensationChangeReason'
         payGroup:
           # description: The custom pay group that the employee belongs to.
           # https://github.com/OAI/OpenAPI-Specification/issues/556
@@ -2273,6 +2334,28 @@ components:
         type: string
         format: integer
 
+    TimeOffIcon:
+      type: string
+      enum:
+      - airplane
+      - baby-carriage
+      - band-aid
+      - birthday-cake
+      - camping-trailer
+      - family
+      - first-aid-kit
+      - gavel
+      - graduation
+      - happy-calendar
+      - home
+      - joining-hands
+      - medal
+      - palm-trees
+      - selfie
+      - teddy-bear
+      - time-off-calendar
+      - time-off-luggage
+
     TimeOffNote:
       type: object
       properties:
@@ -2302,16 +2385,83 @@ components:
           # https://github.com/OAI/OpenAPI-Specification/issues/556
           # xml:
           #   attribute: true
-          $ref: '#/components/schemas/TimeOffRequestStatus'
+          $ref: '#/components/schemas/TimeOffType'
         name:
           type: string
         icon:
-          xml:
-            attribute: true
-          type: string
+          # https://github.com/OAI/OpenAPI-Specification/issues/556
+          # xml:
+          #   attribute: true
+          $ref: '#/components/schemas/TimeOffIcon'
       required:
       - id
       - name
+      - icon
+
+    TimeOffTypeInfoDetailed:
+      allOf:
+      - $ref: '#/components/schemas/TimeOffTypeInfo'
+      - xml:
+          name: timeOffType
+        type: object
+        properties:
+          units:
+            $ref: '#/components/schemas/TimeOffUnit'
+          color:
+            type: string
+            pattern: '^[0-9a-f]{6}$'
+        required:
+        - units
+        - color
+
+    TimeOffTypes:
+      xml:
+        name: timeOffTypes
+      type: object
+      properties:
+        timeOffTypes:
+          type: array
+          items:
+            $ref: '#/components/schemas/TimeOffTypeInfoDetailed'
+        defaultHours:
+          type: array
+          items:
+            $ref: '#/components/schemas/TableMetadata'
+
+    TimeOffPolicy:
+      xml:
+        name: timeOffPolicy
+      type: object
+      properties:
+        id:
+          xml:
+            attribute: true
+          type: integer
+          exclusiveMinimum: 0
+        timeOffTypeId:
+          $ref: '#/components/schemas/TimeOffType'
+        name:
+          type: string
+        effectiveDate:
+          type: string
+          format: date
+          nullable: true
+        type:
+          $ref: '#/components/schemas/TimeOffPolicyType'
+      required:
+      - id
+      - timeOffTypeId
+      - name
+      - effectiveDate
+      - type
+
+    TimeOffPolicies:
+      xml:
+        name: timeOffPolicies
+        wrapped: true
+      type: array
+      items:
+        $ref: '#/components/schemas/TimeOffPolicy'
 
     TimeOffRequestStatus:
       type: string
@@ -2642,6 +2792,237 @@ components:
       type: array
       items:
         $ref: '#/components/schemas/WhoIsOutEntry'
+
+    FieldMetadata:
+      xml:
+        name: field
+      type: object
+      properties:
+        id:
+          xml:
+            attribute: true
+          anyOf:
+          - type: integer
+            exclusiveMinimum: 0
+          - type: string
+            format: decimal
+        name:
+          type: string
+        type:
+          # https://github.com/OAI/OpenAPI-Specification/issues/556
+          # xml:
+          #   attribute: true
+          $ref: '#/components/schemas/EmployeeFieldType'
+        alias:
+          # https://github.com/OAI/OpenAPI-Specification/issues/556
+          # xml:
+          #   attribute: true
+          $ref: '#/components/schemas/EmployeeField'
+      required:
+      - id
+      - name
+      - type
+
+    FieldsMetadata:
+      xml:
+        name: fields
+        wrapped: true
+      type: array
+      items:
+        $ref: '#/components/schemas/FieldMetadata'
+
+    ListOption:
+      xml:
+        name: option
+      type: object
+      properties:
+        id:
+          type: integer
+          exclusiveMinimum: 0
+        archived:
+          # https://github.com/OAI/OpenAPI-Specification/issues/556
+          # xml:
+          #   attribute: true
+          $ref: '#/components/schemas/YesNo'
+        createdDate:
+          type: string
+          format: date-time
+        archivedDate:
+          type: string
+          format: date-time
+          nullable: true
+        name:
+          type: string
+      required:
+      - id
+      - archived
+      - createdDate
+      - archivedDate
+      - name
+
+    ListOptions:
+      xml:
+        name: options
+        wrapped: true
+      type: array
+      items:
+        $ref: '#/components/schemas/ListOption'
+
+    ListOptionUpdate:
+      xml:
+        name: options
+      type: object
+      properties:
+        id:
+          xml:
+            attribute: true
+          type: integer
+          exclusiveMinimum: 0
+        archived:
+          # https://github.com/OAI/OpenAPI-Specification/issues/556
+          # xml:
+          #   attribute: true
+          $ref: '#/components/schemas/YesNo'
+        value:
+          type: string
+      required:
+      - value
+
+    ListOptionsUpdate:
+      xml:
+        name: options
+      type: object
+      properties:
+        options:
+          type: array
+          items:
+            $ref: '#/components/schemas/ListOptionUpdate'
+      required:
+      - options
+
+    ListMetadata:
+      xml:
+        name: list
+      type: object
+      properties:
+        fieldId:
+          xml:
+            attribute: true
+          type: integer
+          exclusiveMinimum: 0
+        manageable:
+          # https://github.com/OAI/OpenAPI-Specification/issues/556
+          # xml:
+          #   attribute: true
+          $ref: '#/components/schemas/YesNo'
+        multiple:
+          # https://github.com/OAI/OpenAPI-Specification/issues/556
+          # xml:
+          #   attribute: true
+          $ref: '#/components/schemas/YesNo'
+        name:
+          type: string
+        options:
+          $ref: '#/components/schemas/ListOptions'
+        alias:
+          # https://github.com/OAI/OpenAPI-Specification/issues/556
+          # xml:
+          #   attribute: true
+          $ref: '#/components/schemas/EmployeeField'
+
+    ListsMetadata:
+      xml:
+        name: lists
+        wrapped: true
+      type: array
+      items:
+        $ref: '#/components/schemas/ListMetadata'
+
+    TableAlias:
+      type: string
+      enum:
+      - benefit_class
+      - bonus
+      - commission
+      - compensation
+      - contacts
+      - customAssets
+      - customDirectDepositInformation
+      - customDriver'sLicenseInformation
+      - dependents
+      - earnings
+      - emergencyContacts
+      - employeeEducation
+      - employeePassports
+      - employeeVisas
+      - employmentStatus
+      - jobInfo
+
+    TableMetadata:
+      xml:
+        name: table
+      type: object
+      properties:
+        alias:
+          $ref: '#/components/schemas/TableAlias'
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/FieldMetadata'
+      required:
+      - alias
+      - fields
+
+    TablesMetadata:
+      xml:
+        name: tables
+        wrapped: true
+      type: array
+      items:
+        $ref: '#/components/schemas/TableMetadata'
+
+    UserStatus:
+      type: string
+      enum:
+      - enabled
+
+    User:
+      xml:
+        name: user
+      type: object
+      properties:
+        id:
+          type: integer
+          exclusiveMinimum: 0
+        employeeId:
+          description: 0 if user is not linked to an employee
+          type: integer
+          minimum: 0
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          format: email
+        status:
+          $ref: '#/components/schemas/UserStatus'
+        lastLogin:
+          type: string
+          format: date-time
+      required:
+      - id
+      - employeeId
+      - firstName
+      - lastName
+      - email
+      - status
+
+    Users:
+      xml:
+        name: users
+      type: object
+      additionalProperties:
+        $ref: '#/components/schemas/User'
 
   responses:
     Error:
@@ -3907,6 +4288,156 @@ paths:
               description: Error message
               schema:
                 type: string
+
+  /v1/meta/fields/:
+    get:
+      tags:
+      - Metadata
+      operationId: getFields
+      summary: Get a list of fields
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/metadata.php#getFields
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FieldsMetadata'
+
+  /v1/meta/lists/:
+    get:
+      tags:
+      - Metadata
+      operationId: getLists
+      summary: Get the details for "list" fields in an account
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/metadata.php#getLists
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListsMetadata'
+
+  /v1/meta/lists/{id}:
+    parameters:
+    - $ref: '#/components/parameters/fieldId'
+    post:
+      tags:
+      - Metadata
+      operationId: addListOptions
+      summary: Add or update values for "list" fields in an account
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/metadata.php#addLists
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ListOptionsUpdate'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListMetadata'
+        '404':
+          description: Nonexistent list or option ID specified
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+        '409':
+          description: Duplicate value would be created
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+
+  /v1/meta/tables/:
+    get:
+      tags:
+      - Metadata
+      operationId: getTables
+      summary: Get a list of table fields
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/metadata.php#getTables
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TablesMetadata'
+
+  /v1/meta/time_off/policies/:
+    get:
+      tags:
+      - Metadata
+      operationId: getTimeOffPolicies
+      summary: Get a list of time off Policies
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/metadata.php#getTimeOffPolicies
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimeOffPolicies'
+
+  /v1/meta/time_off/types/:
+    get:
+      tags:
+      - Metadata
+      operationId: getTimeOffTypes
+      summary: Get a list of time off types
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/metadata.php#getTimeOffTypes
+      parameters:
+      - $ref: '#/components/parameters/timeOffTypesMode'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimeOffTypes'
+
+  /v1/meta/users/:
+    get:
+      tags:
+      - Metadata
+      operationId: getUsers
+      summary: Get a list of users
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/metadata.php#getUsers
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Users'
 
   /v1/reports/{id}:
     parameters:
