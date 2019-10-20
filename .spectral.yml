@@ -1,0 +1,7 @@
+# Spectral Rules
+# <https://stoplight.io/p/docs/gh/stoplightio/spectral/docs/getting-started/rulesets.md>
+extends: [[spectral:oas3, all]]
+rules:
+  # Use paths as specified in the API documentation and other API clients,
+  # whether or not they have a trailing slash.
+  path-keys-no-trailing-slash: false

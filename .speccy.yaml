@@ -1,0 +1,16 @@
+# Speccy Rules <https://speccy.io/>
+# In OAS-Kit format <https://mermade.github.io/oas-kit/linter-rules.html>
+require: strict
+rules:
+
+# Use paths as specified in the API documentation and other API clients,
+# whether or not they have a trailing slash.
+- name: path-keys-no-trailing-slash
+  disabled: true
+
+# Default short-summary maxLength of 20 is too short for me.
+- name: short-summary
+  object: operation
+  maxLength:
+    property: summary
+    value: 60
