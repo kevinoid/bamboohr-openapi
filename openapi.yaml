@@ -1465,6 +1465,13 @@ components:
         https://{company}.bamboohr.com/settings/list.php?id=3483
       type: string
 
+    TerminationType:
+      type: string
+      enum:
+      - Death
+      - Involuntary
+      - Voluntary
+
     EmployeeCustomTableName:
       type: string
       pattern: '^custom.*'
@@ -2251,14 +2258,11 @@ components:
           type: string
           nullable: true
         terminationReasonId:
-          type: string
-          format: integer
+          $ref: '#/components/schemas/TerminationReason'
         terminationTypeId:
-          type: string
-          format: integer
+          $ref: '#/components/schemas/TerminationType'
         terminationRehireId:
-          type: string
-          format: integer
+          $ref: '#/components/schemas/YesNo'
         benetracStatus:
           type: string
           nullable: true
