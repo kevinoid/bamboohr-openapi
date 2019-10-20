@@ -121,13 +121,6 @@ components:
       schema:
         type: integer
         minimum: 1
-    employeeTableName:
-      name: tableName
-      in: path
-      description: Table name
-      required: true
-      schema:
-        $ref: '#/components/schemas/EmployeeTableName'
     endDate:
       name: end
       in: query
@@ -1467,31 +1460,35 @@ components:
       - Involuntary
       - Voluntary
 
-    EmployeeCustomTableName:
-      type: string
-      pattern: '^custom.*'
-
-    EmployeeStandardTableName:
-      type: string
-      enum:
-      - contacts
-      - compensation
-      - dependents
-      - emergencyContacts
-      - employmentStatus
-      - jobInfo
-      x-enum-descriptions:
-      - Emergency Contacts Table
-      - Compensation Table
-      - Dependents Table
-      - Emergency Contacts Table
-      - Employment Status Table
-      - Job Info Table
-
-    EmployeeTableName:
-      anyOf:
-      - $ref: '#/components/schemas/EmployeeCustomTableName'
-      - $ref: '#/components/schemas/EmployeeStandardTableName'
+    # Not currently used, since tableName parameter was removed in favor of
+    # treating each table path as a separate operation, since it returns a
+    # different schema.
+    #
+    # EmployeeCustomTableName:
+    #   type: string
+    #   pattern: '^custom.*'
+    #
+    # EmployeeStandardTableName:
+    #   type: string
+    #   enum:
+    #   - contacts
+    #   - compensation
+    #   - dependents
+    #   - emergencyContacts
+    #   - employmentStatus
+    #   - jobInfo
+    #   x-enum-descriptions:
+    #   - Emergency Contacts Table
+    #   - Compensation Table
+    #   - Dependents Table
+    #   - Emergency Contacts Table
+    #   - Employment Status Table
+    #   - Job Info Table
+    #
+    # EmployeeTableName:
+    #   anyOf:
+    #   - $ref: '#/components/schemas/EmployeeCustomTableName'
+    #   - $ref: '#/components/schemas/EmployeeStandardTableName'
 
     Field:
       type: object
@@ -4848,9 +4845,6 @@ paths:
 x-suppress-warning:
 - $ref: '#/components/schemas/AddTimeOffHistoryEntryRequest'
 - $ref: '#/components/schemas/AddTimeOffHistoryOverrideRequest'
-- $ref: '#/components/schemas/EmployeeCustomTableName'
-- $ref: '#/components/schemas/EmployeeStandardTableName'
-- $ref: '#/components/schemas/EmployeeTableName'
 # Employee education table not currently exposed in the API.
 # Keep for future use
 - $ref: '#/components/schemas/AcademicDegree'
