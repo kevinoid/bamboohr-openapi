@@ -1,0 +1,4 @@
+/doc/
+node_modules/
+npm-debug.log
+openapi.json
