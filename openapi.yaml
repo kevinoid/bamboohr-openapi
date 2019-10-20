@@ -1147,6 +1147,23 @@ components:
         https://{company}.bamboohr.com/settings/list.php?id=3487
       type: string
 
+    EEOJobCategory:
+      description: >-
+        U.S. Equal Employment Opportunity Commission Job Categories
+        https://www.eeoc.gov/employers/eeo1survey/jobclassguide.cfm
+      type: string
+      enum:
+      - First/Mid Level Officials and Managers
+      - Sales Workers
+      - Administrative Support Workers
+      - Craft Workers
+      - Executive/Senior Level Officials and Managers
+      - Laborers and Helpers
+      - Operatives
+      - Professionals
+      - Service Workers
+      - Technicians
+
     EmergencyContactRelationship:
       description: >-
         Emergency contact relationship, as defined in Employee Fields Settings
@@ -1524,8 +1541,7 @@ components:
           # https://github.com/OAI/OpenAPI-Specification/issues/556
           $ref: '#/components/schemas/Division'
         eeo:
-          description: The employee's EEO job category. These are defined by the U.S. Equal Employment Opportunity Commission.
-          type: list
+          $ref: '#/components/schemas/EEOJobCategory'
         employeeNumber:
           description: Employee number (assigned by your company).
           type: string
