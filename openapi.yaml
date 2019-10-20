@@ -2689,7 +2689,7 @@ components:
             type: number
             # Note: example amount in docs is -5
 
-    TimeOffPolicy:
+    EmployeeTimeOffPolicy:
       type: object
       properties:
         timeOffPolicyId:
@@ -4129,7 +4129,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/TimeOffPolicy'
+                  $ref: '#/components/schemas/EmployeeTimeOffPolicy'
     put:
       tags:
       - TimeOff
@@ -4147,7 +4147,7 @@ paths:
             schema:
               type: array
               items:
-                $ref: '#/components/schemas/TimeOffPolicy'
+                $ref: '#/components/schemas/EmployeeTimeOffPolicy'
       responses:
         default:
           $ref: '#/components/responses/Error'
@@ -4158,7 +4158,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/TimeOffPolicy'
+                  $ref: '#/components/schemas/EmployeeTimeOffPolicy'
 
   /v1/employees/changed/:
     get:
