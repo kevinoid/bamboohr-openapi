@@ -1683,9 +1683,12 @@ components:
           description: >-
             The employee's province code (if Canada) or state/province name
             (if not Canada).
-          anyOf:
-          - $ref: '#/components/schemas/ProvinceCode'
-          - type: string
+          # TODO: Uncomment once OpenAPI Generator or Autorest support anyOf
+          # https://github.com/OpenAPITools/openapi-generator/issues/15
+          # anyOf:
+          # - $ref: '#/components/schemas/ProvinceCode'
+          # - type: string
+          type: string
         stateCode:
           # description: The 2 character abbreviation for the employee's state (US only). Read only.
           # https://github.com/OAI/OpenAPI-Specification/issues/556
@@ -2157,10 +2160,13 @@ components:
             State code, province code, or province name (if code unavailable)
             of dependent's address
           nullable: true
-          anyOf:
-          - $ref: '#/components/schemas/StateCode'
-          - $ref: '#/components/schemas/ProvinceCode'
-          - type: string
+          # TODO: Uncomment once OpenAPI Generator or Autorest support anyOf
+          # https://github.com/OpenAPITools/openapi-generator/issues/15
+          # anyOf:
+          # - $ref: '#/components/schemas/StateCode'
+          # - $ref: '#/components/schemas/ProvinceCode'
+          # - type: string
+          type: string
         homePhone:
           type: string
           nullable: true
@@ -2216,10 +2222,13 @@ components:
             State code, province code, or province name (if code unavailable)
             of emergency contact's address
           nullable: true
-          anyOf:
-          - $ref: '#/components/schemas/StateCode'
-          - $ref: '#/components/schemas/ProvinceCode'
-          - type: string
+          # TODO: Uncomment once OpenAPI Generator or Autorest support anyOf
+          # https://github.com/OpenAPITools/openapi-generator/issues/15
+          # anyOf:
+          # - $ref: '#/components/schemas/StateCode'
+          # - $ref: '#/components/schemas/ProvinceCode'
+          # - type: string
+          type: string
         country:
           # https://github.com/OAI/OpenAPI-Specification/issues/556
           # nullable: true
@@ -2400,7 +2409,10 @@ components:
       - time-off-calendar
       - time-off-luggage
 
-    TimeOffNote:
+    TimeOffNotes:
+      description: >-
+        Earliest note made on a time off request by the employee and manager.
+        If either has made multiple notes, only the first is returned.
       type: object
       properties:
         employee:
@@ -2575,11 +2587,15 @@ components:
         dates:
           $ref: '#/components/schemas/TimeOffDates'
         notes:
-          anyOf:
-          - $ref: '#/components/schemas/TimeOffNote'
-          - type: array
-            items:
-              $ref: '#/components/schemas/TimeOffNote'
+          # FIXME: This is an empty array when there are no notes
+          # TODO: Uncomment once OpenAPI Generator or Autorest support anyOf
+          # https://github.com/OpenAPITools/openapi-generator/issues/15
+          # anyOf:
+          # - $ref: '#/components/schemas/TimeOffNotes'
+          # - type: array
+          #   items:
+          #     $ref: '#/components/schemas/TimeOffNotes'
+          $ref: '#/components/schemas/TimeOffNotes'
       required:
       - id
       - employeeId
@@ -2622,7 +2638,7 @@ components:
           minimum: 0
           exclusiveMinimum: true
         notes:
-          $ref: '#/components/schemas/TimeOffNote'
+          $ref: '#/components/schemas/TimeOffNotes'
         dates:
           # https://github.com/OAI/OpenAPI-Specification/issues/556
           # description: >-
@@ -2850,11 +2866,16 @@ components:
         id:
           xml:
             attribute: true
-          anyOf:
-          - type: integer
-            minimum: 1
-          - type: string
-            format: decimal
+          # FIXME: API returns a mix of string and integer in same response.
+          # TODO: Uncomment once OpenAPI Generator or Autorest support anyOf
+          # https://github.com/OpenAPITools/openapi-generator/issues/15
+          # anyOf:
+          # - type: integer
+          #   minimum: 1
+          # - type: string
+          #   format: decimal
+          type: string
+          format: decimal
         name:
           type: string
         type:
