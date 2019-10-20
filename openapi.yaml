@@ -4,7 +4,7 @@ openapi: '3.0.2'
 info:
   title: BambooHR API
   version: 1.0.0
-  description: |
+  description: >-
     BambooHR provides companies a human capital management software as a
     service.
   contact:
@@ -74,6 +74,7 @@ components:
         Requests to the BambooHR API are authenticated by sending an "API Key"
         for the user to be authenticated as the HTTP Basic username.  The
         password is ignored, but is commonly shown as "x" in the documentation.
+
 
         See https://documentation.bamboohr.com/docs#section-authentication
       type: http
@@ -151,12 +152,14 @@ components:
     hashedEmail:
       name: h
       in: query
-      description: |-
+      description: >-
         The hash of the employee's work email. If they don't have a work email
         then the hash of the home email will work. If they do have a work email
         then the home email will not work.
 
+
         The email address must be representable in ASCII.
+
 
         The hash is computed as the following md5(strtolower(trim($email))),
         where the trim() function eliminates ASCII whitespace, the strtolower()
@@ -624,8 +627,9 @@ components:
       - value
 
     CurrencyAmountString:
-      description: |-
+      description: >-
         String representing an amount of a particular currency.
+
         Note: In some fields the number can be omitted (e.g. in bonusAmount)
         presumably this should be interpreted as 0.
       type: string
@@ -1263,8 +1267,10 @@ components:
       - tiny
 
     ProvinceCode:
-      description: |-
+      description: >-
         Canadian province codes recognized by BambooHR.
+
+
         Matches postal abbreviations for states and possessions,
         excluding military abbreviations (AA, AE, AP)
       type: string
@@ -1308,8 +1314,10 @@ components:
       pattern: '^[0-9]{3}-[0-9]{2}-[0-9]{4}$'
 
     StateCode:
-      description: |-
+      description: >-
         State codes recognized by BambooHR.
+
+
         Matches postal abbreviations for states and possessions,
         excluding military abbreviations (AA, AE, AP)
       type: string
@@ -2036,11 +2044,15 @@ components:
       type: object
       properties:
         name:
-          description: |-
+          description: >-
             Photo to upload.
-            The width and height of the photo must be the same number of pixels.
-            The source photo must be a JPEG, GIF, or PNG.
-            The photo file may not be larger than 20MB.
+
+
+            - The width and height of the photo must be the same number of pixels.
+
+            - The source photo must be a JPEG, GIF, or PNG.
+
+            - The photo file may not be larger than 20MB.
           type: string
           format: binary
       required:
@@ -2384,7 +2396,7 @@ components:
           type: string
 
     TimeOffType:
-      description: |-
+      description: >-
         Time off types defined in the Metadata API
         https://www.bamboohr.com/api/documentation/metadata.php#timeOffTypes
       type: string
@@ -2632,12 +2644,15 @@ components:
       - status
 
     AddTimeOffHistoryRequest:
-      description: |-
+      description: >-
         Base type for addHistoryEntryOrOverride operation.
-        Do not use this class directly, use a subclass!
+        **Do not use this class directly, use a subclass!**
+
 
         Should be abstract, since request must be a subtype:
+
         - https://github.com/OpenAPITools/openapi-generator/issues/3962
+
         - https://github.com/Azure/autorest/issues/995
       xml:
         name: history
@@ -2698,7 +2713,7 @@ components:
         timeOffTypeId:
           $ref: '#/components/schemas/TimeOffType'
         accrualStartDate:
-          description: |
+          description: >-
             Date on which this policy starts.  null removes the assignment.
           type: string
           format: date
@@ -2786,8 +2801,9 @@ components:
           type: integer
           exclusiveMinimum: 0
         name:
-          description: |-
+          description: >-
             Holiday name if type is "holiday".
+
             Employee name if type is "timeOff".
           type: string
         start:
@@ -4082,9 +4098,11 @@ paths:
       # https://github.com/OAI/OpenAPI-Specification/issues/182
       operationId: addHistoryEntryOrOverride
       summary: Add a time off history entry or override
-      description: |-
+      description: >-
         This operation is a combination of two operations with the same path:
+
         https://www.bamboohr.com/api/documentation/time_off.php#addHistoryOverride
+
         https://www.bamboohr.com/api/documentation/time_off.php#addHistoryEntry
       externalDocs:
         # Only one url is permitted in OAS3
@@ -4677,14 +4695,18 @@ paths:
         The response will be limited to those employees and time off types that
         the owner of the API key used to make the request has view access to.
 
+
         When using start and/or end dates the time off will show up if any day
         in the time off request falls within the dates specified, even if part
         of time off falls outside of the time specified.
 
+
         Clients should be ready for any number of "note" elements.
+
 
         If there are zero notes for a request then the "notes" tag will not be
         included in the response.
+
 
         Newer time off requests may also include details for each day of the
         request in a <dates> element.
@@ -4738,6 +4760,7 @@ paths:
         Any email alerts that would normally be triggered by the web UI will be
         triggered by the use of this API.
 
+
         The note provided will be used as the manager's note if the status is
         approved or denied.
       externalDocs:
@@ -4777,6 +4800,7 @@ paths:
       description: >-
         This API will return a list, sorted by date, of employees who will be
         out, and company holidays, for a period of time.
+
 
         The results may contain time off elements for which the API user cannot
         request details.
