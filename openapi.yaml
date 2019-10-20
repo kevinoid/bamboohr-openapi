@@ -59,7 +59,8 @@ tags:
   externalDocs:
     url: https://www.bamboohr.com/api/documentation/metadata.php
 - name: Photos
-  url: https://www.bamboohr.com/api/documentation/photos.php
+  externalDocs:
+    url: https://www.bamboohr.com/api/documentation/photos.php
 - name: Tables
   externalDocs:
     url: https://www.bamboohr.com/api/documentation/tables.php
@@ -231,7 +232,7 @@ components:
       schema:
         $ref: '#/components/schemas/TimeOffRequestAction'
     timeOffRequestEmployeeId:
-      name: id
+      name: employeeId
       in: query
       description: Limit response to a given employee ID
       schema:
@@ -241,6 +242,7 @@ components:
       name: id
       in: path
       description: Time off request ID
+      required: true
       schema:
         type: integer
         minimum: 1
@@ -1188,13 +1190,6 @@ components:
       - Active
       - Inactive
 
-    EmployeeStatusDeprecated:
-      deprecated: true
-      type: string
-      enum:
-      - Active
-      - Inactive
-
     EmploymentStatus:
       description: >-
         Compensation change reason, as defined in Employee Fields Settings
@@ -1859,11 +1854,16 @@ components:
       type: object
       properties:
         lastChanged:
-          includeNull:
-            $ref: '#/components/schemas/YesNo'
-          value:
-            type: string
-            format: date-time
+          type: object
+          properties:
+            includeNull:
+              # https://github.com/OAI/OpenAPI-Specification/issues/556
+              # xml:
+              #   attribute: true
+              $ref: '#/components/schemas/YesNo'
+            value:
+              type: string
+              format: date-time
 
     CustomReportRequest:
       type: object
@@ -4226,10 +4226,10 @@ paths:
     get:
       tags:
       - Photos
-      operationId: downloadEmployeePhoto
-      summary: Get an employee photo
+      operationId: downloadEmployeePhotoByHash
+      summary: Get an employee photo by email hash
       externalDocs:
-        url: https://www.bamboohr.com/api/documentation/photos.php#getPhoto
+        url: https://www.bamboohr.com/api/documentation/photos.php#useBambooServer
       security: []
       responses:
         default:
@@ -4694,6 +4694,9 @@ paths:
         '200':
           description: Success
           content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomReport'
             '*/*':
               schema:
                 type: string
