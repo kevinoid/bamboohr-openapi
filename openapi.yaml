@@ -1988,10 +1988,6 @@ components:
       - employee
       - categories
 
-    CompanyFile:
-      allOf:
-      - $ref: '#/components/schemas/File'
-
     CompanyFileCategory:
       allOf:
       - $ref: '#/components/schemas/FileCategory'
@@ -2000,7 +1996,7 @@ components:
           files:
             type: array
             items:
-              $ref: '#/components/schemas/CompanyFile'
+              $ref: '#/components/schemas/File'
         required:
         - files
 
