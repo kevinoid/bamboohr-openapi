@@ -4842,3 +4842,15 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/WhoIsOutCalendar'
+
+# Suppress incorrect warnings for schemas only referenced by allOf/anyOf/oneOf
+# https://github.com/OpenAPITools/openapi-generator/issues/4193
+x-suppress-warning:
+- $ref: '#/components/schemas/AddTimeOffHistoryEntryRequest'
+- $ref: '#/components/schemas/AddTimeOffHistoryOverrideRequest'
+- $ref: '#/components/schemas/EmployeeCustomTableName'
+- $ref: '#/components/schemas/EmployeeStandardTableName'
+- $ref: '#/components/schemas/EmployeeTableName'
+# Employee education table not currently exposed in the API.
+# Keep for future use
+- $ref: '#/components/schemas/AcademicDegree'
