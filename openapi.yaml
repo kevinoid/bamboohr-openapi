@@ -3520,15 +3520,17 @@ paths:
       summary: Upload an employee photo
       externalDocs:
         url: https://www.bamboohr.com/api/documentation/photos.php#postPhoto
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UploadFileRequest'
       responses:
         default:
           $ref: '#/components/responses/Error'
         '201':
           description: Success
-          content:
-            multipart/form-data:
-              schema:
-                $ref: '#/components/schemas/UploadFileRequest'
 
   /v1/employees/{id}/photo/{size}:
     parameters:
