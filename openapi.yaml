@@ -3184,6 +3184,7 @@ components:
           description: Error message
           schema:
             type: string
+      x-ms-error-response: true
 
 paths:
   /v1/employees/:
@@ -3236,6 +3237,7 @@ paths:
               description: Error message
               schema:
                 type: string
+          x-ms-error-response: true
 
   /v1/employees/{id}:
     parameters:
@@ -3265,6 +3267,7 @@ paths:
               description: Error message
               schema:
                 type: string
+          x-ms-error-response: true
         '404':
           description: Employee not found
           headers:
@@ -3272,6 +3275,7 @@ paths:
               description: Error message
               schema:
                 type: string
+          x-ms-error-response: true
     post:
       tags:
       - Employees
@@ -3295,6 +3299,7 @@ paths:
               description: Error message
               schema:
                 type: string
+          x-ms-error-response: true
         '404':
           description: Employee not found
           headers:
@@ -3302,6 +3307,7 @@ paths:
               description: Error message
               schema:
                 type: string
+          x-ms-error-response: true
 
   /v1/employees/{id}/files/:
     parameters:
@@ -3331,6 +3337,7 @@ paths:
               description: Error message
               schema:
                 type: string
+          x-ms-error-response: true
         '413':
           description: The file size exceeds 20MB or the storage limit for the company.
           headers:
@@ -3338,6 +3345,7 @@ paths:
               description: Error message
               schema:
                 type: string
+          x-ms-error-response: true
         '415':
           description: The file format is not supported or the width doesn't match the height.
           headers:
@@ -3345,6 +3353,7 @@ paths:
               description: Error message
               schema:
                 type: string
+          x-ms-error-response: true
 
   /v1/employees/{id}/files/categories/:
     parameters:
@@ -3374,6 +3383,7 @@ paths:
               description: Error message
               schema:
                 type: string
+          x-ms-error-response: true
         '404':
           description: No files are found for the requested employee.
           headers:
@@ -3381,6 +3391,7 @@ paths:
               description: Error message
               schema:
                 type: string
+          x-ms-error-response: true
 
   /v1/employees/{id}/files/view/:
     parameters:
@@ -3408,6 +3419,7 @@ paths:
               description: Error message
               schema:
                 type: string
+          x-ms-error-response: true
         '404':
           description: No files are found for the requested employee.
           headers:
@@ -3415,6 +3427,7 @@ paths:
               description: Error message
               schema:
                 type: string
+          x-ms-error-response: true
 
   /v1/employees/{id}/files/{fileId}/:
     parameters:
@@ -3439,6 +3452,7 @@ paths:
               description: Error message
               schema:
                 type: string
+          x-ms-error-response: true
         '404':
           description: The requested employee or file was not found
           headers:
@@ -3446,6 +3460,7 @@ paths:
               description: Error message
               schema:
                 type: string
+          x-ms-error-response: true
     get:
       tags:
       - Employees
@@ -3470,6 +3485,7 @@ paths:
               description: Error message
               schema:
                 type: string
+          x-ms-error-response: true
         '404':
           description: The requested employee or file was not found
           headers:
@@ -3477,6 +3493,7 @@ paths:
               description: Error message
               schema:
                 type: string
+          x-ms-error-response: true
     post:
       tags:
       - Employees
@@ -3502,6 +3519,7 @@ paths:
               description: Error message
               schema:
                 type: string
+          x-ms-error-response: true
         '404':
           description: The requested employee or category was not found
           headers:
@@ -3509,6 +3527,7 @@ paths:
               description: Error message
               schema:
                 type: string
+          x-ms-error-response: true
 
   /v1/employees/{id}/photo:
     parameters:
@@ -4290,6 +4309,7 @@ paths:
               description: Error message
               schema:
                 type: string
+          x-ms-error-response: true
         '404':
           description: No files or categories are found.
           headers:
@@ -4297,6 +4317,7 @@ paths:
               description: Error message
               schema:
                 type: string
+          x-ms-error-response: true
 
   /v1/files/categories/:
     post:
@@ -4324,6 +4345,7 @@ paths:
               description: Error message
               schema:
                 type: string
+          x-ms-error-response: true
         '404':
           description: No files are found for the requested employee.
           headers:
@@ -4331,6 +4353,7 @@ paths:
               description: Error message
               schema:
                 type: string
+          x-ms-error-response: true
 
   /v1/files/{fileId}/:
     parameters:
@@ -4354,6 +4377,7 @@ paths:
               description: Error message
               schema:
                 type: string
+          x-ms-error-response: true
         '404':
           description: The file was not found.
           headers:
@@ -4361,6 +4385,7 @@ paths:
               description: Error message
               schema:
                 type: string
+          x-ms-error-response: true
     get:
       tags:
       - Employees
@@ -4385,6 +4410,7 @@ paths:
               description: Error message
               schema:
                 type: string
+          x-ms-error-response: true
         '404':
           description: The file was not found.
           headers:
@@ -4392,6 +4418,7 @@ paths:
               description: Error message
               schema:
                 type: string
+          x-ms-error-response: true
     post:
       tags:
       - Employees
@@ -4417,6 +4444,7 @@ paths:
               description: Error message
               schema:
                 type: string
+          x-ms-error-response: true
         '404':
           description: The file or category was not found.
           headers:
@@ -4424,6 +4452,7 @@ paths:
               description: Error message
               schema:
                 type: string
+          x-ms-error-response: true
 
   /v1/files/:
     post:
@@ -4451,6 +4480,7 @@ paths:
               description: Error message
               schema:
                 type: string
+          x-ms-error-response: true
         '404':
           description: The category ID was not found.
           headers:
@@ -4458,6 +4488,7 @@ paths:
               description: Error message
               schema:
                 type: string
+          x-ms-error-response: true
         '413':
           description: The file size exceeds 20MB or the storage limit for the company.
           headers:
@@ -4465,6 +4496,7 @@ paths:
               description: Error message
               schema:
                 type: string
+          x-ms-error-response: true
 
   /v1/login:
     post:
@@ -4559,6 +4591,7 @@ paths:
               description: Error message
               schema:
                 type: string
+          x-ms-error-response: true
         '409':
           description: Duplicate value would be created
           headers:
@@ -4566,6 +4599,7 @@ paths:
               description: Error message
               schema:
                 type: string
+          x-ms-error-response: true
 
   /v1/meta/tables/:
     get:
@@ -4679,6 +4713,7 @@ paths:
               description: Error message
               schema:
                 type: string
+          x-ms-error-response: true
 
   /v1/reports/custom:
     post:
@@ -4724,6 +4759,7 @@ paths:
               description: Error message
               schema:
                 type: string
+          x-ms-error-response: true
 
   /v1/time_off/requests/:
     get:
@@ -4823,6 +4859,7 @@ paths:
               description: Error message
               schema:
                 type: string
+          x-ms-error-response: true
         '404':
           description: The time off request ID doesn't exist.
           headers:
@@ -4830,6 +4867,7 @@ paths:
               description: Error message
               schema:
                 type: string
+          x-ms-error-response: true
 
   /v1/time_off/whos_out/:
     get:
