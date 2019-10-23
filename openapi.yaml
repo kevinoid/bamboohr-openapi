@@ -1864,6 +1864,9 @@ components:
         skypeUsername:
           description: The employee's Skype username
           type: string
+        twitterFeed:
+          description: The employee's Twitter username or URL
+          type: string
       # https://github.com/OAI/OpenAPI-Specification/issues/687
       #patternProperties:
       #  customField.*:
