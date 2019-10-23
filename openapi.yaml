@@ -1526,45 +1526,48 @@ components:
           description: The employee's city.
           type: string
         country:
-          # description: The employee's country.
-          # https://github.com/OAI/OpenAPI-Specification/issues/556
-          $ref: '#/components/schemas/Country'
+          description: The employee's country.
+          allOf:
+          - $ref: '#/components/schemas/Country'
         dateOfBirth:
           description: The date the employee was born.
           type: string
           format: date
         department:
-          # description: The employee's CURRENT department.
-          # https://github.com/OAI/OpenAPI-Specification/issues/556
-          $ref: '#/components/schemas/Department'
+          description: The employee's CURRENT department.
+          allOf:
+          - $ref: '#/components/schemas/Department'
         division:
-          # description: The employee's CURRENT division.
-          # https://github.com/OAI/OpenAPI-Specification/issues/556
-          $ref: '#/components/schemas/Division'
+          description: The employee's CURRENT division.
+          allOf:
+          - $ref: '#/components/schemas/Division'
         eeo:
           $ref: '#/components/schemas/EEOJobCategory'
         employeeNumber:
           description: Employee number (assigned by your company).
           type: string
         employmentHistoryStatus:
-          # description: The employee's CURRENT employment status. Options are customized by account. Read-only starting with version 1.1; update using the employmentStatus table.
-          # https://github.com/OAI/OpenAPI-Specification/issues/556
-          $ref: '#/components/schemas/EmploymentStatus'
+          description: The employee's CURRENT employment status. Options are customized by account. Read-only starting with version 1.1; update using the employmentStatus table.
+          readOnly: true
+          allOf:
+          - $ref: '#/components/schemas/EmploymentStatus'
         ethnicity:
-          # description: The employee's ethnicity.
-          # https://github.com/OAI/OpenAPI-Specification/issues/556
-          $ref: '#/components/schemas/Ethnicity'
+          description: The employee's ethnicity.
+          allOf:
+          - $ref: '#/components/schemas/Ethnicity'
         exempt:
-          # description: The FLSA Overtime Status (Exempt or Non-exempt).
-          # https://github.com/OAI/OpenAPI-Specification/issues/556
-          $ref: '#/components/schemas/EmployeeOvertimeExemptStatus'
+          description: The FLSA Overtime Status
+          allOf:
+          - $ref: '#/components/schemas/EmployeeOvertimeExemptStatus'
         firstName:
           description: The employee's first name.
           type: string
         flsaCode:
-          # description: Deprecated please use 'exempt'
-          # https://github.com/OAI/OpenAPI-Specification/issues/556
-          $ref: '#/components/schemas/EmployeeOvertimeExemptStatus'
+          deprecated: true
+          x-deprecated:
+            replaced-by: exempt
+          allOf:
+          - $ref: '#/components/schemas/EmployeeOvertimeExemptStatus'
         fullName1:
           description: The employee's first and last name. (e.g., John Doe). Read only.
           type: string
@@ -1606,9 +1609,9 @@ components:
           type: integer
           minimum: 1
         jobTitle:
-          # description: The CURRENT value of the employee's job title, updating this field will create a new row in position history.
-          # https://github.com/OAI/OpenAPI-Specification/issues/556
-          $ref: '#/components/schemas/JobTitle'
+          description: The CURRENT value of the employee's job title, updating this field will create a new row in position history.
+          allOf:
+          - $ref: '#/components/schemas/JobTitle'
         lastChanged:
           description: The date and time that the employee record was last changed.
           type: string
@@ -1617,9 +1620,9 @@ components:
           description: The employee's last name.
           type: string
         location:
-          # description: The employee's CURRENT location.
-          # https://github.com/OAI/OpenAPI-Specification/issues/556
-          $ref: '#/components/schemas/Location'
+          description: The employee's CURRENT location.
+          allOf:
+          - $ref: '#/components/schemas/Location'
         maritalStatus:
           $ref: '#/components/schemas/MaritalStatus'
         middleName:
@@ -1629,21 +1632,21 @@ components:
           description: The employee's mobile phone number.
           type: string
         payChangeReason:
-          # description: The reason for the employee's last pay rate change.
-          # https://github.com/OAI/OpenAPI-Specification/issues/556
-          $ref: '#/components/schemas/CompensationChangeReason'
+          description: The reason for the employee's last pay rate change.
+          allOf:
+          - $ref: '#/components/schemas/CompensationChangeReason'
         payGroup:
-          # description: The custom pay group that the employee belongs to.
-          # https://github.com/OAI/OpenAPI-Specification/issues/556
-          $ref: '#/components/schemas/PayGroup'
+          description: The custom pay group that the employee belongs to.
+          allOf:
+          - $ref: '#/components/schemas/PayGroup'
         payGroupId:
           description: The ID value corresponding to the pay group that an employee belongs to.
           type: integer
           minimum: 1
         payRate:
-          # description: The employee's CURRENT pay rate
-          # https://github.com/OAI/OpenAPI-Specification/issues/556
-          $ref: '#/components/schemas/CurrencyAmountString'
+          description: The employee's CURRENT pay rate
+          allOf:
+          - $ref: '#/components/schemas/CurrencyAmountString'
         payRateEffectiveDate:
           description: The day the most recent change was made.
           type: string
@@ -1655,9 +1658,9 @@ components:
         paidPer:
           $ref: '#/components/schemas/PayPer'
         paySchedule:
-          # description: The employee's CURRENT pay schedule.
-          # https://github.com/OAI/OpenAPI-Specification/issues/556
-          $ref: '#/components/schemas/PaySchedule'
+          description: The employee's CURRENT pay schedule.
+          allOf:
+          - $ref: '#/components/schemas/PaySchedule'
         payScheduleId:
           description: The ID value corresponding to the pay schedule that an employee belongs to.
           type: integer
@@ -1674,13 +1677,13 @@ components:
           description: The employee's preferred name.
           type: string
         ssn:
-          # description: The employee's Social Security number.
-          # https://github.com/OAI/OpenAPI-Specification/issues/556
-          $ref: '#/components/schemas/SocialSecurityNumber'
+          description: The employee's Social Security number.
+          allOf:
+          - $ref: '#/components/schemas/SocialSecurityNumber'
         sin:
-          # description: The employee's Social Security number.
-          # https://github.com/OAI/OpenAPI-Specification/issues/556
-          $ref: '#/components/schemas/SocialInsuranceNumber'
+          description: The employee's Canadian Social Insurance Number.
+          allOf:
+          - $ref: '#/components/schemas/SocialInsuranceNumber'
         state:
           description: >-
             The employee's province code (if Canada) or state/province name
@@ -1692,10 +1695,10 @@ components:
           # - type: string
           type: string
         stateCode:
-          # description: The 2 character abbreviation for the employee's state (US only). Read only.
-          # https://github.com/OAI/OpenAPI-Specification/issues/556
-          # readOnly: true
-          $ref: '#/components/schemas/StateCode'
+          description: The 2 character abbreviation for the employee's state (US only). Read only.
+          readOnly: true
+          allOf:
+          - $ref: '#/components/schemas/StateCode'
         status:
           $ref: '#/components/schemas/EmployeeStatus'
         supervisor:
@@ -1750,9 +1753,9 @@ components:
           type: string
           format: date
         bonusAmount:
-          # description: The amount of the most recent bonus
-          # https://github.com/OAI/OpenAPI-Specification/issues/556
-          $ref: '#/components/schemas/CurrencyAmountString'
+          description: The amount of the most recent bonus
+          allOf:
+          - $ref: '#/components/schemas/CurrencyAmountString'
         bonusReason:
           description: The reason for the most recent bonus.
           type: string
@@ -1768,26 +1771,31 @@ components:
           type: string
           format: date
         commissionAmount:
-          # description: The amount of the most recent commission.
-          # https://github.com/OAI/OpenAPI-Specification/issues/556
-          $ref: '#/components/schemas/CurrencyAmountString'
+          description: The amount of the most recent commission.
+          allOf:
+          - $ref: '#/components/schemas/CurrencyAmountString'
         commissionComment:
           description: Comment about the most recent commission.
           type: string
         employmentStatus:
-          # description: DEPRECATED. Please use "status" instead. The employee's employee status (Active or Inactive).
-          # deprecated: true
-          # https://github.com/OAI/OpenAPI-Specification/issues/556
-          $ref: '#/components/schemas/EmployeeStatus'
+          description: The employee's employee status.
+          deprecated: true
+          x-deprecated:
+            replaced-by: status
+          allOf:
+          - $ref: '#/components/schemas/EmployeeStatus'
         nickname:
           description: DEPRECATED. Please use "preferredName" instead. The employee's preferred name.
           type: string
           deprecated: true
         payPeriod:
-          # description: DEPRECATED. Please use paySchedule or payFrequency instead. The employee's CURRENT pay period.
-          # deprecated: true
-          # https://github.com/OAI/OpenAPI-Specification/issues/556
-          $ref: '#/components/schemas/PayFrequency'
+          description: The employee's CURRENT pay period.
+          deprecated: true
+          x-deprecated:
+            description: Use paySchedule or payFrequency instead.
+            replaced-by: paySchedule
+          allOf:
+          - $ref: '#/components/schemas/PayFrequency'
         canUploadPhoto:
           type: boolean
         photoUploaded:
@@ -1859,10 +1867,10 @@ components:
           type: object
           properties:
             includeNull:
-              # https://github.com/OAI/OpenAPI-Specification/issues/556
-              # xml:
-              #   attribute: true
-              $ref: '#/components/schemas/YesNo'
+              xml:
+                attribute: true
+              allOf:
+              - $ref: '#/components/schemas/YesNo'
             value:
               type: string
               format: date-time
@@ -2129,13 +2137,13 @@ components:
           type: string
           nullable: true
         relationship:
-          # https://github.com/OAI/OpenAPI-Specification/issues/556
-          # nullable: true
-          $ref: '#/components/schemas/DependentRelationship'
+          nullable: true
+          allOf:
+          - $ref: '#/components/schemas/DependentRelationship'
         gender:
-          # https://github.com/OAI/OpenAPI-Specification/issues/556
-          # nullable: true
-          $ref: '#/components/schemas/EmployeeGender'
+          nullable: true
+          allOf:
+          - $ref: '#/components/schemas/EmployeeGender'
         addressLine1:
           type: string
           nullable: true
@@ -2143,13 +2151,13 @@ components:
           type: string
           nullable: true
         ssn:
-          # https://github.com/OAI/OpenAPI-Specification/issues/556
-          # nullable: true
-          $ref: '#/components/schemas/SocialSecurityNumber'
+          nullable: true
+          allOf:
+          - $ref: '#/components/schemas/SocialSecurityNumber'
         sin:
-          # https://github.com/OAI/OpenAPI-Specification/issues/556
-          # nullable: true
-          $ref: '#/components/schemas/SocialInsuranceNumber'
+          nullable: true
+          allOf:
+          - $ref: '#/components/schemas/SocialInsuranceNumber'
         dateOfBirth:
           type: string
           format: date
@@ -2173,9 +2181,9 @@ components:
           type: string
           nullable: true
         country:
-          # https://github.com/OAI/OpenAPI-Specification/issues/556
-          # nullable: true
-          $ref: '#/components/schemas/Country'
+          nullable: true
+          allOf:
+          - $ref: '#/components/schemas/Country'
         zipcode:
           type: string
           nullable: true
@@ -2194,9 +2202,9 @@ components:
         name:
           type: string
         relationship:
-          # https://github.com/OAI/OpenAPI-Specification/issues/556
-          # nullable: true
-          $ref: '#/components/schemas/EmergencyContactRelationship'
+          nullable: true
+          allOf:
+          - $ref: '#/components/schemas/EmergencyContactRelationship'
         homePhone:
           type: string
           nullable: true
@@ -2232,9 +2240,9 @@ components:
           # - type: string
           type: string
         country:
-          # https://github.com/OAI/OpenAPI-Specification/issues/556
-          # nullable: true
-          $ref: '#/components/schemas/Country'
+          nullable: true
+          allOf:
+          - $ref: '#/components/schemas/Country'
         workPhone:
           type: string
           nullable: true
@@ -2302,13 +2310,13 @@ components:
         location:
           $ref: '#/components/schemas/Location'
         division:
-          # description: The employee's CURRENT division.
-          # https://github.com/OAI/OpenAPI-Specification/issues/556
-          $ref: '#/components/schemas/Division'
+          description: The employee's CURRENT division.
+          allOf:
+          - $ref: '#/components/schemas/Division'
         department:
-          # description: The employee's CURRENT department.
-          # https://github.com/OAI/OpenAPI-Specification/issues/556
-          $ref: '#/components/schemas/Department'
+          description: The employee's CURRENT department.
+          allOf:
+          - $ref: '#/components/schemas/Department'
         jobTitle:
           $ref: '#/components/schemas/JobTitle'
         reportsTo:
@@ -2371,10 +2379,10 @@ components:
       type: object
       properties:
         unit:
-          # https://github.com/OAI/OpenAPI-Specification/issues/556
-          # xml:
-          #   attribute: true
-          $ref: '#/components/schemas/TimeOffUnit'
+          xml:
+            attribute: true
+          allOf:
+          - $ref: '#/components/schemas/TimeOffUnit'
         amount:
           type: string
           format: integer
@@ -2440,17 +2448,17 @@ components:
       type: object
       properties:
         id:
-          # https://github.com/OAI/OpenAPI-Specification/issues/556
-          # xml:
-          #   attribute: true
-          $ref: '#/components/schemas/TimeOffType'
+          xml:
+            attribute: true
+          allOf:
+          - $ref: '#/components/schemas/TimeOffType'
         name:
           type: string
         icon:
-          # https://github.com/OAI/OpenAPI-Specification/issues/556
-          # xml:
-          #   attribute: true
-          $ref: '#/components/schemas/TimeOffIcon'
+          xml:
+            attribute: true
+          allOf:
+          - $ref: '#/components/schemas/TimeOffIcon'
       required:
       - id
       - name
@@ -2547,10 +2555,10 @@ components:
           type: string
           format: integer
         status:
-          # https://github.com/OAI/OpenAPI-Specification/issues/556
-          # xml:
-          #   attribute: true
-          $ref: '#/components/schemas/TimeOffRequestStatus'
+          xml:
+            attribute: true
+          allOf:
+          - $ref: '#/components/schemas/TimeOffRequestStatus'
       required:
       - lastChanged
       - lastChangedByUserId
@@ -2642,16 +2650,16 @@ components:
         notes:
           $ref: '#/components/schemas/TimeOffNotes'
         dates:
-          # https://github.com/OAI/OpenAPI-Specification/issues/556
-          # description: >-
-          # The <dates></dates> section is optional. If you don't provide it
-          # then all of the time off for the request will be deducted on the
-          # first day of the request.
-          #
-          # If you do provide details for the dates, then the amount
-          # for the overall request is ignored and the total amount of
-          # time requested is simply the sum of the amounts for each day.
-          $ref: '#/components/schemas/TimeOffDates'
+          description: >-
+            The <dates></dates> section is optional. If you don't provide it
+            then all of the time off for the request will be deducted on the
+            first day of the request.
+            
+            If you do provide details for the dates, then the amount
+            for the overall request is ignored and the total amount of
+            time requested is simply the sum of the amounts for each day.
+          allOf:
+          - $ref: '#/components/schemas/TimeOffDates'
         previousRequest:
           description: >-
             If you supply the "previousRequest" parameter with a valid "time
@@ -2770,10 +2778,10 @@ components:
             attribute: true
           type: string
         units:
-          # https://github.com/OAI/OpenAPI-Specification/issues/556
-          # xml:
-          #   attribute: true
-          $ref: '#/components/schemas/TimeOffUnit'
+          xml:
+            attribute: true
+          allOf:
+          - $ref: '#/components/schemas/TimeOffUnit'
         balance:
           xml:
             attribute: true
@@ -2781,10 +2789,10 @@ components:
           format: decimal
           # Note: example in docs is -2.5 so negative is allowed
         policyType:
-          # https://github.com/OAI/OpenAPI-Specification/issues/556
-          # xml:
-          #   attribute: true
-          $ref: '#/components/schemas/TimeOffPolicyType'
+          xml:
+            attribute: true
+          allOf:
+          - $ref: '#/components/schemas/TimeOffPolicyType'
         usedYearToDate:
           xml:
             attribute: true
@@ -2881,15 +2889,15 @@ components:
         name:
           type: string
         type:
-          # https://github.com/OAI/OpenAPI-Specification/issues/556
-          # xml:
-          #   attribute: true
-          $ref: '#/components/schemas/EmployeeFieldType'
+          xml:
+            attribute: true
+          allOf:
+          - $ref: '#/components/schemas/EmployeeFieldType'
         alias:
-          # https://github.com/OAI/OpenAPI-Specification/issues/556
-          # xml:
-          #   attribute: true
-          $ref: '#/components/schemas/EmployeeField'
+          xml:
+            attribute: true
+          allOf:
+          - $ref: '#/components/schemas/EmployeeField'
       required:
       - id
       - name
@@ -2912,10 +2920,10 @@ components:
           type: integer
           minimum: 1
         archived:
-          # https://github.com/OAI/OpenAPI-Specification/issues/556
-          # xml:
-          #   attribute: true
-          $ref: '#/components/schemas/YesNo'
+          xml:
+            attribute: true
+          allOf:
+          - $ref: '#/components/schemas/YesNo'
         createdDate:
           type: string
           format: date-time
@@ -2951,10 +2959,10 @@ components:
           type: integer
           minimum: 1
         archived:
-          # https://github.com/OAI/OpenAPI-Specification/issues/556
-          # xml:
-          #   attribute: true
-          $ref: '#/components/schemas/YesNo'
+          xml:
+            attribute: true
+          allOf:
+          - $ref: '#/components/schemas/YesNo'
         value:
           type: string
       required:
@@ -2983,24 +2991,24 @@ components:
           type: integer
           minimum: 1
         manageable:
-          # https://github.com/OAI/OpenAPI-Specification/issues/556
-          # xml:
-          #   attribute: true
-          $ref: '#/components/schemas/YesNo'
+          xml:
+            attribute: true
+          allOf:
+          - $ref: '#/components/schemas/YesNo'
         multiple:
-          # https://github.com/OAI/OpenAPI-Specification/issues/556
-          # xml:
-          #   attribute: true
-          $ref: '#/components/schemas/YesNo'
+          xml:
+            attribute: true
+          allOf:
+          - $ref: '#/components/schemas/YesNo'
         name:
           type: string
         options:
           $ref: '#/components/schemas/ListOptions'
         alias:
-          # https://github.com/OAI/OpenAPI-Specification/issues/556
-          # xml:
-          #   attribute: true
-          $ref: '#/components/schemas/EmployeeField'
+          xml:
+            attribute: true
+          allOf:
+          - $ref: '#/components/schemas/EmployeeField'
 
     ListsMetadata:
       xml:
