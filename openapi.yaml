@@ -1549,7 +1549,9 @@ components:
           allOf:
           - $ref: '#/components/schemas/Division'
         eeo:
-          $ref: '#/components/schemas/EEOJobCategory'
+          description: The employee's EEO job category
+          allOf:
+          - $ref: '#/components/schemas/EEOJobCategory'
         employeeNumber:
           description: Employee number (assigned by your company).
           type: string
@@ -1563,38 +1565,47 @@ components:
           allOf:
           - $ref: '#/components/schemas/Ethnicity'
         exempt:
-          description: The FLSA Overtime Status
+          description: The employee's FLSA Overtime Status
           allOf:
           - $ref: '#/components/schemas/EmployeeOvertimeExemptStatus'
         firstName:
           description: The employee's first name.
           type: string
         flsaCode:
+          description: The employee's FLSA Overtime Status
           deprecated: true
           x-deprecated:
             replaced-by: exempt
           allOf:
           - $ref: '#/components/schemas/EmployeeOvertimeExemptStatus'
         fullName1:
-          description: The employee's first and last name. (e.g., John Doe). Read only.
+          description: The employee's first and last name. (e.g., John Doe).
+          readOnly: true
           type: string
         fullName2:
-          description: The employee's last and first name. (e.g., Doe, John). Read only.
+          description: The employee's last and first name. (e.g., Doe, John).
+          readOnly: true
           type: string
         fullName3:
-          description: The employee's full name and their preferred name. (e.g., Doe, John Quentin (JDog)). Read only.
+          description: The employee's full name and their preferred name. (e.g., Doe, John Quentin (JDog)).
+          readOnly: true
           type: string
         fullName4:
-          description: The employee's full name without their preferred name, last name first. (e.g., Doe, John Quentin). Read only.
+          description: The employee's full name without their preferred name, last name first. (e.g., Doe, John Quentin).
+          readOnly: true
           type: string
         fullName5:
-          description: The employee's full name without their preferred name, first name first. (e.g., John Quentin Doe). Read only.
+          description: The employee's full name without their preferred name, first name first. (e.g., John Quentin Doe).
+          readOnly: true
           type: string
         displayName:
-          description: The employee's name displayed in a format configured by the user. Read only.
+          description: The employee's name displayed in a format configured by the user.
+          readOnly: true
           type: string
         gender:
-          $ref: '#/components/schemas/EmployeeGender'
+          description: The employee's gender.
+          allOf:
+          - $ref: '#/components/schemas/EmployeeGender'
         hireDate:
           description: The date the employee was hired.
           type: string
@@ -1631,7 +1642,9 @@ components:
           allOf:
           - $ref: '#/components/schemas/Location'
         maritalStatus:
-          $ref: '#/components/schemas/MaritalStatus'
+          description: The employee's marital status
+          allOf:
+          - $ref: '#/components/schemas/MaritalStatus'
         middleName:
           description: The employee's middle name.
           type: string
@@ -1659,11 +1672,17 @@ components:
           type: string
           format: date
         payType:
-          $ref: '#/components/schemas/PayType'
+          description: The employee's CURRENT pay type.
+          allOf:
+          - $ref: '#/components/schemas/PayType'
         payPer:
-          $ref: '#/components/schemas/PayPer'
+          description: The employee's CURRENT pay per.
+          allOf:
+          - $ref: '#/components/schemas/PayPer'
         paidPer:
-          $ref: '#/components/schemas/PayPer'
+          description: The employee's CURRENT pay per.
+          allOf:
+          - $ref: '#/components/schemas/PayPer'
         paySchedule:
           description: The employee's CURRENT pay schedule.
           allOf:
@@ -1673,7 +1692,9 @@ components:
           type: integer
           minimum: 1
         payFrequency:
-          $ref: '#/components/schemas/PayFrequency'
+          description: The employee's CURRENT pay frequency.
+          allOf:
+          - $ref: '#/components/schemas/PayFrequency'
         includeInPayroll:
           description: Should employee be included in payroll
           type: boolean
@@ -1702,12 +1723,14 @@ components:
           # - type: string
           type: string
         stateCode:
-          description: The 2 character abbreviation for the employee's state (US only). Read only.
+          description: The 2 character abbreviation for the employee's state (US only).
           readOnly: true
           allOf:
           - $ref: '#/components/schemas/StateCode'
         status:
-          $ref: '#/components/schemas/EmployeeStatus'
+          description: The employee's employee status.
+          allOf:
+          - $ref: '#/components/schemas/EmployeeStatus'
         supervisor:
           description: The employee’s CURRENT supervisor as last name-comma-first name-space-middle name.
           readOnly: true
@@ -1734,7 +1757,8 @@ components:
           description: The employee's work phone number, without extension.
           type: string
         workPhonePlusExtension:
-          description: The employee's work phone and extension. Read only.
+          description: The employee's work phone and extension.
+          readOnly: true
           type: string
         workPhoneExtension:
           description: The employee's work phone extension (if any).
@@ -1743,7 +1767,8 @@ components:
           description: The employee's ZIP code.
           type: string
         isPhotoUploaded:
-          description: Whether a photo has been uploaded for the employee. Read only.
+          description: Whether a photo has been uploaded for the employee.
+          readOnly: true
           type: boolean
         acaStatus:
           description: The employee's ACA (Affordable Care Act) Full-Time status.
@@ -1793,9 +1818,11 @@ components:
           allOf:
           - $ref: '#/components/schemas/EmployeeStatus'
         nickname:
-          description: DEPRECATED. Please use "preferredName" instead. The employee's preferred name.
+          description: The employee's preferred name.
           type: string
           deprecated: true
+          x-deprecated:
+            replaced-by: preferredName
         payPeriod:
           description: The employee's CURRENT pay period.
           deprecated: true
@@ -1805,12 +1832,15 @@ components:
           allOf:
           - $ref: '#/components/schemas/PayFrequency'
         canUploadPhoto:
+          description: The employee is permitted to upload a photo.
           type: boolean
         photoUploaded:
-          description: DEPRECATED. Please use "isPhotoUploaded" instead. The employee has uploaded a photo. Read only.
+          description: The employee has uploaded a photo.
           readOnly: true
           type: boolean
           deprecated: true
+          x-deprecated:
+            replaced-by: isPhotoUploaded
         photoUrl:
           description: Employee photo url
           type: string
@@ -1825,12 +1855,14 @@ components:
           description: The employee's nationality
           type: string
         facebook:
+          description: The employee's Facebook username or URL
           type: string
         linkedIn:
-          description: LinkedIn URL
+          description: The employee's LinkedIn URL
           type: string
           format: url
         skypeUsername:
+          description: The employee's Skype username
           type: string
       # https://github.com/OAI/OpenAPI-Specification/issues/687
       #patternProperties:
