@@ -297,6 +297,13 @@ components:
       - yes
       - no
 
+    YesNoNonAssessment:
+      type: string
+      enum:
+      - yes
+      - no
+      - non-assessment
+
     ChangeType:
       type: string
       enum:
@@ -1739,8 +1746,9 @@ components:
           description: Whether a photo has been uploaded for the employee. Read only.
           type: boolean
         acaStatus:
-          description: The employee's ACA (Affordable Care Act) Full-Time status. Options are yes, no, non-assessment
-          type: string
+          description: The employee's ACA (Affordable Care Act) Full-Time status.
+          allOf:
+          - $ref: '#/components/schemas/YesNoNonAssessment'
         acaStatusCategory:
           description: The employee's ACA (Affordable Care Act) status.
           type: string
