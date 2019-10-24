@@ -294,14 +294,14 @@ components:
     YesNo:
       type: string
       enum:
-      - yes
-      - no
+      - "yes"
+      - "no"
 
     YesNoNonAssessment:
       type: string
       enum:
-      - yes
-      - no
+      - "yes"
+      - "no"
       - non-assessment
 
     ChangeType:
@@ -1120,7 +1120,7 @@ components:
       - NS
       - NT
       - NU
-      - ON
+      - "ON"
       - PE
       - QC
       - SK
