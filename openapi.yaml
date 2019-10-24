@@ -3358,6 +3358,7 @@ paths:
           content:
             '*/*':
               schema:
+                description: Employee file content
                 type: string
                 format: binary
         '403':
@@ -3452,6 +3453,7 @@ paths:
           content:
             image/jpeg:
               schema:
+                description: Employee photo data
                 type: string
                 format: binary
 
@@ -4156,6 +4158,7 @@ paths:
           content:
             image/jpeg:
               schema:
+                description: Employee photo data
                 type: string
                 format: binary
         '301':
@@ -4283,6 +4286,7 @@ paths:
           content:
             '*/*':
               schema:
+                description: Company file content
                 type: string
                 format: binary
         '403':
@@ -4586,6 +4590,7 @@ paths:
           content:
             '*/*':
               schema:
+                description: Report content
                 type: string
                 format: binary
         '404':
@@ -4632,6 +4637,7 @@ paths:
                 $ref: '#/components/schemas/CustomReport'
             '*/*':
               schema:
+                description: Report content
                 type: string
                 format: binary
         '404':
