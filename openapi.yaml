@@ -1693,9 +1693,9 @@ components:
           description: The employee's Twitter username or URL
           type: string
       # https://github.com/OAI/OpenAPI-Specification/issues/687
-      #patternProperties:
-      #  customField.*:
-      #    type: string
+      # patternProperties:
+      #   customField.*:
+      #     type: string
       additionalProperties:
         type: string
       # Note: Only id is required due to how employeeFields parameter works
@@ -2522,7 +2522,7 @@ components:
             The <dates></dates> section is optional. If you don't provide it
             then all of the time off for the request will be deducted on the
             first day of the request.
-            
+
             If you do provide details for the dates, then the amount
             for the overall request is ignored and the total amount of
             time requested is simply the sum of the amounts for each day.
@@ -4606,7 +4606,7 @@ paths:
         is available here. The custom report will return employees regardless
         of their status, "Active" or "Inactive". This differs from the UI,
         which by default applies a quick filter to display only "Active"
-        employees. 
+        employees.
       externalDocs:
         url: https://www.bamboohr.com/api/documentation/employees.php#requestCustomReport
       parameters:
