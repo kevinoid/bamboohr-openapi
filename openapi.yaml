@@ -3206,7 +3206,7 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/UploadPhotoRequest'
+              $ref: '#/components/schemas/UploadFileRequest'
       responses:
         default:
           $ref: '#/components/responses/Error'
@@ -3426,7 +3426,7 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/UploadFileRequest'
+              $ref: '#/components/schemas/UploadPhotoRequest'
       responses:
         default:
           $ref: '#/components/responses/Error'
