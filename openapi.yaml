@@ -1936,6 +1936,10 @@ components:
           description: Content of file to upload.
           type: string
           format: binary
+      required:
+      - category
+      - fileName
+      - file
 
     UploadPhotoRequest:
       type: object
