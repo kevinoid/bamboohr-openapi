@@ -1944,7 +1944,7 @@ components:
     UploadPhotoRequest:
       type: object
       properties:
-        name:
+        file:
           description: >-
             Photo to upload.
 
@@ -1957,7 +1957,7 @@ components:
           type: string
           format: binary
       required:
-      - name
+      - file
 
     CompensationChange:
       type: object
