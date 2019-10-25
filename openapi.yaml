@@ -4649,14 +4649,6 @@ paths:
                 description: Report content
                 type: string
                 format: binary
-        '404':
-          description: Nonexistent report id
-          headers:
-            x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
-          x-ms-error-response: true
 
   /v1/time_off/requests/:
     get:
