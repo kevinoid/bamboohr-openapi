@@ -4618,13 +4618,10 @@ paths:
       operationId: getCustomReport
       summary: Request a custom report
       description: >-
-        Use this resource to request BambooHR generate a report. You must
-        specify a type of either "PDF", "XLS", "CSV", "JSON", or "XML". You
-        must specify a list of fields to show on the report. The list of fields
-        is available here. The custom report will return employees regardless
-        of their status, "Active" or "Inactive". This differs from the UI,
-        which by default applies a quick filter to display only "Active"
-        employees.
+        Use this resource to request BambooHR generate a report. The custom
+        report will return employees regardless of their status, "Active" or
+        "Inactive". This differs from the UI, which by default applies a quick
+        filter to display only "Active" employees.
       externalDocs:
         url: https://www.bamboohr.com/api/documentation/employees.php#requestCustomReport
       parameters:
