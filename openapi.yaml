@@ -1764,7 +1764,7 @@ components:
       required:
       - fields
 
-    CustomReport:
+    EmployeeReport:
       allOf:
       - $ref: '#/components/schemas/EmployeeDirectory'
       - type: object
@@ -4632,7 +4632,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CustomReport'
+                $ref: '#/components/schemas/EmployeeReport'
         '404':
           description: Nonexistent report id
           headers:
@@ -4704,7 +4704,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CustomReport'
+                $ref: '#/components/schemas/EmployeeReport'
 
   /v1/reports/custom:
     post:
