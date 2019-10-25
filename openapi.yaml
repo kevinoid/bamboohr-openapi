@@ -637,7 +637,7 @@ components:
       type: string
       pattern: '^([0-9]+(\.[0-9]+)?)? [A-Z]{3}$'
 
-    EmployeeField:
+    EmployeeFieldName:
       description: Property names of the Employee schema.
       type: string
       # Note: enum values are generated from Employee as a build step
@@ -1328,7 +1328,7 @@ components:
       type: object
       properties:
         id:
-          $ref: '#/components/schemas/EmployeeField'
+          $ref: '#/components/schemas/EmployeeFieldName'
         type:
           type: string
         name:
@@ -1760,7 +1760,7 @@ components:
           type: array
           minLength: 1
           items:
-            $ref: '#/components/schemas/EmployeeField'
+            $ref: '#/components/schemas/EmployeeFieldName'
       required:
       - fields
 
@@ -2778,7 +2778,7 @@ components:
           xml:
             attribute: true
           allOf:
-          - $ref: '#/components/schemas/EmployeeField'
+          - $ref: '#/components/schemas/EmployeeFieldName'
       required:
       - id
       - name
@@ -2889,7 +2889,7 @@ components:
           xml:
             attribute: true
           allOf:
-          - $ref: '#/components/schemas/EmployeeField'
+          - $ref: '#/components/schemas/EmployeeFieldName'
 
     ListsMetadata:
       xml:
