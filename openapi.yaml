@@ -3077,6 +3077,40 @@ components:
             type: string
       x-ms-error-response: true
 
+    ReportResponse:
+      description: Successfully generated report
+      content:
+        application/json:
+          schema:
+            description: JSON report content
+            type: string
+            format: binary
+        application/pdf:
+          schema:
+            description: PDF report content
+            type: string
+            format: binary
+        application/vnd.ms-excel:
+          schema:
+            description: XLS report content
+            type: string
+            format: binary
+        text/csv:
+          schema:
+            description: Unused type for CSV report content
+            type: string
+            format: binary
+        text/plain:
+          schema:
+            description: Currently used type for CSV report content
+            type: string
+            format: binary
+        text/xml:
+          schema:
+            description: XML report content
+            type: string
+            format: binary
+
 paths:
   /v1/employees/:
     post:
@@ -4570,7 +4604,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Users'
 
-  /v1/reports/{id}:
+  /v1/reports/{id}?format=JSON:
     parameters:
     - $ref: '#/components/parameters/reportId'
     get:
@@ -4589,7 +4623,6 @@ paths:
       externalDocs:
         url: https://www.bamboohr.com/api/documentation/employees.php#requestCompanyReport
       parameters:
-      - $ref: '#/components/parameters/reportFormat'
       - $ref: '#/components/parameters/filterDuplicates'
       responses:
         default:
@@ -4597,11 +4630,9 @@ paths:
         '200':
           description: Success
           content:
-            '*/*':
+            application/json:
               schema:
-                description: Report content
-                type: string
-                format: binary
+                $ref: '#/components/schemas/CustomReport'
         '404':
           description: Nonexistent report id
           headers:
@@ -4611,12 +4642,76 @@ paths:
                 type: string
           x-ms-error-response: true
 
-  /v1/reports/custom:
+  /v1/reports/{id}:
+    parameters:
+    - $ref: '#/components/parameters/reportId'
+    get:
+      tags:
+      - Employees
+      operationId: getReportInFormat
+      summary: Request a company report in a specified file format
+      description: >-
+        Use this resource to request one of your pre-existing company reports
+        from the reporting section. You can get the report number by hovering
+        over the report name on the reports page and grabbing the ID. At
+        present, only reports from the Company Reports section are supported.
+        In the future we may implement reports from the Report Library section
+        if there is enough demand for it. The report numbers used in this
+        request are different in each company.
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/employees.php#requestCompanyReport
+      parameters:
+      - $ref: '#/components/parameters/reportFormat'
+      - $ref: '#/components/parameters/filterDuplicates'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          $ref: '#/components/responses/ReportResponse'
+        '404':
+          description: Nonexistent report id
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+          x-ms-error-response: true
+
+  /v1/reports/custom?format=JSON:
     post:
       tags:
       - Employees
       operationId: getCustomReport
       summary: Request a custom report
+      description: >-
+        Use this resource to request BambooHR generate a report. The custom
+        report will return employees regardless of their status, "Active" or
+        "Inactive". This differs from the UI, which by default applies a quick
+        filter to display only "Active" employees.
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/employees.php#requestCustomReport
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomReportRequest'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomReport'
+
+  /v1/reports/custom:
+    post:
+      tags:
+      - Employees
+      operationId: getCustomReportInFormat
+      summary: Request a custom report in a specified file format
       description: >-
         Use this resource to request BambooHR generate a report. The custom
         report will return employees regardless of their status, "Active" or
@@ -4636,16 +4731,7 @@ paths:
         default:
           $ref: '#/components/responses/Error'
         '200':
-          description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CustomReport'
-            '*/*':
-              schema:
-                description: Report content
-                type: string
-                format: binary
+          $ref: '#/components/responses/ReportResponse'
 
   /v1/time_off/requests/:
     get:
