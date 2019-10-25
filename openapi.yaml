@@ -1751,9 +1751,18 @@ components:
         filters:
           $ref: '#/components/schemas/ReportFilters'
         fields:
+          description: >-
+            Employee fields to include in the custom report.
+
+            Note: If fields is empty or not specified, only one employee is
+            returned.  To avoid this unexpected behavior, it is specified
+            here as required with minLength: 1
           type: array
+          minLength: 1
           items:
             $ref: '#/components/schemas/EmployeeField'
+      required:
+      - fields
 
     CustomReport:
       allOf:
