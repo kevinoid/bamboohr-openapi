@@ -101,6 +101,7 @@ components:
       in: query
       description: Employee fields to return in the response.
       required: true
+      explode: false
       schema:
         type: array
         items:
