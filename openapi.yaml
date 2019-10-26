@@ -2272,13 +2272,6 @@ components:
       - unit
       - amount
 
-    TimeOffDates:
-      description: Maps ISO date string to number of time-off hours requested.
-      type: object
-      additionalProperties:
-        type: string
-        format: integer
-
     TimeOffIcon:
       type: string
       enum:
@@ -2477,7 +2470,17 @@ components:
         actions:
           $ref: '#/components/schemas/TimeOffActions'
         dates:
-          $ref: '#/components/schemas/TimeOffDates'
+          description: >-
+            Maps ISO date string to number of time-off hours requested.
+          type: object
+          # https://github.com/OAI/OpenAPI-Specification/issues/687
+          # patternProperties:
+          #   '^[0-9]{4}-[0-2]{2}-[0-2]{2}$':
+          #     type: string
+          #     format: integer
+          additionalProperties:
+            type: string
+            format: integer
         notes:
           # FIXME: This is an empty array when there are no notes
           # TODO: Uncomment once OpenAPI Generator or Autorest support anyOf
@@ -2537,11 +2540,22 @@ components:
             then all of the time off for the request will be deducted on the
             first day of the request.
 
+
             If you do provide details for the dates, then the amount
             for the overall request is ignored and the total amount of
             time requested is simply the sum of the amounts for each day.
-          allOf:
-          - $ref: '#/components/schemas/TimeOffDates'
+
+
+            Keys are ISO date strings, values are number of hours requested.
+          type: object
+          # https://github.com/OAI/OpenAPI-Specification/issues/687
+          # patternProperties:
+          #   '^[0-9]{4}-[0-2]{2}-[0-2]{2}$':
+          #     type: string
+          #     format: integer
+          additionalProperties:
+            type: string
+            format: integer
         previousRequest:
           description: >-
             If you supply the "previousRequest" parameter with a valid "time
@@ -3005,11 +3019,6 @@ components:
       - action
       - lastChanged
 
-    EmployeeChanges:
-      type: object
-      additionalProperties:
-        $ref: '#/components/schemas/EmployeeChange'
-
     ChangeList:
       xml:
         name: changeList
@@ -3019,7 +3028,9 @@ components:
           type: string
           format: date-time
         employees:
-          $ref: '#/components/schemas/EmployeeChanges'
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/EmployeeChange'
       required:
       - latest
       - employees
