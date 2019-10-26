@@ -1695,7 +1695,7 @@ components:
           type: string
       # https://github.com/OAI/OpenAPI-Specification/issues/687
       # patternProperties:
-      #   customField.*:
+      #   '^customField':
       #     type: string
       additionalProperties:
         type: string
