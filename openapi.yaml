@@ -1341,9 +1341,11 @@ components:
         address1:
           description: The employee's first address line.
           type: string
+          nullable: true
         address2:
           description: The employee's second address line.
           type: string
+          nullable: true
         age:
           description: >-
             The employee's age. To change age, update dateOfBirth field.
@@ -1356,6 +1358,7 @@ components:
           description: The employee's work email if set, otherwise their home email.
           type: string
           format: email
+          nullable: true
         birthday:
           description: >-
             The employee's month and day of birth. To change birthday, update
@@ -1368,50 +1371,62 @@ components:
         city:
           description: The employee's city.
           type: string
+          nullable: true
         country:
           description: The employee's country.
+          nullable: true
           allOf:
           - $ref: '#/components/schemas/Country'
         dateOfBirth:
           description: The date the employee was born.
+          nullable: true
           type: string
           format: date
         department:
           description: The employee's CURRENT department.
+          nullable: true
           allOf:
           - $ref: '#/components/schemas/Department'
         division:
           description: The employee's CURRENT division.
+          nullable: true
           allOf:
           - $ref: '#/components/schemas/Division'
         eeo:
           description: The employee's EEO job category
+          nullable: true
           allOf:
           - $ref: '#/components/schemas/EEOJobCategory'
         employeeNumber:
           description: Employee number (assigned by your company).
+          nullable: true
           type: string
         employmentHistoryStatus:
           description: The employee's CURRENT employment status. Options are customized by account. Read-only starting with version 1.1; update using the employmentStatus table.
+          nullable: true
           readOnly: true
           allOf:
           - $ref: '#/components/schemas/EmploymentStatus'
         ethnicity:
           description: The employee's ethnicity.
+          nullable: true
           allOf:
           - $ref: '#/components/schemas/Ethnicity'
         exempt:
           description: The employee's FLSA Overtime Status
+          nullable: true
           allOf:
           - $ref: '#/components/schemas/EmployeeOvertimeExemptStatus'
         firstName:
           description: The employee's first name.
+          nullable: true
           type: string
         flsaCode:
           description: The employee's FLSA Overtime Status
           deprecated: true
           x-deprecated:
             replaced-by: exempt
+          nullable: true
           allOf:
           - $ref: '#/components/schemas/EmployeeOvertimeExemptStatus'
         fullName1:
@@ -1440,6 +1455,7 @@ components:
           type: string
         gender:
           description: The employee's gender.
+          nullable: true
           allOf:
           - $ref: '#/components/schemas/EmployeeGender'
         hireDate:
@@ -1452,10 +1468,12 @@ components:
           format: date
         homeEmail:
           description: The employee's home email address.
+          nullable: true
           type: string
           format: email
         homePhone:
           description: The employee's home phone number.
+          nullable: true
           type: string
         id:
           description: The employee ID automatically assigned by BambooHR.
@@ -1464,6 +1482,7 @@ components:
           minimum: 1
         jobTitle:
           description: The CURRENT value of the employee's job title, updating this field will create a new row in position history.
+          nullable: true
           allOf:
           - $ref: '#/components/schemas/JobTitle'
         lastChanged:
@@ -1475,60 +1494,75 @@ components:
           type: string
         location:
           description: The employee's CURRENT location.
+          nullable: true
           allOf:
           - $ref: '#/components/schemas/Location'
         maritalStatus:
           description: The employee's marital status
+          nullable: true
           allOf:
           - $ref: '#/components/schemas/MaritalStatus'
         middleName:
           description: The employee's middle name.
+          nullable: true
           type: string
         mobilePhone:
           description: The employee's mobile phone number.
+          nullable: true
           type: string
         payChangeReason:
           description: The reason for the employee's last pay rate change.
+          nullable: true
           allOf:
           - $ref: '#/components/schemas/CompensationChangeReason'
         payGroup:
           description: The custom pay group that the employee belongs to.
+          nullable: true
           allOf:
           - $ref: '#/components/schemas/PayGroup'
         payGroupId:
           description: The ID value corresponding to the pay group that an employee belongs to.
+          nullable: true
           type: integer
           minimum: 1
         payRate:
           description: The employee's CURRENT pay rate
+          nullable: true
           allOf:
           - $ref: '#/components/schemas/CurrencyAmountString'
         payRateEffectiveDate:
           description: The day the most recent change was made.
+          nullable: true
           type: string
           format: date
         payType:
           description: The employee's CURRENT pay type.
+          nullable: true
           allOf:
           - $ref: '#/components/schemas/PayType'
         payPer:
           description: The employee's CURRENT pay per.
+          nullable: true
           allOf:
           - $ref: '#/components/schemas/PayPer'
         paidPer:
           description: The employee's CURRENT pay per.
+          nullable: true
           allOf:
           - $ref: '#/components/schemas/PayPer'
         paySchedule:
           description: The employee's CURRENT pay schedule.
+          nullable: true
           allOf:
           - $ref: '#/components/schemas/PaySchedule'
         payScheduleId:
           description: The ID value corresponding to the pay schedule that an employee belongs to.
+          nullable: true
           type: integer
           minimum: 1
         payFrequency:
           description: The employee's CURRENT pay frequency.
+          nullable: true
           allOf:
           - $ref: '#/components/schemas/PayFrequency'
         includeInPayroll:
@@ -1539,13 +1573,16 @@ components:
           type: boolean
         preferredName:
           description: The employee's preferred name.
+          nullable: true
           type: string
         ssn:
           description: The employee's Social Security number.
+          nullable: true
           allOf:
           - $ref: '#/components/schemas/SocialSecurityNumber'
         sin:
           description: The employee's Canadian Social Insurance Number.
+          nullable: true
           allOf:
           - $ref: '#/components/schemas/SocialInsuranceNumber'
         state:
@@ -1561,6 +1598,7 @@ components:
         stateCode:
           description: The 2 character abbreviation for the employee's state (US only).
           readOnly: true
+          nullable: true
           allOf:
           - $ref: '#/components/schemas/StateCode'
         status:
@@ -1570,14 +1608,17 @@ components:
         supervisor:
           description: The employee’s CURRENT supervisor as last name-comma-first name-space-middle name.
           readOnly: true
+          nullable: true
           type: string
         supervisorId:
           description: The 'employeeNumber' of the employee's CURRENT supervisor.
           readOnly: true
+          nullable: true
           type: string
         supervisorEId:
           description: The ID of the employee's CURRENT supervisor.
           readOnly: true
+          nullable: true
           type: integer
           minimum: 1
         terminationDate:
@@ -1587,20 +1628,25 @@ components:
           format: date
         workEmail:
           description: The employee's work email address.
+          nullable: true
           type: string
           format: email
         workPhone:
           description: The employee's work phone number, without extension.
+          nullable: true
           type: string
         workPhonePlusExtension:
           description: The employee's work phone and extension.
+          nullable: true
           readOnly: true
           type: string
         workPhoneExtension:
           description: The employee's work phone extension (if any).
+          nullable: true
           type: string
         zipcode:
           description: The employee's ZIP code.
+          nullable: true
           type: string
         isPhotoUploaded:
           description: Whether a photo has been uploaded for the employee.
@@ -1608,10 +1654,12 @@ components:
           type: boolean
         acaStatus:
           description: The employee's ACA (Affordable Care Act) Full-Time status.
+          nullable: true
           allOf:
           - $ref: '#/components/schemas/YesNoNonAssessment'
         acaStatusCategory:
           description: The employee's ACA (Affordable Care Act) status.
+          nullable: true
           type: string
         standardHoursPerWeek:
           description: The number of hours the employee works in a standard week.
@@ -1619,6 +1667,7 @@ components:
           minimum: 0
         bonusDate:
           description: The date of the last bonus.
+          nullable: true
           type: string
           format: date
         bonusAmount:
@@ -1627,9 +1676,11 @@ components:
           - $ref: '#/components/schemas/CurrencyAmountString'
         bonusReason:
           description: The reason for the most recent bonus.
+          nullable: true
           type: string
         bonusComment:
           description: Comment about the most recent bonus.
+          nullable: true
           type: string
         commissionDate:
           description: The date of the last commission.
@@ -1655,6 +1706,7 @@ components:
           - $ref: '#/components/schemas/EmployeeStatus'
         nickname:
           description: The employee's preferred name.
+          nullable: true
           type: string
           deprecated: true
           x-deprecated:
@@ -1692,9 +1744,11 @@ components:
           type: string
         facebook:
           description: The employee's Facebook username or URL
+          nullable: true
           type: string
         linkedIn:
           description: The employee's LinkedIn URL
+          nullable: true
           type: string
           format: url
         skypeUsername:
@@ -1702,6 +1756,7 @@ components:
           type: string
         twitterFeed:
           description: The employee's Twitter username or URL
+          nullable: true
           type: string
       # https://github.com/OAI/OpenAPI-Specification/issues/687
       # patternProperties:
