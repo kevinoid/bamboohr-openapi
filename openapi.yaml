@@ -1559,6 +1559,9 @@ components:
         paidPer:
           description: The employee's CURRENT pay per.
           nullable: true
+          deprecated: true
+          x-deprecated:
+            replaced-by: payPer
           allOf:
           - $ref: '#/components/schemas/PayPer'
         paySchedule:
