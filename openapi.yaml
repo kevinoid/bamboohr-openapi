@@ -1356,6 +1356,7 @@ components:
           minimum: -1
         bestEmail:
           description: The employee's work email if set, otherwise their home email.
+          readOnly: true
           type: string
           format: email
           nullable: true
@@ -1494,6 +1495,7 @@ components:
           - $ref: '#/components/schemas/JobTitle'
         lastChanged:
           description: The date and time that the employee record was last changed.
+          readOnly: true
           type: string
           format: date-time
         lastName:
@@ -1540,6 +1542,7 @@ components:
           - $ref: '#/components/schemas/CurrencyAmountString'
         payRateEffectiveDate:
           description: The day the most recent change was made.
+          readOnly: true
           nullable: true
           type: string
           format: date
