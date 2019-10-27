@@ -1696,6 +1696,9 @@ components:
           format: date
         commisionDate:
           description: This field name contains a typo, and exists for backwards compatibility.
+          deprecated: true
+          x-deprecated:
+            replaced-by: commissionDate
           type: string
           format: date
         commissionAmount:
