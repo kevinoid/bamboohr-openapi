@@ -1741,7 +1741,9 @@ components:
           x-deprecated:
             replaced-by: isPhotoUploaded
         photoUrl:
-          description: Employee photo url
+          description: >-
+            Employee photo url, or a placeholder photo URL when photoUploaded
+            is false.
           type: string
           format: url
         nin:
