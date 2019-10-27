@@ -1421,6 +1421,7 @@ components:
           description: The employee's first name.
           nullable: true
           type: string
+          minLength: 1
         flsaCode:
           description: The employee's FLSA Overtime Status
           deprecated: true
@@ -1433,26 +1434,32 @@ components:
           description: The employee's first and last name. (e.g., John Doe).
           readOnly: true
           type: string
+          minLength: 1
         fullName2:
           description: The employee's last and first name. (e.g., Doe, John).
           readOnly: true
           type: string
+          minLength: 1
         fullName3:
           description: The employee's full name and their preferred name. (e.g., Doe, John Quentin (JDog)).
           readOnly: true
           type: string
+          minLength: 1
         fullName4:
           description: The employee's full name without their preferred name, last name first. (e.g., Doe, John Quentin).
           readOnly: true
           type: string
+          minLength: 1
         fullName5:
           description: The employee's full name without their preferred name, first name first. (e.g., John Quentin Doe).
           readOnly: true
           type: string
+          minLength: 1
         displayName:
           description: The employee's name displayed in a format configured by the user.
           readOnly: true
           type: string
+          minLength: 1
         gender:
           description: The employee's gender.
           nullable: true
@@ -1492,6 +1499,7 @@ components:
         lastName:
           description: The employee's last name.
           type: string
+          minLength: 1
         location:
           description: The employee's CURRENT location.
           nullable: true
