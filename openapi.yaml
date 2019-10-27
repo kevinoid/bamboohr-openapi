@@ -3261,8 +3261,6 @@ paths:
           x-ms-error-response: true
 
   /v1/employees/{id}:
-    parameters:
-    - $ref: '#/components/parameters/employeeId'
     get:
       tags:
       - Employees
@@ -3271,6 +3269,7 @@ paths:
       externalDocs:
         url: https://www.bamboohr.com/api/documentation/employees.php#getEmployee
       parameters:
+      - $ref: '#/components/parameters/employeeId'
       - $ref: '#/components/parameters/employeeFields'
       responses:
         default:
@@ -3304,6 +3303,8 @@ paths:
       summary: Update employee
       externalDocs:
         url: https://www.bamboohr.com/api/documentation/employees.php#updateEmployee
+      parameters:
+      - $ref: '#/components/parameters/employeeId'
       responses:
         default:
           $ref: '#/components/responses/Error'
@@ -3331,8 +3332,6 @@ paths:
           x-ms-error-response: true
 
   /v1/employees/{id}/files/:
-    parameters:
-    - $ref: '#/components/parameters/employeeId'
     post:
       tags:
       - Employees
@@ -3340,6 +3339,8 @@ paths:
       summary: Upload an employee file
       externalDocs:
         url: https://www.bamboohr.com/api/documentation/employees.php#uploadEmployeeFile
+      parameters:
+      - $ref: '#/components/parameters/employeeId'
       requestBody:
         required: true
         content:
@@ -3377,8 +3378,6 @@ paths:
           x-ms-error-response: true
 
   /v1/employees/{id}/files/categories/:
-    parameters:
-    - $ref: '#/components/parameters/employeeId'
     post:
       tags:
       - Employees
@@ -3386,6 +3385,8 @@ paths:
       summary: Add an employee file category
       externalDocs:
         url: https://www.bamboohr.com/api/documentation/employees.php#addEmployeeCategory
+      parameters:
+      - $ref: '#/components/parameters/employeeId'
       requestBody:
         required: true
         content:
@@ -3415,8 +3416,6 @@ paths:
           x-ms-error-response: true
 
   /v1/employees/{id}/files/view/:
-    parameters:
-    - $ref: '#/components/parameters/employeeId'
     get:
       tags:
       - Employees
@@ -3424,6 +3423,8 @@ paths:
       summary: List employee files and categories
       externalDocs:
         url: https://www.bamboohr.com/api/documentation/employees.php#listEmployeeFiles
+      parameters:
+      - $ref: '#/components/parameters/employeeId'
       responses:
         default:
           $ref: '#/components/responses/Error'
@@ -3451,9 +3452,6 @@ paths:
           x-ms-error-response: true
 
   /v1/employees/{id}/files/{fileId}/:
-    parameters:
-    - $ref: '#/components/parameters/employeeId'
-    - $ref: '#/components/parameters/employeeFileId'
     delete:
       tags:
       - Employees
@@ -3461,6 +3459,9 @@ paths:
       summary: Delete an employee file
       externalDocs:
         url: https://www.bamboohr.com/api/documentation/employees.php#deleteEmployeeFile
+      parameters:
+      - $ref: '#/components/parameters/employeeId'
+      - $ref: '#/components/parameters/employeeFileId'
       responses:
         default:
           $ref: '#/components/responses/Error'
@@ -3489,6 +3490,9 @@ paths:
       summary: Download an employee file
       externalDocs:
         url: https://www.bamboohr.com/api/documentation/employees.php#downloadEmployeeFile
+      parameters:
+      - $ref: '#/components/parameters/employeeId'
+      - $ref: '#/components/parameters/employeeFileId'
       responses:
         default:
           $ref: '#/components/responses/Error'
@@ -3523,6 +3527,9 @@ paths:
       summary: Update an employee file
       externalDocs:
         url: https://www.bamboohr.com/api/documentation/employees.php#updateEmployeeFile
+      parameters:
+      - $ref: '#/components/parameters/employeeId'
+      - $ref: '#/components/parameters/employeeFileId'
       requestBody:
         required: true
         content:
@@ -3552,8 +3559,6 @@ paths:
           x-ms-error-response: true
 
   /v1/employees/{id}/photo:
-    parameters:
-    - $ref: '#/components/parameters/employeeId'
     post:
       tags:
       - Photos
@@ -3561,6 +3566,8 @@ paths:
       summary: Upload an employee photo
       externalDocs:
         url: https://www.bamboohr.com/api/documentation/photos.php#postPhoto
+      parameters:
+      - $ref: '#/components/parameters/employeeId'
       requestBody:
         required: true
         content:
@@ -3574,9 +3581,6 @@ paths:
           description: Success
 
   /v1/employees/{id}/photo/{size}:
-    parameters:
-    - $ref: '#/components/parameters/employeeId'
-    - $ref: '#/components/parameters/photoSize'
     get:
       tags:
       - Photos
@@ -3584,6 +3588,9 @@ paths:
       summary: Get an employee photo
       externalDocs:
         url: https://www.bamboohr.com/api/documentation/photos.php#getPhoto
+      parameters:
+      - $ref: '#/components/parameters/employeeId'
+      - $ref: '#/components/parameters/photoSize'
       responses:
         default:
           $ref: '#/components/responses/Error'
@@ -3597,8 +3604,6 @@ paths:
                 format: binary
 
   /v1/employees/{id}/tables/compensation:
-    parameters:
-    - $ref: '#/components/parameters/employeeId'
     get:
       tags:
       - Tables
@@ -3606,6 +3611,8 @@ paths:
       summary: Get the Compensation table for an employee
       externalDocs:
         url: https://www.bamboohr.com/api/documentation/tables.php#getTable
+      parameters:
+      - $ref: '#/components/parameters/employeeId'
       responses:
         default:
           $ref: '#/components/responses/Error'
@@ -3639,8 +3646,6 @@ paths:
                   $ref: '#/components/schemas/CompensationChange'
 
   /v1/employees/changed/tables/compensation:
-    parameters:
-    - $ref: '#/components/parameters/since'
     get:
       tags:
       - Tables
@@ -3648,6 +3653,8 @@ paths:
       summary: Get the Compensation tables for changed employees
       externalDocs:
         url: https://www.bamboohr.com/api/documentation/tables.php#getTables
+      parameters:
+      - $ref: '#/components/parameters/since'
       responses:
         default:
           $ref: '#/components/responses/Error'
@@ -3661,8 +3668,6 @@ paths:
                   $ref: '#/components/schemas/CompensationChange'
 
   /v1_1/employees/{id}/tables/compensation:
-    parameters:
-    - $ref: '#/components/parameters/employeeId'
     post:
       tags:
       - Tables
@@ -3670,6 +3675,8 @@ paths:
       summary: Add a row to the Compensation table for an employee
       externalDocs:
         url: https://www.bamboohr.com/api/documentation/tables.php#addRowOnePointOne
+      parameters:
+      - $ref: '#/components/parameters/employeeId'
       requestBody:
         required: true
         content:
@@ -3683,9 +3690,6 @@ paths:
           description: Success
 
   /v1_1/employees/{id}/tables/compensation/{rowId}:
-    parameters:
-    - $ref: '#/components/parameters/employeeId'
-    - $ref: '#/components/parameters/rowId'
     post:
       tags:
       - Tables
@@ -3693,6 +3697,9 @@ paths:
       summary: Update a row of the Compensation table for an employee
       externalDocs:
         url: https://www.bamboohr.com/api/documentation/tables.php#updateRowOnePointOne
+      parameters:
+      - $ref: '#/components/parameters/employeeId'
+      - $ref: '#/components/parameters/rowId'
       requestBody:
         required: true
         content:
@@ -3706,8 +3713,6 @@ paths:
           description: Success
 
   /v1/employees/{id}/tables/dependents:
-    parameters:
-    - $ref: '#/components/parameters/employeeId'
     get:
       tags:
       - Tables
@@ -3715,6 +3720,8 @@ paths:
       summary: Get the Dependents table for an employee
       externalDocs:
         url: https://www.bamboohr.com/api/documentation/tables.php#getTable
+      parameters:
+      - $ref: '#/components/parameters/employeeId'
       responses:
         default:
           $ref: '#/components/responses/Error'
@@ -3748,8 +3755,6 @@ paths:
                   $ref: '#/components/schemas/Dependent'
 
   /v1/employees/changed/tables/dependents:
-    parameters:
-    - $ref: '#/components/parameters/since'
     get:
       tags:
       - Tables
@@ -3757,6 +3762,8 @@ paths:
       summary: Get the Dependents tables for changed employees
       externalDocs:
         url: https://www.bamboohr.com/api/documentation/tables.php#getTables
+      parameters:
+      - $ref: '#/components/parameters/since'
       responses:
         default:
           $ref: '#/components/responses/Error'
@@ -3770,8 +3777,6 @@ paths:
                   $ref: '#/components/schemas/Dependent'
 
   /v1_1/employees/{id}/tables/dependents:
-    parameters:
-    - $ref: '#/components/parameters/employeeId'
     post:
       tags:
       - Tables
@@ -3779,6 +3784,8 @@ paths:
       summary: Add a row to the Dependents table for an employee
       externalDocs:
         url: https://www.bamboohr.com/api/documentation/tables.php#addRowOnePointOne
+      parameters:
+      - $ref: '#/components/parameters/employeeId'
       requestBody:
         required: true
         content:
@@ -3792,9 +3799,6 @@ paths:
           description: Success
 
   /v1_1/employees/{id}/tables/dependents/{rowId}:
-    parameters:
-    - $ref: '#/components/parameters/employeeId'
-    - $ref: '#/components/parameters/rowId'
     post:
       tags:
       - Tables
@@ -3802,6 +3806,9 @@ paths:
       summary: Update a row of the Dependents table for an employee
       externalDocs:
         url: https://www.bamboohr.com/api/documentation/tables.php#updateRowOnePointOne
+      parameters:
+      - $ref: '#/components/parameters/employeeId'
+      - $ref: '#/components/parameters/rowId'
       requestBody:
         required: true
         content:
@@ -3815,8 +3822,6 @@ paths:
           description: Success
 
   /v1/employees/{id}/tables/emergencyContacts:
-    parameters:
-    - $ref: '#/components/parameters/employeeId'
     get:
       tags:
       - Tables
@@ -3824,6 +3829,8 @@ paths:
       summary: Get the Emergency Contacts table for an employee
       externalDocs:
         url: https://www.bamboohr.com/api/documentation/tables.php#getTable
+      parameters:
+      - $ref: '#/components/parameters/employeeId'
       responses:
         default:
           $ref: '#/components/responses/Error'
@@ -3857,8 +3864,6 @@ paths:
                   $ref: '#/components/schemas/EmergencyContact'
 
   /v1/employees/changed/tables/emergencyContacts:
-    parameters:
-    - $ref: '#/components/parameters/since'
     get:
       tags:
       - Tables
@@ -3866,6 +3871,8 @@ paths:
       summary: Get the Emergency Contacts tables for changed employees
       externalDocs:
         url: https://www.bamboohr.com/api/documentation/tables.php#getTables
+      parameters:
+      - $ref: '#/components/parameters/since'
       responses:
         default:
           $ref: '#/components/responses/Error'
@@ -3879,8 +3886,6 @@ paths:
                   $ref: '#/components/schemas/EmergencyContact'
 
   /v1_1/employees/{id}/tables/emergencyContacts:
-    parameters:
-    - $ref: '#/components/parameters/employeeId'
     post:
       tags:
       - Tables
@@ -3888,6 +3893,8 @@ paths:
       summary: Add a row to the Emergency Contacts table for an employee
       externalDocs:
         url: https://www.bamboohr.com/api/documentation/tables.php#addRowOnePointOne
+      parameters:
+      - $ref: '#/components/parameters/employeeId'
       requestBody:
         required: true
         content:
@@ -3901,9 +3908,6 @@ paths:
           description: Success
 
   /v1_1/employees/{id}/tables/emergencyContacts/{rowId}:
-    parameters:
-    - $ref: '#/components/parameters/employeeId'
-    - $ref: '#/components/parameters/rowId'
     post:
       tags:
       - Tables
@@ -3911,6 +3915,9 @@ paths:
       summary: Update a row of the Emergency Contacts table for an employee
       externalDocs:
         url: https://www.bamboohr.com/api/documentation/tables.php#updateRowOnePointOne
+      parameters:
+      - $ref: '#/components/parameters/employeeId'
+      - $ref: '#/components/parameters/rowId'
       requestBody:
         required: true
         content:
@@ -3924,8 +3931,6 @@ paths:
           description: Success
 
   /v1/employees/{id}/tables/employmentStatus:
-    parameters:
-    - $ref: '#/components/parameters/employeeId'
     get:
       tags:
       - Tables
@@ -3933,6 +3938,8 @@ paths:
       summary: Get the Employment Status table for an employee
       externalDocs:
         url: https://www.bamboohr.com/api/documentation/tables.php#getTable
+      parameters:
+      - $ref: '#/components/parameters/employeeId'
       responses:
         default:
           $ref: '#/components/responses/Error'
@@ -3966,8 +3973,6 @@ paths:
                   $ref: '#/components/schemas/EmploymentStatusChange'
 
   /v1/employees/changed/tables/employmentStatus:
-    parameters:
-    - $ref: '#/components/parameters/since'
     get:
       tags:
       - Tables
@@ -3975,6 +3980,8 @@ paths:
       summary: Get the Employment Status tables for changed employees
       externalDocs:
         url: https://www.bamboohr.com/api/documentation/tables.php#getTables
+      parameters:
+      - $ref: '#/components/parameters/since'
       responses:
         default:
           $ref: '#/components/responses/Error'
@@ -3988,8 +3995,6 @@ paths:
                   $ref: '#/components/schemas/EmploymentStatusChange'
 
   /v1_1/employees/{id}/tables/employmentStatus:
-    parameters:
-    - $ref: '#/components/parameters/employeeId'
     post:
       tags:
       - Tables
@@ -3997,6 +4002,8 @@ paths:
       summary: Add a row to the Employment Status table for an employee
       externalDocs:
         url: https://www.bamboohr.com/api/documentation/tables.php#addRowOnePointOne
+      parameters:
+      - $ref: '#/components/parameters/employeeId'
       requestBody:
         required: true
         content:
@@ -4010,9 +4017,6 @@ paths:
           description: Success
 
   /v1_1/employees/{id}/tables/employmentStatus/{rowId}:
-    parameters:
-    - $ref: '#/components/parameters/employeeId'
-    - $ref: '#/components/parameters/rowId'
     post:
       tags:
       - Tables
@@ -4020,6 +4024,9 @@ paths:
       summary: Update a row of the Employment Status table for an employee
       externalDocs:
         url: https://www.bamboohr.com/api/documentation/tables.php#updateRowOnePointOne
+      parameters:
+      - $ref: '#/components/parameters/employeeId'
+      - $ref: '#/components/parameters/rowId'
       requestBody:
         required: true
         content:
@@ -4033,8 +4040,6 @@ paths:
           description: Success
 
   /v1/employees/{id}/tables/jobInfo:
-    parameters:
-    - $ref: '#/components/parameters/employeeId'
     get:
       tags:
       - Tables
@@ -4042,6 +4047,8 @@ paths:
       summary: Get the Job Info table for an employee
       externalDocs:
         url: https://www.bamboohr.com/api/documentation/tables.php#getTable
+      parameters:
+      - $ref: '#/components/parameters/employeeId'
       responses:
         default:
           $ref: '#/components/responses/Error'
@@ -4097,8 +4104,6 @@ paths:
                   $ref: '#/components/schemas/JobInfoChange'
 
   /v1_1/employees/{id}/tables/jobInfo:
-    parameters:
-    - $ref: '#/components/parameters/employeeId'
     post:
       tags:
       - Tables
@@ -4106,6 +4111,8 @@ paths:
       summary: Add a row to the Job Info table for an employee
       externalDocs:
         url: https://www.bamboohr.com/api/documentation/tables.php#addRowOnePointOne
+      parameters:
+      - $ref: '#/components/parameters/employeeId'
       requestBody:
         required: true
         content:
@@ -4119,9 +4126,6 @@ paths:
           description: Success
 
   /v1_1/employees/{id}/tables/jobInfo/{rowId}:
-    parameters:
-    - $ref: '#/components/parameters/employeeId'
-    - $ref: '#/components/parameters/rowId'
     post:
       tags:
       - Tables
@@ -4129,6 +4133,9 @@ paths:
       summary: Update a row of the Job Info table for an employee
       externalDocs:
         url: https://www.bamboohr.com/api/documentation/tables.php#updateRowOnePointOne
+      parameters:
+      - $ref: '#/components/parameters/employeeId'
+      - $ref: '#/components/parameters/rowId'
       requestBody:
         required: true
         content:
@@ -4142,8 +4149,6 @@ paths:
           description: Success
 
   /v1/employees/{id}/time_off/calculator/:
-    parameters:
-    - $ref: '#/components/parameters/employeeId'
     get:
       tags:
       - TimeOff
@@ -4155,6 +4160,7 @@ paths:
       externalDocs:
         url: https://www.bamboohr.com/api/documentation/time_off.php#estimateFutureBalance
       parameters:
+      - $ref: '#/components/parameters/employeeId'
       - $ref: '#/components/parameters/endDate'
       - $ref: '#/components/parameters/precision'
       responses:
@@ -4168,8 +4174,6 @@ paths:
                 $ref: '#/components/schemas/TimeOffEstimates'
 
   /v1/employees/{id}/time_off/history/:
-    parameters:
-    - $ref: '#/components/parameters/employeeId'
     put:
       tags:
       - TimeOff
@@ -4188,6 +4192,8 @@ paths:
         # https://github.com/OAI/OpenAPI-Specification/issues/1034
         # url: https://www.bamboohr.com/api/documentation/time_off.php#addHistoryOverride
         url: https://www.bamboohr.com/api/documentation/time_off.php#addHistoryEntry
+      parameters:
+      - $ref: '#/components/parameters/employeeId'
       requestBody:
         required: true
         content:
@@ -4207,8 +4213,6 @@ paths:
                 format: url
 
   /v1_1/employees/{id}/time_off/policies/:
-    parameters:
-    - $ref: '#/components/parameters/employeeId'
     get:
       tags:
       - TimeOff
@@ -4216,6 +4220,8 @@ paths:
       summary: List assigned Time Off Policies for an Employee
       externalDocs:
         url: https://www.bamboohr.com/api/documentation/time_off.php#listTimeOffPoliciesOnePointOne
+      parameters:
+      - $ref: '#/components/parameters/employeeId'
       responses:
         default:
           $ref: '#/components/responses/Error'
@@ -4237,6 +4243,8 @@ paths:
         starting on the date specified.
       externalDocs:
         url: https://www.bamboohr.com/api/documentation/time_off.php#assignTimeOffPoliciesOnePointOne
+      parameters:
+      - $ref: '#/components/parameters/employeeId'
       requestBody:
         required: true
         content:
@@ -4279,8 +4287,6 @@ paths:
                 $ref: '#/components/schemas/ChangeList'
 
   /v1/employees/photos:
-    parameters:
-    - $ref: '#/components/parameters/hashedEmail'
     get:
       tags:
       - Photos
@@ -4289,6 +4295,8 @@ paths:
       externalDocs:
         url: https://www.bamboohr.com/api/documentation/photos.php#useBambooServer
       security: []
+      parameters:
+      - $ref: '#/components/parameters/hashedEmail'
       responses:
         default:
           $ref: '#/components/responses/Error'
@@ -4380,8 +4388,6 @@ paths:
           x-ms-error-response: true
 
   /v1/files/{fileId}/:
-    parameters:
-    - $ref: '#/components/parameters/companyFileId'
     delete:
       tags:
       - Employees
@@ -4389,6 +4395,8 @@ paths:
       summary: Delete a company file
       externalDocs:
         url: https://www.bamboohr.com/api/documentation/employees.php#deleteCompanyFile
+      parameters:
+      - $ref: '#/components/parameters/companyFileId'
       responses:
         default:
           $ref: '#/components/responses/Error'
@@ -4417,6 +4425,8 @@ paths:
       summary: Download a company file
       externalDocs:
         url: https://www.bamboohr.com/api/documentation/employees.php#downloadCompanyFile
+      parameters:
+      - $ref: '#/components/parameters/companyFileId'
       responses:
         default:
           $ref: '#/components/responses/Error'
@@ -4451,6 +4461,8 @@ paths:
       summary: Update a company file
       externalDocs:
         url: https://www.bamboohr.com/api/documentation/employees.php#updateCompanyFile
+      parameters:
+      - $ref: '#/components/parameters/companyFileId'
       requestBody:
         required: true
         content:
@@ -4585,8 +4597,6 @@ paths:
                 $ref: '#/components/schemas/ListsMetadata'
 
   /v1/meta/lists/{id}:
-    parameters:
-    - $ref: '#/components/parameters/fieldId'
     post:
       tags:
       - Metadata
@@ -4594,6 +4604,8 @@ paths:
       summary: Add or update values for "list" fields in an account
       externalDocs:
         url: https://www.bamboohr.com/api/documentation/metadata.php#addLists
+      parameters:
+      - $ref: '#/components/parameters/fieldId'
       requestBody:
         required: true
         content:
@@ -4701,8 +4713,6 @@ paths:
                 $ref: '#/components/schemas/Users'
 
   /v1/reports/{id}?format=JSON:
-    parameters:
-    - $ref: '#/components/parameters/reportId'
     get:
       tags:
       - Employees
@@ -4719,6 +4729,7 @@ paths:
       externalDocs:
         url: https://www.bamboohr.com/api/documentation/employees.php#requestCompanyReport
       parameters:
+      - $ref: '#/components/parameters/reportId'
       - $ref: '#/components/parameters/filterDuplicates'
       responses:
         default:
@@ -4739,8 +4750,6 @@ paths:
           x-ms-error-response: true
 
   /v1/reports/{id}:
-    parameters:
-    - $ref: '#/components/parameters/reportId'
     get:
       tags:
       - Employees
@@ -4757,6 +4766,7 @@ paths:
       externalDocs:
         url: https://www.bamboohr.com/api/documentation/employees.php#requestCompanyReport
       parameters:
+      - $ref: '#/components/parameters/reportId'
       - $ref: '#/components/parameters/reportFormat'
       - $ref: '#/components/parameters/filterDuplicates'
       responses:
@@ -4893,8 +4903,6 @@ paths:
           description: Success
 
   /v1/time_off/requests/{id}/status/:
-    parameters:
-    - $ref: '#/components/parameters/timeOffRequestId'
     put:
       tags:
       - TimeOff
@@ -4909,6 +4917,8 @@ paths:
         approved or denied.
       externalDocs:
         url: https://www.bamboohr.com/api/documentation/time_off.php#changeRequest
+      parameters:
+      - $ref: '#/components/parameters/timeOffRequestId'
       requestBody:
         required: true
         content:
