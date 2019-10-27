@@ -1357,8 +1357,14 @@ components:
           type: string
           format: email
         birthday:
-          description: The employee's month and day of birth. To change birthday, update dateOfBirth field.
+          description: >-
+            The employee's month and day of birth. To change birthday, update
+            dateOfBirth field.
+
+            Is empty string if dateOfBirth is unspecified.
+          readOnly: true
           type: string
+          pattern: '^([01][0-9]-[0-3][0-9])?$'
         city:
           description: The employee's city.
           type: string
