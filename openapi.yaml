@@ -99,7 +99,14 @@ components:
     employeeFields:
       name: fields
       in: query
-      description: Employee fields to return in the response.
+      description: >-
+        Employee fields to return in the response.
+
+        Note: The id field is always returned.
+      # Note: the parameter is technically not required (getEmployee would
+      # return just the id or 404), but it would make the generated API easy to
+      # misuse.  Since the same response results from an empty array, make this
+      # property required to reduce misuse.
       required: true
       explode: false
       schema:
