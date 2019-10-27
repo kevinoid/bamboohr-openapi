@@ -1345,9 +1345,13 @@ components:
           description: The employee's second address line.
           type: string
         age:
-          description: The employee's age. To change age, update dateOfBirth field.
+          description: >-
+            The employee's age. To change age, update dateOfBirth field.
+
+            Has value -1 when dateOfBirth is unspecified.
+          readOnly: true
           type: integer
-          minimum: 0
+          minimum: -1
         bestEmail:
           description: The employee's work email if set, otherwise their home email.
           type: string
