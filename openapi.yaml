@@ -1005,12 +1005,6 @@ components:
         https://{company}.bamboohr.com/settings/list.php?id=3491
       type: string
 
-    EmployeeOvertimeExemptStatus:
-      type: string
-      enum:
-      - Exempt
-      - Non-exempt
-
     EmployeeStatus:
       type: string
       enum:
@@ -1059,6 +1053,12 @@ components:
       - Married
       - Common Law
       - Domestic Partnership
+
+    OvertimeExemptStatus:
+      type: string
+      enum:
+      - Exempt
+      - Non-exempt
 
     PayFrequency:
       type: string
@@ -1424,7 +1424,7 @@ components:
           description: The employee's FLSA Overtime Status
           nullable: true
           allOf:
-          - $ref: '#/components/schemas/EmployeeOvertimeExemptStatus'
+          - $ref: '#/components/schemas/OvertimeExemptStatus'
         firstName:
           description: The employee's first name.
           nullable: true
@@ -1437,7 +1437,7 @@ components:
             replaced-by: exempt
           nullable: true
           allOf:
-          - $ref: '#/components/schemas/EmployeeOvertimeExemptStatus'
+          - $ref: '#/components/schemas/OvertimeExemptStatus'
         fullName1:
           description: The employee's first and last name. (e.g., John Doe).
           readOnly: true
@@ -2079,7 +2079,7 @@ components:
         type:
           $ref: '#/components/schemas/PayType'
         exempt:
-          $ref: '#/components/schemas/EmployeeOvertimeExemptStatus'
+          $ref: '#/components/schemas/OvertimeExemptStatus'
         reason:
           $ref: '#/components/schemas/CompensationChangeReason'
         comment:
