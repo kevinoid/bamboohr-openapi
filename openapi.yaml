@@ -1005,12 +1005,6 @@ components:
         https://{company}.bamboohr.com/settings/list.php?id=3491
       type: string
 
-    EmployeeGender:
-      type: string
-      enum:
-      - Female
-      - Male
-
     EmployeeOvertimeExemptStatus:
       type: string
       enum:
@@ -1039,6 +1033,12 @@ components:
       - Native Hawaiian or Other Pacific Islander
       - Two or More Races
       - White
+
+    Gender:
+      type: string
+      enum:
+      - Female
+      - Male
 
     JobTitle:
       description: >-
@@ -1472,7 +1472,7 @@ components:
           description: The employee's gender.
           nullable: true
           allOf:
-          - $ref: '#/components/schemas/EmployeeGender'
+          - $ref: '#/components/schemas/Gender'
         hireDate:
           description: The date the employee was hired.
           type: string
@@ -2116,7 +2116,7 @@ components:
         gender:
           nullable: true
           allOf:
-          - $ref: '#/components/schemas/EmployeeGender'
+          - $ref: '#/components/schemas/Gender'
         addressLine1:
           type: string
           nullable: true
