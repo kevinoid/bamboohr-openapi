@@ -3345,6 +3345,25 @@ paths:
       - Employees
       operationId: getDirectory
       summary: Get a directory of employees
+      description: |-
+        Includes the following fields:
+        - canUploadPhoto
+        - department
+        - displayName
+        - division
+        - firstName
+        - gender
+        - jobTitle
+        - lastName
+        - linkedIn
+        - location
+        - mobilePhone
+        - photoUploaded
+        - photoUrl
+        - preferredName
+        - workEmail
+        - workPhone
+        - workPhoneExtension
       externalDocs:
         url: https://www.bamboohr.com/api/documentation/employees.php#getEmployeeDirectory
       responses:
