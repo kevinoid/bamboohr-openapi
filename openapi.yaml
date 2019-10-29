@@ -1148,6 +1148,27 @@ components:
       - Saskatchewan
       - Yukon
 
+    ProvinceName:
+      description: Canadian province names recognized by BambooHR.
+      type: string
+      x-ms-enum:
+        name: ProvinceName
+        modelAsString: true
+      enum:
+      - Alberta
+      - British Columbia
+      - Manitoba
+      - New Brunswick
+      - Newfoundland and Labrador
+      - Nova Scotia
+      - Northwest Territories
+      - Nunavut
+      - Ontario
+      - Prince Edward Island
+      - Quebec
+      - Saskatchewan
+      - Yukon
+
     SocialInsuranceNumber:
       description: Canadian Social Insurance number
       type: string
@@ -1229,6 +1250,73 @@ components:
       - WI
       - WY
       x-enum-descriptions:
+      - Alabama
+      - Alaska
+      - American Samoa
+      - Arizona
+      - Arkansas
+      - California
+      - Colorado
+      - Connecticut
+      - Delaware
+      - District of Columbia
+      - Federated States of Micronesia
+      - Florida
+      - Georgia
+      - Guam
+      - Hawaii
+      - Idaho
+      - Illinois
+      - Indiana
+      - Iowa
+      - Kansas
+      - Kentucky
+      - Louisiana
+      - Maine
+      - Marshall Islands
+      - Maryland
+      - Massachusetts
+      - Michigan
+      - Minnesota
+      - Mississippi
+      - Missouri
+      - Montana
+      - Nebraska
+      - Nevada
+      - New Hampshire
+      - New Jersey
+      - New Mexico
+      - New York
+      - North Carolina
+      - North Dakota
+      - Northern Mariana Islands
+      - Ohio
+      - Oklahoma
+      - Oregon
+      - Palau
+      - Pennsylvania
+      - Puerto Rico
+      - Rhode Island
+      - South Carolina
+      - South Dakota
+      - Tennessee
+      - Texas
+      - Utah
+      - Vermont
+      - Virgin Islands
+      - Virginia
+      - Washington
+      - West Virginia
+      - Wisconsin
+      - Wyoming
+
+    StateName:
+      description: State names recognized by BambooHR.
+      type: string
+      x-ms-enum:
+        name: StateName
+        modelAsString: true
+      enum:
       - Alabama
       - Alaska
       - American Samoa
@@ -1608,11 +1696,17 @@ components:
           - $ref: '#/components/schemas/SocialInsuranceNumber'
         state:
           description: >-
-            The employee's province code (if Canada) or state/province name
-            (if not Canada).
+            In responses from getEmployee:  The employee's state code (if USA),
+            province (if Canada), or state/province name.
+
+
+            In responses from getReport and getCustomReport: The employee's
+            state/province name.
           # TODO: Uncomment once OpenAPI Generator or Autorest support anyOf
           # https://github.com/OpenAPITools/openapi-generator/issues/15
           # anyOf:
+          # - $ref: '#/components/schemas/StateCode'
+          # - $ref: '#/components/schemas/StateName'
           # - $ref: '#/components/schemas/ProvinceCode'
           # - type: string
           type: string
@@ -4990,3 +5084,8 @@ x-suppress-warning:
 # Employee education table not currently exposed in the API.
 # Keep for future use
 - $ref: '#/components/schemas/AcademicDegree'
+# Not currently used for enforcement
+- $ref: '#/components/schemas/StateCode'
+- $ref: '#/components/schemas/StateName'
+- $ref: '#/components/schemas/ProvinceCode'
+- $ref: '#/components/schemas/ProvinceName'
