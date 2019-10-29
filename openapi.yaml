@@ -1838,7 +1838,11 @@ components:
           allOf:
           - $ref: '#/components/schemas/PayFrequency'
         canUploadPhoto:
-          description: The employee is permitted to upload a photo.
+          description: >-
+            The employee is permitted to upload a photo.
+
+            This field is only included in getDirectory responses.
+          readOnly: true
           type: boolean
         photoUploaded:
           description: The employee has uploaded a photo.
