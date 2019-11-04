@@ -312,6 +312,20 @@ components:
       - "no"
       - non-assessment
 
+    # Not yet observed in API responses.  Schema based on
+    # https://documentation.bamboohr.com/docs/planned-changes-to-the-api#section-20191001-acastatus-field-deprecation
+    AcaStatusCategory:
+      type: string
+      enum:
+      - contractor
+      - full-time
+      - intern-compensated
+      - intern-not-compensated
+      - part-time-eligible
+      - part-time-ineligible
+      - seasonal
+      - terminated
+
     ChangeType:
       type: string
       enum:
@@ -1770,12 +1784,21 @@ components:
         acaStatus:
           description: The employee's ACA (Affordable Care Act) Full-Time status.
           nullable: true
+          deprecated: true
+          x-deprecated:
+            description: >-
+              Use acaStatusCategory instead.
+
+              See https://documentation.bamboohr.com/docs/planned-changes-to-the-api#section-20191001-acastatus-field-deprecation
+            replaced-by: acaStatusCategory
           allOf:
           - $ref: '#/components/schemas/YesNoNonAssessment'
         acaStatusCategory:
           description: The employee's ACA (Affordable Care Act) status.
+          readOnly: true
           nullable: true
-          type: string
+          allOf:
+          - $ref: '#/components/schemas/AcaStatusCategory'
         standardHoursPerWeek:
           description: The number of hours the employee works in a standard week.
           type: integer
