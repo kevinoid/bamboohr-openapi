@@ -47,24 +47,87 @@ security:
 
 tags:
 - name: Changes
+  description: >-
+    The Last Changed API allows you to discover which employees have been
+    recently added, changed, or deleted. Any change to any field inside an
+    employee record will count as an update. Insert events are only recorded
+    when an employee record is first created. Delete events are only recorded
+    when an employee record is deleted.
+
+
+    **Note:** Last change timestamps are a newer feature in BambooHR. We
+    started recording these dates on June 5th, 2011. We do not have last
+    changed data for any changes that occurred before this date.
   externalDocs:
     url: https://www.bamboohr.com/api/documentation/changes.php
 - name: Employees
+  description: >-
+    Operations for adding and retrieving employee information, and associated
+    files.
   externalDocs:
     url: https://www.bamboohr.com/api/documentation/employees.php
 - name: Login
+  description: >-
+    Access control to the API is always controlled by an API key that
+    identifies a particular user. Usually, this API key is generated on the
+    website and then copied into your third party application. It is now
+    possible for registered applications to generate new API keys for each user
+    on the fly by making a special API request.
+
+    **Note:** Each application using this approach is required to provide an
+    application key to identify what application is requesting the API key. For
+    more information on obtaining application keys please contact
+    support@bamboohr.com.
+
+    **Note:** If you already have an API key, you do not need to use the Login
+    API.
   externalDocs:
     url: https://www.bamboohr.com/api/documentation/login.php
 - name: Metadata
+  description: >-
+    The Metadata API allows you to retrieve "data about data" for a given
+    BambooHR account. You can determine what fields a customer is using. You
+    can determine what options are available in a list. You can determine what
+    users are able to access the system.
+
+    Metadata is important because BambooHR is highly configurable. A given
+    customer's account may have drastically different settings from another
+    customer. Using this API, you can determine what values the account
+    supports.
+
+    Read only access to metadata does not require any special permissions. When
+    write access to metadata is supported then the user will need the
+    appropriate permissions to create new users, for example.
   externalDocs:
     url: https://www.bamboohr.com/api/documentation/metadata.php
 - name: Photos
+  description: >-
+    The Photos API allows you to retrieve employee photos. There is a standard
+    API-based mechanism for retrieving the photo binary data.
   externalDocs:
     url: https://www.bamboohr.com/api/documentation/photos.php
 - name: Tables
+  description: >-
+    Some data in the BambooHR system is stored as a two dimensional grid for
+    each employee. The tables API allows you to grab tabular data for the
+    various tables in BambooHR. For standard tables, a series of fields will be
+    outlined below. API support for custom tables will be added in a future
+    release.
   externalDocs:
     url: https://www.bamboohr.com/api/documentation/tables.php
 - name: TimeOff
+  description: >-
+    There are two primary entities when dealing with time off. The requests and
+    the history.
+
+    Requests represent a request from an employee to take time off. A request
+    needs to be approved before it will be recorded into the history. A user
+    with sufficient permissions can create a request and mark it approved at
+    the same time.
+
+    The history is log of all events that effect an employee's balance. The
+    current balance of time off is the sum of all events in the history. Time
+    off used decreases the total, while time off accruals increase it.
   externalDocs:
     url: https://www.bamboohr.com/api/documentation/time_off.php
 
