@@ -4479,7 +4479,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/ChangeList'
 
-  /v1/employees/photos:
+  /employees/photos/:
+    servers:
+    - url: https://{subdomain}.bamboohr.com
+      variables:
+        subdomain:
+          default: mycompany
+          description: >-
+            The subdomain used to access your account (If you access BambooHR at
+            https://mycompany.bamboohr.com, then the subdomain is "mycompany")
     get:
       tags:
       - Photos
