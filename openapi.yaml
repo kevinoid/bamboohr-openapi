@@ -1122,8 +1122,17 @@ components:
     PhotoSize:
       type: string
       enum:
+      - original
+      - large
+      - medium
       - small
       - tiny
+      x-enum-descriptions:
+      - Original size
+      - 340x340
+      - 170x170
+      - 150x150
+      - 20x20
 
     ProvinceCode:
       description: >-
