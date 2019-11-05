@@ -4517,7 +4517,7 @@ paths:
                 type: string
                 format: binary
         '301':
-          description: Success
+          description: Employee does not have a photo.
           headers:
             location:
               description: Redirect to a blank employee photo.
