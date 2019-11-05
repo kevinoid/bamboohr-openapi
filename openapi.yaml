@@ -3715,6 +3715,12 @@ paths:
       - Photos
       operationId: uploadEmployeePhoto
       summary: Upload an employee photo
+      description: >-
+        Uploaded image must be square and at least 150x150.
+
+        Content-Type header of file part is currently ignored and type is
+        determined from file content.  BMP, GIF, JPEG, PNG, and TIFF are
+        supported.  SVG is not.
       externalDocs:
         url: https://www.bamboohr.com/api/documentation/photos.php#postPhoto
       parameters:
@@ -3725,6 +3731,14 @@ paths:
           multipart/form-data:
             schema:
               $ref: '#/components/schemas/UploadPhotoRequest'
+            encoding:
+              file:
+                contentType: >-
+                  image/bmp,
+                  image/gif,
+                  image/jpeg,
+                  image/png,
+                  image/tiff
       responses:
         default:
           $ref: '#/components/responses/Error'
@@ -3761,6 +3775,10 @@ paths:
       - Photos
       operationId: downloadEmployeePhoto
       summary: Get an employee photo
+      description: >-
+        Response Content-Type header is always image/jpeg, but the actual
+        response content type matches the uploaded format, which may not be
+        JPEG.
       externalDocs:
         url: https://www.bamboohr.com/api/documentation/photos.php#getPhoto
       parameters:
@@ -4467,6 +4485,13 @@ paths:
       - Photos
       operationId: downloadEmployeePhotoByHash
       summary: Get an employee photo by email hash
+      description: >-
+        The image size is medium (170x170).
+
+
+        Response Content-Type header is always image/jpeg, but the actual
+        response content type matches the uploaded format, which may not be
+        JPEG.
       externalDocs:
         url: https://www.bamboohr.com/api/documentation/photos.php#useBambooServer
       security: []
