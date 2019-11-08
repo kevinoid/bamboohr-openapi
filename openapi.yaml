@@ -1987,17 +1987,6 @@ components:
       required:
       - id
 
-    AddEmployeeRequest:
-      type: object
-      properties:
-        firstName:
-          type: string
-        lastName:
-          type: string
-      required:
-      - firstName
-      - lastName
-
     EmployeeDirectory:
       type: object
       properties:
@@ -3417,6 +3406,7 @@ paths:
       - Employees
       operationId: addEmployee
       summary: Add an employee
+      description: firstName and lastName fields are required.
       externalDocs:
         url: https://www.bamboohr.com/api/documentation/employees.php#addEmployee
       requestBody:
@@ -3424,7 +3414,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AddEmployeeRequest'
+              $ref: '#/components/schemas/Employee'
       responses:
         default:
           $ref: '#/components/responses/Error'
