@@ -46,6 +46,34 @@ security:
 - apiKey: []
 
 tags:
+- name: Benefits
+  description: >-
+    There are two primary entities when dealing with benefits: Benefit Plans
+    and Benefit Groups.
+
+
+    Benefit Plans define the Type (medical, dental, etc.), Coverage options
+    (employee, employee + spouse, etc.), and Total Monthly Costs (i.e. the
+    premium). Each plan will also show when it went into effect and when it is
+    set to expire. Plans must be configured before you can create Benefit
+    Groups.
+
+
+    Benefit Groups allow you to create a customizable benefit package for
+    specific employee groupings. For example, you may want to have a Benefit
+    Group for all of your full time employees for which you include a Medical,
+    Dental, Vision, and 401K plan. You could then have a separate Benefit Group
+    for your part time employees which allows for Medical only. Plan
+    eligibility rules and group-specific employee pays and company pays amounts
+    are set in benefit groups (with the exception of plans where pays
+    information is set at the employee level).
+
+    In addition to getting benefit information through the API, you can also
+    get employee deductions for a given plan and define the dependents
+    associated with your employees. You cannot currently enroll employees or
+    change benefit status through the API.
+  externalDocs:
+    url: https://www.bamboohr.com/api/documentation/benefits.php
 - name: Changes
   description: >-
     The Last Changed API allows you to discover which employees have been
@@ -145,6 +173,62 @@ components:
       scheme: basic
 
   parameters:
+    benefitCoverageId:
+      name: id
+      in: path
+      description: Benefit Coverage ID
+      required: true
+      schema:
+        type: integer
+        minimum: 1
+    benefitGroupEmployeeId:
+      name: id
+      in: path
+      description: Benefit Group Employee ID
+      required: true
+      schema:
+        type: integer
+        minimum: 1
+    benefitGroupId:
+      name: id
+      in: path
+      description: Benefit Group ID
+      required: true
+      schema:
+        type: integer
+        minimum: 1
+    benefitGroupPlanCostId:
+      name: id
+      in: path
+      description: Benefit Group Plan Cost ID
+      required: true
+      schema:
+        type: integer
+        minimum: 1
+    benefitGroupPlanId:
+      name: id
+      in: path
+      description: Benefit Group Plan ID
+      required: true
+      schema:
+        type: integer
+        minimum: 1
+    benefitPlanCoverageId:
+      name: id
+      in: path
+      description: Benefit Plan Coverage ID
+      required: true
+      schema:
+        type: integer
+        minimum: 1
+    benefitPlanId:
+      name: id
+      in: path
+      description: Benefit Plan ID
+      required: true
+      schema:
+        type: integer
+        minimum: 1
     changeType:
       name: type
       in: query
@@ -155,6 +239,14 @@ components:
       name: fileId
       in: path
       description: ID of a company file
+      required: true
+      schema:
+        type: integer
+        minimum: 1
+    dependentId:
+      name: id
+      in: path
+      description: Dependent ID
       required: true
       schema:
         type: integer
@@ -189,6 +281,13 @@ components:
       in: path
       description: Employee ID
       required: true
+      schema:
+        type: integer
+        minimum: 1
+    employeeIdFilter:
+      name: employeeid
+      in: query
+      description: Limit response to a given Employee ID
       schema:
         type: integer
         minimum: 1
@@ -367,6 +466,13 @@ components:
       enum:
       - "yes"
       - "no"
+
+    YesNoDoesNotApply:
+      type: string
+      enum:
+      - "yes"
+      - "no"
+      - does not apply
 
     YesNoNonAssessment:
       type: string
@@ -782,6 +888,7 @@ components:
     Country:
       description: Countries recognized by BambooHR
       type: string
+      # Note: Order and count must match CountryCode
       enum:
       - Afghanistan
       - Albania
@@ -1038,6 +1145,276 @@ components:
       - Zambia
       - Zimbabwe
 
+    CountryCode:
+      description: |-
+        2-letter country codes recognized by BambooHR.
+
+        Based on ISO 3166-2, with some previously removed entries:
+        - AN for Netherlands Antilles
+        - FX for France, Metropolitan
+        - YU for Yugoslavia
+        - ZR for Zaire
+
+        And some non-standard additions:
+        - XK for Kosovo
+      type: string
+      # Note: Order and count must match Country
+      enum:
+      - AF
+      - AL
+      - DZ
+      - AS
+      - AD
+      - AO
+      - AI
+      - AQ
+      - AG
+      - AR
+      - AM
+      - AW
+      - AU
+      - AT
+      - AZ
+      - AX
+      - BS
+      - BH
+      - BD
+      - BB
+      - BY
+      - BE
+      - BZ
+      - BJ
+      - BM
+      - BT
+      - BO
+      - BQ
+      - BA
+      - BW
+      - BV
+      - BR
+      - IO
+      - BN
+      - BG
+      - BF
+      - BI
+      - KH
+      - CM
+      - CA
+      - CV
+      - KY
+      - CF
+      - TD
+      - CL
+      - CN
+      - CX
+      - CC
+      - CO
+      - KM
+      - CG
+      - CD
+      - CK
+      - CR
+      - CI
+      - HR
+      - CU
+      - CW
+      - CY
+      - CZ
+      - DK
+      - DJ
+      - DM
+      - DO
+      - TL
+      - EC
+      - EG
+      - SV
+      - GQ
+      - ER
+      - EE
+      - ET
+      - FK
+      - FO
+      - FJ
+      - FI
+      - FR
+      - FX
+      - GF
+      - PF
+      - TF
+      - MF
+      - GA
+      - GM
+      - GE
+      - DE
+      - GH
+      - GI
+      - GR
+      - GL
+      - GD
+      - GP
+      - GU
+      - GT
+      - GG
+      - GN
+      - GW
+      - GY
+      - HT
+      - HM
+      - HN
+      - HK
+      - HU
+      - IS
+      - IN
+      - ID
+      - IR
+      - IQ
+      - IE
+      - IM
+      - IL
+      - IT
+      - JM
+      - JP
+      - JE
+      - JO
+      - KZ
+      - KE
+      - KI
+      - KP
+      - KR
+      - XK
+      - KW
+      - KG
+      - LA
+      - LV
+      - LB
+      - LS
+      - LR
+      - LY
+      - LI
+      - LT
+      - LU
+      - MO
+      - MK
+      - MG
+      - MW
+      - MY
+      - MV
+      - ML
+      - MT
+      - MH
+      - MQ
+      - MR
+      - MU
+      - YT
+      - MX
+      - FM
+      - MD
+      - MC
+      - MN
+      - ME
+      - MS
+      - MA
+      - MZ
+      - MM
+      - NA
+      - NR
+      - NP
+      - NL
+      - AN
+      - NC
+      - NZ
+      - NI
+      - NE
+      - NG
+      - NU
+      - NF
+      - MP
+      - 'NO'
+      - OM
+      - PK
+      - PW
+      - PS
+      - PA
+      - PG
+      - PY
+      - PE
+      - PH
+      - PN
+      - PL
+      - PT
+      - PR
+      - QA
+      - RE
+      - RO
+      - RU
+      - RW
+      - BL
+      - KN
+      - LC
+      - VC
+      - WS
+      - SM
+      - ST
+      - SA
+      - SN
+      - RS
+      - SC
+      - SL
+      - SG
+      - SX
+      - SK
+      - SI
+      - SB
+      - SO
+      - ZA
+      - GS
+      - SS
+      - ES
+      - LK
+      - SH
+      - PM
+      - SD
+      - SR
+      - SJ
+      - SZ
+      - SE
+      - CH
+      - SY
+      - TW
+      - TJ
+      - TZ
+      - TH
+      - TG
+      - TK
+      - TO
+      - TT
+      - TN
+      - TR
+      - TM
+      - TC
+      - TV
+      - UG
+      - UA
+      - AE
+      - GB
+      - US
+      - UY
+      - UM
+      - UZ
+      - VU
+      - VA
+      - VE
+      - VN
+      - VG
+      - VI
+      - WF
+      - EH
+      - YE
+      - YU
+      - ZR
+      - ZM
+      - ZW
+
     Department:
       description: >-
         Department, as defined in Employee Fields Settings
@@ -1154,6 +1531,18 @@ components:
         https://{company}.bamboohr.com/settings/list.php?id=pay_group
       type: string
 
+    PayGroupPayFrequency:
+      type: string
+      enum:
+      - daily
+      - weekly
+      - bi-weekly
+      - semi-monthly
+      - monthly
+      - quarterly
+      - semi-annually
+      - annually
+
     PayPer:
       type: string
       enum:
@@ -1254,6 +1643,15 @@ components:
       - Quebec
       - Saskatchewan
       - Yukon
+
+    ReimbursementFrequency:
+      type: string
+      enum:
+      - pay period
+      - month
+      - quarter
+      - year
+      - one time
 
     SocialInsuranceNumber:
       description: Canadian Social Insurance number
@@ -3355,6 +3753,619 @@ components:
       - userId
       - key
 
+    BenefitCoverageType:
+      type: string
+      enum:
+      - Employee + Family
+
+    BenefitGroupPlanEligibility:
+      type: string
+      enum:
+      - hire_date
+      - manual
+      - month_after_waiting_period
+      - waiting_period
+
+    BenefitGroupPlanWaitPeriodType:
+      type: string
+      enum:
+      - days
+      - weeks
+      - months
+      - years
+
+    BenefitPayType:
+      type: string
+      enum:
+      - Currency
+      - Percent
+
+    BenefitTypeName:
+      type: string
+      enum:
+      - dental
+      - disability
+      - flex
+      - health
+      - hsa
+      - life
+      - other
+      - reimbursement
+      - retirement
+      - supplemental
+      - variable
+      - vision
+
+    BenefitCoverage:
+      type: object
+      properties:
+        id:
+          type: string
+          format: integer
+          minimum: 1
+          readOnly: true
+        shortName:
+          type: string
+        description:
+          type: string
+          nullable: true
+        sortOrder:
+          type: string
+          format: integer
+          minimum: 1
+        benefitPlanId:
+          type: string
+          nullable: true
+          format: integer
+          minimum: 1
+      required:
+      - id
+      - shortName
+      - description
+      - sortOrder
+      - benefitPlanId
+
+    BenefitCoverages:
+      type: object
+      properties:
+        Benefit Coverages:
+          type: array
+          items:
+            $ref: '#/components/schemas/BenefitCoverage'
+      required:
+      - Benefit Coverages
+
+    BenefitGroup:
+      type: object
+      properties:
+        id:
+          type: string
+          format: integer
+          minimum: 1
+          readOnly: true
+        name:
+          type: string
+        payPeriod:
+          $ref: '#/components/schemas/PayGroupPayFrequency'
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+          nullable: true
+        archived:
+          type: boolean
+
+    BenefitGroups:
+      type: object
+      properties:
+        Benefit Groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/BenefitGroup'
+      required:
+      - Benefit Groups
+
+    BenefitGroupEmployee:
+      type: object
+      properties:
+        id:
+          type: string
+          format: integer
+          minimum: 1
+          readOnly: true
+        benefitGroupId:
+          type: string
+          format: integer
+          minimum: 1
+        employeeId:
+          type: string
+          format: integer
+          minimum: 1
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+          nullable: true
+        archived:
+          type: boolean
+      required:
+      - benefitGroupId
+      - employeeId
+      - startDate
+
+    BenefitGroupEmployees:
+      type: object
+      properties:
+        Benefit Group Employees:
+          type: array
+          items:
+            $ref: '#/components/schemas/BenefitGroupEmployee'
+      required:
+      - Benefit Group Employees
+
+    BenefitGroupPlan:
+      type: object
+      properties:
+        id:
+          type: string
+          format: integer
+          minimum: 1
+          readOnly: true
+        benefitGroupId:
+          type: string
+          format: integer
+          minimum: 1
+        benefitPlanId:
+          type: string
+          format: integer
+          minimum: 1
+        eligibility:
+          $ref: '#/components/schemas/BenefitGroupPlanEligibility'
+        waitPeriod:
+          type: string
+          format: integer
+          minimum: 0
+        waitPeriodType:
+          $ref: '#/components/schemas/BenefitGroupPlanWaitPeriodType'
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+          nullable: true
+        archived:
+          type: boolean
+      required:
+      - benefitGroupId
+      - benefitPlanId
+      - startDate
+
+    BenefitGroupPlans:
+      type: object
+      properties:
+        Benefit Group Plans:
+          type: array
+          items:
+            $ref: '#/components/schemas/BenefitGroupPlan'
+      required:
+      - Benefit Group Plans
+
+    BenefitGroupPlanCost:
+      type: object
+      properties:
+        id:
+          type: string
+          format: integer
+          minimum: 1
+          readOnly: true
+        benefitGroupPlanId:
+          type: string
+          format: integer
+          minimum: 1
+        benefitPlanCoverageId:
+          type: string
+          format: integer
+          minimum: 1
+        employeeCost:
+          type: string
+          format: decimal
+          minimum: 0
+        companyCost:
+          type: string
+          format: decimal
+          minimum: 0
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+          nullable: true
+        archived:
+          type: boolean
+      required:
+      - benefitGroupPlanId
+      - benefitPlanCoverageId
+      - startDate
+
+    BenefitGroupPlanCosts:
+      type: object
+      properties:
+        Benefit Group Plan Costs:
+          type: array
+          items:
+            $ref: '#/components/schemas/BenefitGroupPlanCost'
+      required:
+      - Benefit Group Plan Costs
+
+    BenefitPlanCoverage:
+      type: object
+      properties:
+        id:
+          type: string
+          format: integer
+          minimum: 1
+          readOnly: true
+        benefitPlanId:
+          type: string
+          format: integer
+          minimum: 1
+        benefitCoverageId:
+          type: string
+          format: integer
+          minimum: 1
+        totalCost:
+          format: string
+          type: number
+          minimum: 0
+        currencyType:
+          $ref: '#/components/schemas/CurrencyCode'
+        startYmd:
+          type: string
+          format: date
+        endYmd:
+          type: string
+          format: date
+        archived:
+          type: boolean
+
+    BenefitPlanCoverages:
+      type: object
+      properties:
+        Benefit Plans Coverages:
+          type: array
+          items:
+            $ref: '#/components/schemas/BenefitPlanCoverage'
+      required:
+      - Benefit Plans Coverages
+
+    BenefitPlan:
+      type: object
+      properties:
+        id:
+          type: string
+          format: integer
+          minimum: 1
+        name:
+          type: string
+        type:
+          $ref: '#/components/schemas/BenefitTypeName'
+        deductionTypeId:
+          type: string
+          nullable: true
+          format: integer
+          minimum: 1
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          nullable: true
+          format: date
+        url:
+          type: string
+          nullable: true
+          format: url
+        meetAcaMin:
+          nullable: true
+          allOf:
+          - $ref: '#/components/schemas/YesNoDoesNotApply'
+        description:
+          type: string
+          nullable: true
+        archived:
+          type: boolean
+        reimbursementAmount:
+          type: number
+        reimbursementFrequency:
+          $ref: '#/components/schemas/ReimbursementFrequency'
+
+    BenefitPlans:
+      type: object
+      properties:
+        Benefit Plans:
+          type: array
+          items:
+            $ref: '#/components/schemas/BenefitPlan'
+      required:
+      - Benefit Plans
+
+    DeductionType:
+      type: object
+      properties:
+        id:
+          anyOf:
+          # TODO: Replace with const once supported by OpenAPI
+          # https://github.com/OAI/OpenAPI-Specification/issues/1313
+          # https://github.com/OAI/OpenAPI-Specification/issues/1666
+          - type: string
+            enum:
+            - pretax_subtype
+          - type: integer
+            minimum: 1
+        deductionTypeName:
+          type: string
+        defaultDeductionCode:
+          type: string
+        allowableBenefitTypes:
+          type: array
+          items:
+            $ref: '#/components/schemas/BenefitTypeName'
+        nonBenefitDeductionType:
+          type: boolean
+        canBeCollectedByTrax:
+          type: boolean
+        additionalDescription:
+          type: string
+        hideAnnualMax:
+          type: boolean
+      required:
+      - id
+      - deductionTypeName
+      - defaultDeductionCode
+      - allowableBenefitTypes
+      - nonBenefitDeductionType
+      - canBeCollectedByTrax
+      - additionalDescription
+      - hideAnnualMax
+
+    BenefitDeduction:
+      type: object
+      properties:
+        benefitPlanId:
+          type: string
+          format: integer
+          minimum: 1
+        benefitPlanName:
+          type: string
+        employeePays:
+          type: string
+          format: decimal
+          minimum: 0
+        companyPays:
+          type: string
+          format: decimal
+          minimum: 0
+        employeePaysType:
+          $ref: '#/components/schemas/BenefitPayType'
+        companyPaysType:
+          $ref: '#/components/schemas/BenefitPayType'
+        currencyCode:
+          $ref: '#/components/schemas/CurrencyCode'
+      required:
+      - benefitPlanId
+      - benefitPlanName
+      - employeePays
+      - companyPays
+      - employeePaysType
+      - companyPaysType
+      - currencyCode
+
+    EmployeeBenefitDeduction:
+      allOf:
+      - $ref: '#/components/schemas/BenefitDeduction'
+      - type: object
+        properties:
+          employeeId:
+            type: integer
+            minimum: 1
+          employeeNumber:
+            type: string
+          employeeName:
+            type: string
+          deductionFrequency:
+            # FIXME: Is this PayFrequency or PayGroupPayFrequency?
+            $ref: '#/components/schemas/PayGroupPayFrequency'
+          coverage:
+            # FIXME: What type is this?  Always null in examples.
+            type: string
+            nullable: true
+        required:
+        - employeeId
+        - employeeNumber
+        - employeeName
+        - deductionFrequency
+        - coverage
+
+    EmployeeBenefitDeductions:
+      type: object
+      properties:
+        employeeBenefitDeductions:
+          type: array
+          items:
+            $ref: '#/components/schemas/EmployeeBenefitDeductions'
+      required:
+      - employeeBenefitDeductions
+
+    PayrollDeduction:
+      allOf:
+      - $ref: '#/components/schemas/BenefitDeduction'
+      - type: object
+        properties:
+          effectiveDate:
+            type: string
+            # FIXME: Examples have MM/DD/YYYY
+            format: date
+          coverageType:
+            nullable: true
+            allOf:
+            - $ref: '#/components/schemas/BenefitCoverageType'
+        required:
+        - effectiveDate
+        - coverageType
+
+    PayrollDeductions:
+      type: object
+      properties:
+        employeeId:
+          type: integer
+          minimum: 1
+        payFrequency:
+          $ref: '#/components/schemas/PayFrequency'
+        deductions:
+          type: array
+          items:
+            $ref: '#/components/schemas/PayrollDeduction'
+      required:
+      - employeeId
+      - payFrequency
+      - deductions
+
+    PayrollDeductionsWrapper:
+      type: object
+      properties:
+        payrollDeductions:
+          type: array
+          items:
+            $ref: '#/components/schemas/PayrollDeductions'
+      required:
+      - payrollDeductions
+
+    EmployeeDependent:
+      type: object
+      # FIXME: properties are attributes in responses, elements in requests
+      properties:
+        id:
+          type: string
+          format: integer
+          minimum: 1
+          readOnly: true
+        employeeId:
+          type: string
+          format: integer
+          minimum: 1
+        firstName:
+          type: string
+        middleName:
+          type: string
+          nullable: true
+        lastName:
+          type: string
+        relationship:
+          nullable: true
+          allOf:
+          - $ref: '#/components/schemas/DependentRelationship'
+        gender:
+          nullable: true
+          allOf:
+          - $ref: '#/components/schemas/Gender'
+        maskedSSN:
+          type: string
+          nullable: true
+          format: ssn
+          pattern: '^x{3}-x{2}-[0-9]{4}$'
+        maskedSIN:
+          type: string
+          nullable: true
+          format: sin
+          pattern: '^x{3}-x{3}-[0-9]{3}$'
+        dateOfBirth:
+          type: string
+          nullable: true
+          format: date
+        addressLine1:
+          type: string
+          nullable: true
+        addressLine2:
+          type: string
+          nullable: true
+        city:
+          type: string
+          nullable: true
+        state:
+          description: >-
+            In responses, State/Province name, or `false` if not specified.
+
+            In request body, State/Province code.
+          anyOf:
+          - type: boolean
+            enum:
+            - false
+          # - $ref: '#/components/schemas/ProvinceCode'
+          # - $ref: '#/components/schemas/StateCode'
+          # - $ref: '#/components/schemas/ProvinceName'
+          # - $ref: '#/components/schemas/StateName'
+          - type: string
+        zipCode:
+          type: string
+          nullable: true
+        homePhone:
+          nullable: true
+          type: string
+        country:
+          description: >-
+            In responses, the country name.
+
+            In requests, 2-character ISO country code.
+          nullable: true
+          anyOf:
+          - $ref: '#/components/schemas/Country'
+          - $ref: '#/components/schemas/CountryCode'
+        isUsCitizen:
+          nullable: true
+          allOf:
+          - $ref: '#/components/schemas/YesNo'
+        isStudent:
+          nullable: true
+          allOf:
+          - $ref: '#/components/schemas/YesNo'
+      required:
+      - employeeId
+      # Always present in responses, not required in requests:
+      # - id
+      # - firstName
+      # - middleName
+      # - lastName
+      # - relationship
+      # - gender
+      # - maskedSSN
+      # - maskedSIN
+      # - dateOfBirth
+      # - addressLine1
+      # - addressLine2
+      # - city
+      # - state
+      # - zipCode
+      # - homePhone
+      # - country
+      # - isUsCitizen
+      # - isStudent
+
+    EmployeeDependents:
+      type: object
+      properties:
+        Employee Dependents:
+          type: array
+          items:
+            $ref: '#/components/schemas/EmployeeDependent'
+      required:
+      - Employee Dependents
+
   responses:
     Error:
       description: Error
@@ -3400,6 +4411,732 @@ components:
             format: binary
 
 paths:
+  /v1/benefitgroupemployees/:
+    get:
+      tags:
+      - Benefits
+      operationId: getBenefitGroupEmployees
+      summary: Get benefit group employees
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/benefits.php#getBenefitGroupEmployees
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BenefitGroupEmployees'
+    post:
+      tags:
+      - Benefits
+      operationId: addBenefitGroupEmployees
+      summary: Add a benefit group employee
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/benefits.php#addBenefitGroupEmployees
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BenefitGroupEmployee'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BenefitGroupEmployees'
+
+  /v1/benefitgroupemployees/{id}:
+    get:
+      tags:
+      - Benefits
+      operationId: getBenefitGroupEmployee
+      summary: Get benefit group employee
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/benefits.php#getBenefitGroupEmployees
+      parameters:
+      - $ref: '#/components/parameters/benefitGroupEmployeeId'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BenefitGroupEmployees'
+
+  /v1/benefitgroupplancosts/:
+    get:
+      tags:
+      - Benefits
+      operationId: getBenefitGroupPlanCosts
+      summary: Get benefit group plan costs
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/benefits.php#getBenefitGroupPlanCost
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BenefitGroupPlanCosts'
+    post:
+      tags:
+      - Benefits
+      operationId: addBenefitGroupPlanCost
+      summary: Add a benefit group plan cost
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/benefits.php#addBenefitGroupPlanCost
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BenefitGroupPlanCost'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BenefitGroupPlanCosts'
+        '403':
+          description: >-
+            User doesn't have access to add the benefit group plan cost.
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+          x-ms-error-response: true
+
+  /v1/benefitgroupplancosts/{id}:
+    get:
+      tags:
+      - Benefits
+      operationId: getBenefitGroupPlanCost
+      summary: Get benefit group plan cost
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/benefits.php#getBenefitGroupPlanCost
+      parameters:
+      - $ref: '#/components/parameters/benefitGroupPlanCostId'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BenefitGroupPlanCosts'
+
+  /v1/benefitgroupplans/:
+    get:
+      tags:
+      - Benefits
+      operationId: getBenefitGroupPlans
+      summary: Get benefit group plans
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/benefits.php#getBenefitGroupPlan
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BenefitGroupPlans'
+    post:
+      tags:
+      - Benefits
+      operationId: addBenefitGroupPlan
+      summary: Add a benefit group plan
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/benefits.php#addBenefitGroupPlan
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BenefitGroupPlan'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BenefitGroupPlans'
+        '403':
+          description: >-
+            User doesn't have access to add the benefit group plan.
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+          x-ms-error-response: true
+
+  /v1/benefitgroupplans/{id}:
+    get:
+      tags:
+      - Benefits
+      operationId: getBenefitGroupPlan
+      summary: Get benefit group plan
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/benefits.php#getBenefitGroupPlan
+      parameters:
+      - $ref: '#/components/parameters/benefitGroupPlanId'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BenefitGroupPlans'
+
+  /v1/benefitgroups/:
+    get:
+      tags:
+      - Benefits
+      operationId: getBenefitGroups
+      summary: Get benefit groups
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/benefits.php#getBenefitGroup
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BenefitGroups'
+    post:
+      tags:
+      - Benefits
+      operationId: addBenefitGroup
+      summary: Add a benefit group
+      description: >-
+        name and startDate are required.
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/benefits.php#addBenefitGroup
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BenefitGroup'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BenefitGroups'
+        '403':
+          description: >-
+            Current user doesn't have access to add the benefit group.
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+          x-ms-error-response: true
+
+  /v1/benefitgroups/{id}:
+    get:
+      tags:
+      - Benefits
+      operationId: getBenefitGroup
+      summary: Get benefit group
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/benefits.php#getBenefitGroup
+      parameters:
+      - $ref: '#/components/parameters/benefitGroupId'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BenefitGroups'
+    put:
+      tags:
+      - Benefits
+      operationId: changeBenefitGroup
+      summary: Change a benefit group
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/benefits.php#changeBenefitGroup
+      parameters:
+      - $ref: '#/components/parameters/benefitGroupId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BenefitGroup'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BenefitGroups'
+        '403':
+          description: >-
+            Current user doesn't have access to change the benefit group in
+            this way.
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+          x-ms-error-response: true
+
+  /v1/benefitplancoverages/:
+    get:
+      tags:
+      - Benefits
+      operationId: getBenefitPlanCoverages
+      summary: Get benefit plan coverages
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/benefits.php#getBenefitPlanCoverage
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BenefitPlanCoverages'
+    post:
+      tags:
+      - Benefits
+      operationId: addBenefitPlanCoverage
+      summary: Add a benefit plan coverage
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/benefits.php#addBenefitPlanCoverage
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BenefitPlanCoverage'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BenefitPlanCoverages'
+        '403':
+          description: >-
+            Current user doesn't have access to add the benefit plan coverage.
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+          x-ms-error-response: true
+
+  /v1/benefitplancoverages/{id}:
+    get:
+      tags:
+      - Benefits
+      operationId: getBenefitPlanCoverage
+      summary: Get benefit plan coverage
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/benefits.php#getBenefitPlanCoverage
+      parameters:
+      - $ref: '#/components/parameters/benefitPlanCoverageId'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BenefitPlanCoverages'
+    put:
+      tags:
+      - Benefits
+      operationId: changeBenefitPlanCoverage
+      summary: Change a benefit plan coverage
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/benefits.php#changeBenefitPlanCoverage
+      parameters:
+      - $ref: '#/components/parameters/benefitPlanCoverageId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BenefitPlanCoverage'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BenefitPlanCoverages'
+        '403':
+          description: >-
+            Current user doesn't have access to change the benefit plan
+            coverage in this way.
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+          x-ms-error-response: true
+
+  /v1/benefitplans/:
+    get:
+      tags:
+      - Benefits
+      operationId: getBenefitPlans
+      summary: Get benefit plans
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/benefits.php#getBenefitPlan
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BenefitPlans'
+    post:
+      tags:
+      - Benefits
+      operationId: addBenefitPlan
+      summary: Add a benefit plan
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/benefits.php#addBenefitPlan
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BenefitPlan'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BenefitPlans'
+        '403':
+          description: >-
+            Current user doesn't have access to add the benefit plan.
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+          x-ms-error-response: true
+
+  /v1/benefitplans/{id}:
+    get:
+      tags:
+      - Benefits
+      operationId: getBenefitPlan
+      summary: Get benefit plan
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/benefits.php#getBenefitPlan
+      parameters:
+      - $ref: '#/components/parameters/benefitPlanId'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BenefitPlans'
+    put:
+      tags:
+      - Benefits
+      operationId: changeBenefitPlan
+      summary: Change a benefit plan
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/benefits.php#changeBenefitPlan
+      parameters:
+      - $ref: '#/components/parameters/benefitPlanId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BenefitPlan'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BenefitPlans'
+        '403':
+          description: >-
+            Current user doesn't have access to change the benefit plan in
+            this way.
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+          x-ms-error-response: true
+
+  /v1/benefits/settings/deduction_types/all:
+    get:
+      tags:
+      - Benefits
+      operationId: getDedutionTypes
+      summary: Get benefit deduction types
+      description: >-
+        The owner of the API key used must have access to benefit settings.
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/benefits.php#getDedutionTypes
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DeductionType'
+
+  /v1/benefitcoverages/:
+    get:
+      tags:
+      - Benefits
+      operationId: getCoverages
+      summary: Get benefit coverages
+      description: >-
+        The owner of the API key used must have access to benefit settings.
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/benefits.php#getCoverages
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BenefitCoverages'
+
+  /v1/benefitcoverages/{id}:
+    get:
+      tags:
+      - Benefits
+      operationId: getCoverage
+      summary: Get benefit coverage
+      description: >-
+        The owner of the API key used must have access to benefit settings.
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/benefits.php#getCoverages
+      parameters:
+      - $ref: '#/components/parameters/benefitCoverageId'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BenefitCoverages'
+
+  /v1/employee/deductions/{id}:
+    get:
+      tags:
+      - Benefits
+      operationId: getEmployeeDeductions
+      summary: Get employee deductions by benefit plan
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/benefits.php#getEmployeeDeductions
+      parameters:
+      - $ref: '#/components/parameters/benefitPlanId'
+      - $ref: '#/components/parameters/employeeIdFilter'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeBenefitDeductions'
+
+  /v1/employee/plans/{id}:
+    get:
+      tags:
+      - Benefits
+      operationId: getEmployeePlans
+      summary: Get plan deductions by employee
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/benefits.php#getEmployeePlans
+      parameters:
+      - $ref: '#/components/parameters/employeeId'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeBenefitDeductions'
+
+  /v1/employeedependents/:
+    get:
+      tags:
+      - Benefits
+      operationId: getEmployeeDependents
+      summary: Get employee dependents
+      description: >-
+        The owner of the API key used must have access to benefit settings.
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/benefits.php#getEmployeeDependent
+      parameters:
+      - $ref: '#/components/parameters/employeeIdFilter'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeDependents'
+    post:
+      tags:
+      - Benefits
+      operationId: addEmployeeDependent
+      summary: Add an employee dependent
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/benefits.php#addEmployeeDependent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmployeeDependent'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeDependents'
+        '403':
+          description: >-
+            Current user doesn't have access to add a dependent.
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+          x-ms-error-response: true
+
+  /v1/employeedependents/{id}:
+    get:
+      tags:
+      - Benefits
+      operationId: getEmployeeDependent
+      summary: Get an employee dependent
+      description: >-
+        The owner of the API key used must have access to benefit settings.
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/benefits.php#getEmployeeDependent
+      parameters:
+      - $ref: '#/components/parameters/dependentId'
+      - $ref: '#/components/parameters/employeeIdFilter'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeDependents'
+    put:
+      tags:
+      - Benefits
+      operationId: changeEmployeeDependent
+      summary: Change an employee dependent
+      description: >-
+        The owner of the API key used must have access to benefit settings.
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/benefits.php#changeEmployeeDependent
+      parameters:
+      - $ref: '#/components/parameters/dependentId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmployeeDependent'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeDependents'
+        '403':
+          description: >-
+            Current user doesn't have access to change the dependent in the
+            requested way.
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+          x-ms-error-response: true
+
   /v1/employees/:
     post:
       tags:
@@ -4972,6 +6709,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Users'
+
+  /v1/payroll/deductions/{id}:
+    get:
+      tags:
+      - Benefits
+      operationId: getDeductionsForEmployee
+      summary: Get benefit deductions for employee
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/benefits.php#getDeductionsForEmployee
+      parameters:
+      - $ref: '#/components/parameters/employeeId'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PayrollDeductionsWrapper'
 
   /v1/reports/{id}?format=JSON:
     get:
