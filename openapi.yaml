@@ -128,6 +128,28 @@ tags:
     appropriate permissions to create new users, for example.
   externalDocs:
     url: https://www.bamboohr.com/api/documentation/metadata.php
+- name: Payroll
+  description: >-
+    There are four primary entities used in building the BambooHR paystub
+    experience:
+
+    - Raw paystub data
+    - Pay period dates (past, current, and future)
+    - Direct deposit settings
+    - Tax withholding settings
+
+    All of the information displayed as part of the paystub experience is
+    read-only, although employees may navigate through paystub history, view
+    specific paystub details, and then download or print the paystub.
+
+    Raw paystub data (income, withholdings, deductions, etc.) and pay period
+    data (past, present, and future) are required to generate the primary
+    paystub experience in BambooHR. Direct deposit and tax withholding data
+    completes the experience for the employee, but is not critical. If no
+    direct deposit or tax withholding data are provided, those portions of the
+    experience will not be displayed to the employee user.
+  externalDocs:
+    url: https://www.bamboohr.com/api/documentation/payroll.php
 - name: Photos
   description: >-
     The Photos API allows you to retrieve employee photos. There is a standard
@@ -494,6 +516,13 @@ components:
       - part-time-ineligible
       - seasonal
       - terminated
+
+    AccountType:
+      type: string
+      enum:
+      - checking
+      - savings
+      - other
 
     ChangeType:
       type: string
@@ -1429,6 +1458,21 @@ components:
       - domestic partner
       - step child
       - foster child
+
+    DirectDepositRuleType:
+      type: string
+      enum:
+      - BAL
+      - FLAT
+      - PCT
+      x-enum-descriptions:
+      - Balance
+      - Flat Amount
+      - Percentage
+      x-enum-varnames:
+      - Balance
+      - FlatAmount
+      - Percentage
 
     Division:
       description: >-
@@ -4366,6 +4410,365 @@ components:
       required:
       - Employee Dependents
 
+    EmployeeWithholding:
+      type: object
+      properties:
+        fedWithholding:
+          type: string
+          format: integer
+        stateWithholding:
+          type: string
+          format: integer
+        localWithholding:
+          type: string
+          format: integer
+        additionalFed:
+          type: string
+          format: integer
+        additionalState:
+          type: string
+          format: integer
+        additionalLocal:
+          type: string
+          format: integer
+        taxState:
+          $ref: '#/components/schemas/StateCode'
+        taxLocal:
+          type: string
+
+    EmployeeWithholdings:
+      type: object
+      properties:
+        Employee Withholdings:
+          type: array
+          items:
+            $ref: '#/components/schemas/EmployeeWithholding'
+      required:
+      - Employee Withholdings
+
+    EmployeeDirectDepositAccount:
+      type: object
+      properties:
+        id:
+          type: string
+          format: integer
+          minimum: 1
+        employeeId:
+          type: string
+          format: integer
+          minimum: 1
+        accountType:
+          $ref: '#/components/schemas/AccountType'
+        maskedAccountNumber:
+          type: string
+          pattern: '^X-[0-9]{4}$'
+        bankName:
+          type: string
+        depositOrder:
+          type: string
+          format: integer
+          minimum: 0
+        ruleType:
+          $ref: '#/components/schemas/DirectDepositRuleType'
+        ruleAmount:
+          type: string
+          format: decimal
+          nullable: true
+          minimum: 0
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+          nullable: true
+      required:
+      - id
+      - employeeId
+      - accountType
+      - maskedAccountNumber
+      - bankName
+      - depositOrder
+      - ruleType
+      - ruleAmount
+      - createdAt
+      - updatedAt
+
+    EmployeeDirectDepositAccounts:
+      type: object
+      properties:
+        Employee Id:
+          type: string
+          format: integer
+        Employee Name:
+          type: string
+        Employee Direct Deposit Accounts:
+          type: array
+          items:
+            $ref: '#/components/schemas/EmployeeDirectDepositAccount'
+      required:
+      - Employee Id
+      - Employee Name
+      - Employee Direct Deposit Accounts
+
+    EmployeePayStubDeduction:
+      type: object
+      properties:
+        externalDeductionId:
+          type: string
+        deductionDescription:
+          type: string
+        deductionAmount:
+          type: string
+          format: decimal
+          minimum: 0
+        ytdDeductionAmount:
+          type: string
+          format: decimal
+          minimum: 0
+      required:
+      - externalDeductionId
+      - deductionDescription
+      - deductionAmount
+      - ytdDeductionAmount
+
+    EmployeePayStubDeposit:
+      type: object
+      properties:
+        depositOrder:
+          type: string
+          format: integer
+          minimum: 0
+        depositAmount:
+          type: string
+          format: decimal
+          minimum: 0
+        maskedAccountNumber:
+          type: string
+          pattern: '^X-[0-9]{4}$'
+        accountType:
+          $ref: '#/components/schemas/AccountType'
+      required:
+      - depositOrder
+      - depositAmount
+      - maskedAccountNumber
+      - accountType
+
+    EmployeePayStubTax:
+      type: object
+      properties:
+        externalTaxId:
+          type: string
+        taxDescription:
+          type: string
+        taxAmount:
+          type: string
+          format: decimal
+          minimum: 0
+        ytdTaxAmount:
+          type: string
+          format: decimal
+          minimum: 0
+      required:
+      - externalTaxId
+      - taxDescription
+      - taxAmount
+      - ytdTaxAmount
+
+    EmployeePayStubWage:
+      type: object
+      properties:
+        externalWageId:
+          type: string
+        wageDescription:
+          type: string
+        wageAmount:
+          type: string
+          format: decimal
+          minimum: 0
+        ytdWageAmount:
+          type: string
+          format: decimal
+          minimum: 0
+        wageRate:
+          type: string
+          nullable: true
+          format: decimal
+          minimum: 0
+        hours:
+          type: string
+          nullable: true
+          format: decimal
+          minimum: 0
+      required:
+      - externalWageId
+      - wageDescription
+      - wageAmount
+      - ytdWageAmount
+      - wageRate
+      - hours
+
+    EmployeePayStub:
+      allOf:
+      - $ref: '#/components/schemas/EmployeeWithholding'
+      - type: object
+        properties:
+          recordId:
+            type: string
+            format: integer
+            minimum: 1
+            readOnly: true
+          employeeId:
+            type: string
+            format: integer
+            minimum: 1
+          externalRecordId:
+            type: string
+            minLength: 1
+          payPeriodFrom:
+            type: string
+            format: date
+          payPeriodTo:
+            type: string
+            format: date
+          payDate:
+            type: string
+            format: date
+          payorName:
+            type: string
+            minLength: 1
+          payorAdd1:
+            type: string
+            minLength: 1
+          payorAdd2:
+            type: string
+          payorCity:
+            type: string
+            minLength: 1
+          payorState:
+            $ref: '#/components/schemas/StateCode'
+          payorZip:
+            type: string
+            minLength: 1
+          payeeName:
+            type: string
+            minLength: 1
+          currencyCode:
+            $ref: '#/components/schemas/CurrencyCode'
+          net:
+            type: string
+            format: decimal
+            minimum: 0
+          gross:
+            type: string
+            format: decimal
+            minimum: 0
+          totalTaxes:
+            type: string
+            format: decimal
+            minimum: 0
+          totalDeductions:
+            type: string
+            format: decimal
+            minimum: 0
+          ytdNet:
+            type: string
+            format: decimal
+            minimum: 0
+          ytdGross:
+            type: string
+            format: decimal
+            minimum: 0
+          ytdTaxes:
+            type: string
+            format: decimal
+            minimum: 0
+          ytdDeductions:
+            type: string
+            format: decimal
+            minimum: 0
+          wages:
+            type: array
+            items:
+              $ref: '#/components/schemas/EmployeePayStubWage'
+          taxes:
+            type: array
+            items:
+              $ref: '#/components/schemas/EmployeePayStubTax'
+          deductions:
+            type: array
+            items:
+              $ref: '#/components/schemas/EmployeePayStubDeduction'
+          deposits:
+            $ref: '#/components/schemas/EmployeePayStubDeposit'
+        required:
+        - employeeId
+        - externalRecordId
+        - payPeriodFrom
+        - payPeriodTo
+        - payDate
+        - payorName
+        - payorAdd1
+        - payorCity
+        - payorState
+        - payorZip
+        - payeeName
+        - currencyCode
+        - net
+        - gross
+        - totalTaxes
+        - totalDeductions
+        - ytdNet
+        - ytdGross
+        - ytdTaxes
+        - ytdDeductions
+        - fedWithholding
+        - stateWithholding
+        - localWithholding
+        - additionalFed
+        - additionalState
+        - additionalLocal
+        - taxState
+        - taxLocal
+        - wages
+        - taxes
+        - deductions
+        - deposits
+
+    EmployeeUnpaidPayStub:
+      type: object
+      properties:
+        payDate:
+          type: string
+          format: date
+      required:
+      - payDate
+
+    EmployeeUnpaidPayStubs:
+      type: object
+      properties:
+        employeeId:
+          type: integer
+          minimum: 1
+        unpaidPeriods:
+          type: array
+          items:
+            $ref: '#/components/schemas/EmployeeUnpaidPayStub'
+      required:
+      - employeeId
+      - unpaidPeriods
+
+    Result:
+      type: object
+      properties:
+        success:
+          type: boolean
+        message:
+          type: string
+      required:
+      - success
+      - message
+
   responses:
     Error:
       description: Error
@@ -6315,6 +6718,398 @@ paths:
                 type: string
                 format: url
 
+  /v1/employee_direct_deposit_accounts/{id}:
+    delete:
+      tags:
+      - Payroll
+      operationId: clearDirectDeposit
+      summary: Clear an employee's direct deposit information
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/payroll.php#clearDirectDeposit
+      parameters:
+      - $ref: '#/components/parameters/employeeId'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result'
+        '400':
+          description: Invalid employee ID
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+          x-ms-error-response: true
+        '403':
+          description: >-
+            User doesn't have access to edit employee direct deposit
+            information.
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+          x-ms-error-response: true
+    get:
+      tags:
+      - Payroll
+      operationId: getDirectDeposit
+      summary: Get an employee's direct deposit information
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/payroll.php#getDirectDeposit
+      parameters:
+      - $ref: '#/components/parameters/employeeId'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeDirectDepositAccounts'
+        '400':
+          description: Invalid employee ID
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+          x-ms-error-response: true
+    post:
+      tags:
+      - Payroll
+      operationId: addDirectDeposit
+      summary: Add an employee's direct deposit information
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/payroll.php#addDirectDeposit
+      parameters:
+      - $ref: '#/components/parameters/employeeId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/EmployeeDirectDepositAccount'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeDirectDepositAccounts'
+        '403':
+          description: >-
+            User doesn't have access to add employee direct deposit information.
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+          x-ms-error-response: true
+
+  /v1/employee_pay_stubs:
+    post:
+      tags:
+      - Payroll
+      operationId: addPayStub
+      summary: Add an employee's paystub
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/payroll.php#addPayStub
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/EmployeePayStub'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeePayStub'
+        '400':
+          description: Invalid employee ID
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+          x-ms-error-response: true
+
+  /v1/employee_pay_stubs/{id}:
+    delete:
+      tags:
+      - Payroll
+      operationId: clearPayStub
+      summary: Delete an employee's paystub
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/payroll.php#clearPayStub
+      parameters:
+      - $ref: '#/components/parameters/employeeId'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result'
+        '400':
+          description: Invalid employee ID
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+          x-ms-error-response: true
+        '403':
+          description: >-
+            User doesn't have access to edit the employee's paystub.
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+          x-ms-error-response: true
+    get:
+      tags:
+      - Payroll
+      operationId: getPayStub
+      summary: Get an employee's paystub
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/payroll.php#getPayStub
+      parameters:
+      - $ref: '#/components/parameters/employeeId'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeePayStub'
+        '400':
+          description: Invalid employee ID
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+          x-ms-error-response: true
+
+  /v1/employee_unpaid_pay_stubs:
+    post:
+      tags:
+      - Payroll
+      operationId: addUnpaidPayStubs
+      summary: Add an employee's unpaid paystubs
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/payroll.php#addUnpaidPayStubs
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/EmployeeUnpaidPayStubs'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeUnpaidPayStubs'
+        '400':
+          description: Invalid employee ID
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+          x-ms-error-response: true
+
+  /v1/employee_unpaid_pay_stubs/{id}:
+    delete:
+      tags:
+      - Payroll
+      operationId: clearUnpaidPayStubs
+      summary: Clear an employee's unpaid paystubs
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/payroll.php#clearUnpaidPayStubs
+      parameters:
+      - $ref: '#/components/parameters/employeeId'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result'
+        '400':
+          description: Invalid employee ID
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+          x-ms-error-response: true
+        '403':
+          description: >-
+            User doesn't have access to edit the employee unpaid paystub
+            information.
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+          x-ms-error-response: true
+    get:
+      tags:
+      - Payroll
+      operationId: getUnpaidPayStubs
+      summary: Get an employee's unpaid paystubs
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/payroll.php#getUnpaidPayStubs
+      parameters:
+      - $ref: '#/components/parameters/employeeId'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeUnpaidPayStubs'
+        '400':
+          description: Invalid employee ID
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+          x-ms-error-response: true
+
+  /v1/employee_withholding/{id}:
+    delete:
+      tags:
+      - Payroll
+      operationId: clearWithholdings
+      summary: Clear an employee's default withholdings
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/payroll.php#clearWithholdings
+      parameters:
+      - $ref: '#/components/parameters/employeeId'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result'
+        '400':
+          description: Invalid employee ID
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+          x-ms-error-response: true
+        '403':
+          description: >-
+            User doesn't have access to edit employee withholdings information.
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+          x-ms-error-response: true
+    get:
+      tags:
+      - Payroll
+      operationId: getWithholdings
+      summary: Get an employee's default withholdings
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/payroll.php#getWithholdings
+      parameters:
+      - $ref: '#/components/parameters/employeeId'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeWithholdings'
+        '400':
+          description: Invalid employee ID
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+          x-ms-error-response: true
+    post:
+      tags:
+      - Payroll
+      operationId: addWithholdings
+      summary: Add an employee's default withholdings
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/payroll.php#addWithholdings
+      parameters:
+      - $ref: '#/components/parameters/employeeId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/EmployeeWithholding'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmployeeWithholdings'
+        '403':
+          description: >-
+            User doesn't have access to add employee withholdings information.
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+          x-ms-error-response: true
+
   /v1/files/view/:
     get:
       tags:
@@ -6713,7 +7508,7 @@ paths:
   /v1/payroll/deductions/{id}:
     get:
       tags:
-      - Benefits
+      - Payroll
       operationId: getDeductionsForEmployee
       summary: Get benefit deductions for employee
       externalDocs:
