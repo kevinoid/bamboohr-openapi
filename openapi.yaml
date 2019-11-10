@@ -180,6 +180,31 @@ tags:
     off used decreases the total, while time off accruals increase it.
   externalDocs:
     url: https://www.bamboohr.com/api/documentation/time_off.php
+- name: TimeTracking
+  description: >-
+    The time tracking API is used to send approved hours worked to BambooHR,
+    similar to how you would send hours to a payroll company. These hours are
+    stored in BambooHR and can be used to accrue paid time off using BambooHR’s
+    accrual feature, and/or sent to a BambooHR payroll partner during the
+    payroll run. This makes it possible for the customer to use BambooHR as the
+    source of all payroll related data.
+
+    Time records can be added to BambooHR or can be retrieved from BambooHR.
+    When adding time records to BambooHR, certain fields are required with each
+    entry such as a date, associated pay rate, and a rate type (see
+    documentation below). Identifying information for the employee is also
+    required so the hours may be associated with the proper employee in
+    BambooHR. Lists of employees and their accompanying identifying information
+    can be retrieved through our api (see Single Dimensional Data).
+
+    Please note that only approved hours should be sent to BambooHR since there
+    will be no distinction of approved or not-approved in BambooHR. If
+    non-approved hours are sent to BambooHR, accruals may occur on those hours
+    and they also may be passed to payroll. Edits to approved hours (additions
+    or subtractions) should be sent as new records with their associated date
+    (the date of the hours worked).
+  externalDocs:
+    url: https://www.bamboohr.com/api/documentation/time_tracking.php
 
 components:
   securitySchemes:
@@ -463,6 +488,13 @@ components:
         type: string
         enum:
         - request
+    timeTrackingId:
+      name: id
+      in: path
+      description: Time Tracking ID
+      required: true
+      schema:
+        $ref: '#/components/schemas/TimeTrackingId'
     whoIsOutEndDate:
       name: end
       in: query
@@ -1917,6 +1949,18 @@ components:
       - Death
       - Involuntary
       - Voluntary
+
+    TimeTrackingRateType:
+      type: string
+      enum:
+      - REG
+      - OT
+      x-enum-descriptions:
+      - Regular
+      - Overtime
+      x-enum-varnames:
+      - Regular
+      - Overtime
 
     # Not currently used, since tableName parameter was removed in favor of
     # treating each table path as a separate operation, since it returns a
@@ -4280,7 +4324,7 @@ components:
       - payFrequency
       - deductions
 
-    PayrollDeductionsWrapper:
+    PayrollDeductionsHolder:
       type: object
       properties:
         payrollDeductions:
@@ -4757,6 +4801,97 @@ components:
       required:
       - employeeId
       - unpaidPeriods
+
+    TimeTrackingId:
+      type: string
+      minLength: 1
+      maxLength: 36
+
+    TimeTrackingIdHolder:
+      type: object
+      properties:
+        timeTrackingId:
+          $ref: '#/components/schemas/TimeTrackingId'
+      required:
+      - timeTrackingId
+
+    TimeTrackingRecord:
+      allOf:
+      - $ref: '#/components/schemas/TimeTrackingIdHolder'
+      - type: object
+        properties:
+          employeeId:
+            type: string
+            format: integer
+            minimum: 1
+          divisionId:
+            type: string
+            format: integer
+            minimum: 1
+          departmentId:
+            type: string
+            format: integer
+            minimum: 1
+          jobTitleId:
+            type: string
+            format: integer
+            minimum: 1
+          payCode:
+            type: string
+          dateHoursWorked:
+            type: string
+            format: date
+          type:
+            # FIXME: What values can this have, and what is the meaning?
+            type: string
+            minLength: 1
+            maxLength: 1
+            readOnly: true
+          payRate:
+            type: string
+            format: decimal
+            minimum: 0
+          rateType:
+            $ref: '#/components/schemas/TimeTrackingRateType'
+          hoursWorked:
+            type: string
+            format: decimal
+            minimum: 0
+          adjustedHours:
+            type: string
+            format: decimal
+            readOnly: true
+          jobData:
+            description: >-
+              A list of up to four 20 characters max job numbers in comma
+              delimited format with no spaces
+            type: string
+            pattern: '^[^ ]{,20}(,[^ ]{,20}){,3}$'
+        required:
+        - hoursWorked
+        # Required by addRequest:
+        # - employeeId
+        # - dateHoursWorked
+        # - rateType
+
+    TimeTrackingResultResponse:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/TimeTrackingId'
+        message:
+          type: string
+
+    TimeTrackingResult:
+      type: object
+      properties:
+        success:
+          type: boolean
+        response:
+          $ref: '#/components/schemas/TimeTrackingResultResponse'
+      required:
+      - success
+      - response
 
     Result:
       type: object
@@ -7523,7 +7658,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PayrollDeductionsWrapper'
+                $ref: '#/components/schemas/PayrollDeductionsHolder'
 
   /v1/reports/{id}?format=JSON:
     get:
@@ -7651,6 +7786,160 @@ paths:
           $ref: '#/components/responses/Error'
         '200':
           $ref: '#/components/responses/ReportResponse'
+
+  /v1/timetracking/add:
+    post:
+      tags:
+      - TimeTracking
+      operationId: addRecord
+      summary: Add a time tracking record
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/time_tracking.php#addRequest
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TimeTrackingRecord'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimeTrackingIdHolder'
+        '400':
+          description: >-
+            If any required field is missing, any of the ids are invalid, or
+            the posted JSON is not valid.
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+          x-ms-error-response: true
+
+  /v1/timetracking/adjust:
+    put:
+      tags:
+      - TimeTracking
+      operationId: adjustRecord
+      summary: Adjust a time tracking record
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/time_tracking.php#adjustRequest
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TimeTrackingRecord'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimeTrackingIdHolder'
+        '400':
+          description: >-
+            If any required field is missing, any of the ids are invalid, or
+            the posted JSON is not valid.
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+          x-ms-error-response: true
+
+  /v1/timetracking/delete/{id}:
+    put:
+      tags:
+      - TimeTracking
+      operationId: deleteRecord
+      summary: Delete a time tracking record
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/time_tracking.php#deleteRecord
+      parameters:
+      - $ref: '#/components/parameters/timeTrackingId'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result'
+        '400':
+          description: >-
+            Time tracking id cannot be found.
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+          x-ms-error-response: true
+
+  /v1/timetracking/record:
+    post:
+      tags:
+      - TimeTracking
+      operationId: bulkAddEdit
+      summary: Bulk Add/Adjust time tracking records
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/time_tracking.php#bulkAddEdit
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/TimeTrackingRecord'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TimeTrackingResult'
+        '400':
+          description: >-
+            If any required field is missing, any of the ids are invalid, or
+            the posted JSON is not valid.
+          headers:
+            x-bamboohr-error-message:
+              description: Error message
+              schema:
+                type: string
+          x-ms-error-response: true
+  /v1/timetracking/record/{id}:
+    get:
+      tags:
+      - TimeTracking
+      operationId: getRecord
+      summary: Get a time tracking record
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/time_tracking.php#getRequest
+      parameters:
+      - $ref: '#/components/parameters/timeTrackingId'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimeTrackingRecord'
 
   /v1/time_off/requests/:
     get:
