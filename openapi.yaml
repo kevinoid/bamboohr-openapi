@@ -474,7 +474,7 @@ components:
       in: query
       description: Time off types to include
       schema:
-        $ref: '#/components/schemas/TimeOffType'
+        $ref: '#/components/schemas/TimeOffTypeId'
     timeOffTypesMode:
       name: mode
       in: query
@@ -3064,20 +3064,13 @@ components:
         manager:
           type: string
 
-    TimeOffType:
+    TimeOffTypeId:
       description: >-
-        Time off types defined in the Metadata API
+        Time off type identifier defined in the Metadata API
         https://www.bamboohr.com/api/documentation/metadata.php#timeOffTypes
+        and visible in Settings > Time Off in the web UI.
       type: string
-      enum:
-      - 1
-      - 3
-      x-enum-varnames:
-      - PTO
-      - LeaveWithoutPay
-      x-enum-descriptions:
-      - PTO
-      - Leave Without Pay
+      format: integer
 
     TimeOffTypeInfo:
       xml:
@@ -3088,7 +3081,7 @@ components:
           xml:
             attribute: true
           allOf:
-          - $ref: '#/components/schemas/TimeOffType'
+          - $ref: '#/components/schemas/TimeOffTypeId'
         name:
           type: string
         icon:
@@ -3142,7 +3135,7 @@ components:
           type: integer
           minimum: 1
         timeOffTypeId:
-          $ref: '#/components/schemas/TimeOffType'
+          $ref: '#/components/schemas/TimeOffTypeId'
         name:
           type: string
         effectiveDate:
@@ -3286,7 +3279,7 @@ components:
           type: string
           format: date
         timeOffTypeId:
-          $ref: '#/components/schemas/TimeOffType'
+          $ref: '#/components/schemas/TimeOffTypeId'
         amount:
           description: >-
             The number of days/hours to update the employee's balance by.
@@ -3394,7 +3387,7 @@ components:
       - type: object
         properties:
           timeOffTypeId:
-            $ref: '#/components/schemas/TimeOffType'
+            $ref: '#/components/schemas/TimeOffTypeId'
           amount:
             description: >-
               The number of days/hours of requested time off.
@@ -3409,7 +3402,7 @@ components:
           type: integer
           minimum: 1
         timeOffTypeId:
-          $ref: '#/components/schemas/TimeOffType'
+          $ref: '#/components/schemas/TimeOffTypeId'
         accrualStartDate:
           description: >-
             Date on which this policy starts.  null removes the assignment.
