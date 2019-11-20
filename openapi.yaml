@@ -5849,7 +5849,7 @@ paths:
                 type: string
           x-ms-error-response: true
 
-  /v1/employees/{id}/files/categories/:
+  /v1/employees/files/categories/:
     post:
       tags:
       - Employees
@@ -5857,8 +5857,6 @@ paths:
       summary: Add an employee file category
       externalDocs:
         url: https://www.bamboohr.com/api/documentation/employees.php#addEmployeeCategory
-      parameters:
-      - $ref: '#/components/parameters/employeeId'
       requestBody:
         required: true
         content:
