@@ -3395,6 +3395,29 @@ components:
             type: number
             # Note: example amount in docs is -5
 
+    AdjustTimeOffBalance:
+      type: object
+      properties:
+        date:
+          description: The date the adjustment should be added in history.
+          type: string
+          format: date
+        timeOffTypeId:
+          description: The ID of the time off type to add a balance adjustment for.
+          allOf:
+          - $ref: '#/components/schemas/TimeOffTypeId'
+        amount:
+          description: The number of hours/days to adjust the balance by.
+          type: number
+        note:
+          description: This is an optional note to show in history.
+          type: string
+          maximum: 255
+      required:
+      - date
+      - timeOffTypeId
+      - amount
+
     EmployeeTimeOffPolicy:
       type: object
       properties:
@@ -6659,6 +6682,34 @@ paths:
           $ref: '#/components/responses/Error'
         '200':
           description: Success
+
+  /v1/employees/{id}/time_off/balance_adjustment/:
+    get:
+      tags:
+      - TimeOff
+      operationId: adjustTimeOffBalance
+      summary: Adjust Time Off Balance
+      externalDocs:
+        url: https://documentation.bamboohr.com/reference#time-off-adjust-time-off-balance
+      parameters:
+      - $ref: '#/components/parameters/employeeId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdjustTimeOffBalance'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '201':
+          description: Success
+          headers:
+            location:
+              description: API URL for the new time off history item.
+              schema:
+                type: string
+                format: url
 
   /v1/employees/{id}/time_off/calculator/:
     get:
