@@ -6943,7 +6943,7 @@ paths:
                 type: string
           x-ms-error-response: true
 
-  /v1/employee_pay_stubs:
+  /v1/employee_pay_stub:
     post:
       tags:
       - Payroll
@@ -6977,7 +6977,7 @@ paths:
                 type: string
           x-ms-error-response: true
 
-  /v1/employee_pay_stubs/{id}:
+  /v1/employee_pay_stub/{id}:
     delete:
       tags:
       - Payroll
