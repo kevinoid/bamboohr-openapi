@@ -6828,6 +6828,28 @@ paths:
                 items:
                   $ref: '#/components/schemas/EmployeeTimeOffPolicy'
 
+  /v1/employees/{id}/time_off/request/:
+    put:
+      tags:
+      - TimeOff
+      operationId: addTimeOffRequest
+      summary: Add a time off request
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/time_off.php#addRequest
+      parameters:
+      - $ref: '#/components/parameters/employeeId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddTimeOffRequest'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '201':
+          description: Success
+
   /v1/employees/changed/:
     get:
       tags:
@@ -8027,24 +8049,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/TimeOffRequests'
-    put:
-      tags:
-      - TimeOff
-      operationId: addTimeOffRequest
-      summary: Add a time off request
-      externalDocs:
-        url: https://www.bamboohr.com/api/documentation/time_off.php#addRequest
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/AddTimeOffRequest'
-      responses:
-        default:
-          $ref: '#/components/responses/Error'
-        '201':
-          description: Success
 
   /v1/time_off/requests/{id}/status/:
     put:
