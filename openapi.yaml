@@ -3285,6 +3285,7 @@ components:
             The number of days/hours to update the employee's balance by.
             The unit will be whatever the time off type is configured for.
           type: number
+          format: decimal
           minimum: 0
           exclusiveMinimum: true
         notes:
@@ -3393,6 +3394,7 @@ components:
               The number of days/hours of requested time off.
               The unit will be whatever the time off type is configured for.
             type: number
+            format: decimal
             # Note: example amount in docs is -5
 
     AdjustTimeOffBalance:
@@ -3409,6 +3411,7 @@ components:
         amount:
           description: The number of hours/days to adjust the balance by.
           type: number
+          format: decimal
         note:
           description: This is an optional note to show in history.
           type: string
@@ -4124,8 +4127,8 @@ components:
           format: integer
           minimum: 1
         totalCost:
-          format: string
-          type: number
+          type: string
+          format: decimal
           minimum: 0
         currencyType:
           $ref: '#/components/schemas/CurrencyCode'
@@ -4186,6 +4189,7 @@ components:
           type: boolean
         reimbursementAmount:
           type: number
+          format: decimal
         reimbursementFrequency:
           $ref: '#/components/schemas/ReimbursementFrequency'
 
