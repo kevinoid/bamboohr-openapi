@@ -3431,7 +3431,13 @@ components:
           $ref: '#/components/schemas/TimeOffTypeId'
         accrualStartDate:
           description: >-
-            Date on which this policy starts.  null removes the assignment.
+            Date on which this policy starts.
+
+            null removes the assignment, except for the "BambooHR Unlimited
+            Policy" type (shown as "None" in the UI), which is the default.
+
+            Must be _after_ employee `hireDate` or 400 "There is already a
+            policy assigned for that time off type" will be returned.
           type: string
           format: date
           nullable: true
