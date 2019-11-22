@@ -6694,7 +6694,7 @@ paths:
           description: Success
 
   /v1/employees/{id}/time_off/balance_adjustment/:
-    get:
+    put:
       tags:
       - TimeOff
       operationId: adjustTimeOffBalance
