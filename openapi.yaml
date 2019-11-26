@@ -485,9 +485,7 @@ components:
         important, as employees can request time off for types that they don't
         have permission to view balances and requests for.
       schema:
-        type: string
-        enum:
-        - request
+        $ref: '#/components/schemas/TimeOffTypesMode'
     timeTrackingId:
       name: id
       in: path
@@ -3123,6 +3121,11 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/TableMetadata'
+
+    TimeOffTypesMode:
+      type: string
+      enum:
+      - request
 
     TimeOffPolicy:
       xml:
