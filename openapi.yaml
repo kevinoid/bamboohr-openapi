@@ -3051,7 +3051,7 @@ components:
       - time-off-calendar
       - time-off-luggage
 
-    TimeOffNotes:
+    TimeOffRequestNotes:
       description: >-
         Earliest note made on a time off request by the employee and manager.
         If either has made multiple notes, only the first is returned.
@@ -3240,15 +3240,20 @@ components:
             type: string
             format: integer
         notes:
-          # FIXME: This is an empty array when there are no notes
-          # TODO: Uncomment once OpenAPI Generator or Autorest support anyOf
+          description: >-
+            Earliest note made on a time off request by the employee and manager.
+            If either has made multiple notes, only the first is returned.
+            If neither have made notes, an empty array is returned.
+          # Note: Neither OpenAPI Generator nor Autorest support anyOf
           # https://github.com/OpenAPITools/openapi-generator/issues/15
-          # anyOf:
-          # - $ref: '#/components/schemas/TimeOffNotes'
-          # - type: array
-          #   items:
-          #     $ref: '#/components/schemas/TimeOffNotes'
-          $ref: '#/components/schemas/TimeOffNotes'
+          # Must be replaced before generation
+          anyOf:
+          - $ref: '#/components/schemas/TimeOffRequestNotes'
+          - type: array
+            maxItems: 0
+            # Note: Can be any type, since always empty.
+            # Use unconstrained type to avoid implying data should be handled
+            items: {}
       required:
       - id
       - employeeId
@@ -3259,6 +3264,7 @@ components:
       - created
       - type
       - amount
+      - notes
 
     TimeOffRequests:
       xml:
@@ -3292,7 +3298,7 @@ components:
           minimum: 0
           exclusiveMinimum: true
         notes:
-          $ref: '#/components/schemas/TimeOffNotes'
+          $ref: '#/components/schemas/TimeOffRequestNotes'
         dates:
           description: >-
             The <dates></dates> section is optional. If you don't provide it
