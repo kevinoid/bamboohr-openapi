@@ -23,7 +23,7 @@
     "doc-bootprint": "bootprint openapi openapi.yaml doc/bootprint",
     "postpublish": "git -C doc push && git push --follow-tags origin master gh-pages && echo Remember to update GitHub Releases from CHANGELOG.md && echo until skywinder/github-changelog-generator#56 is fixed.",
     "postversion": "rimraf doc && git clone -b gh-pages -l -q . doc && npm run doc && git -C doc add . && git -C doc commit -n -m \"Docs for v$npm_package_version\"",
-    "prepublish": "js-yaml openapi.yaml > openapi.json",
+    "prepare": "js-yaml openapi.yaml > openapi.json",
     "preversion": "depcheck --ignores bootprint-openapi,greenkeeper-lockfile --ignore-dirs doc && david && git-branch-is master && travis-status -b -c -qwx",
     "test": "npm run lint && npm run validate",
     "validate": "npm run validate-autorest && npm run validate-cli && npm run validate-openapi-generator && npm run validate-speccy",
@@ -50,6 +50,6 @@
   },
   "engines": {
     "node": ">=8.3",
-    "npm": ">=1.3.7"
+    "npm": ">=5"
   }
 }
