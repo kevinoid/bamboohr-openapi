@@ -3024,7 +3024,7 @@ components:
           - $ref: '#/components/schemas/TimeOffUnit'
         amount:
           type: string
-          format: integer
+          format: decimal
       required:
       - unit
       - amount
