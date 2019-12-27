@@ -2754,6 +2754,10 @@ components:
           $ref: '#/components/schemas/PayPer'
         paySchedule:
           $ref: '#/components/schemas/PaySchedule'
+      required:
+      - id
+      - employeeId
+      # Other fields are required in responses, but not in request bodies
 
     Dependent:
       type: object
