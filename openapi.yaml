@@ -869,11 +869,11 @@ components:
     CurrencyAmount:
       type: object
       properties:
-        currency:
-          $ref: '#/components/schemas/CurrencyCode'
         value:
           type: string
           format: decimal
+        currency:
+          $ref: '#/components/schemas/CurrencyCode'
       required:
       - currency
       - value
