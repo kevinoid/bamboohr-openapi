@@ -4953,6 +4953,10 @@ components:
     Error:
       description: Error
       headers:
+        # Note: The x-bamboohr-error-messsage header, which always matches
+        # x-bamboohr-error-message, presumably for backwards-compatibility,
+        # is not defined here to avoid distracting users with information
+        # that is not likely to be useful.
         x-bamboohr-error-message:
           $ref: '#/components/headers/x-bamboohr-error-message'
       x-ms-error-response: true
