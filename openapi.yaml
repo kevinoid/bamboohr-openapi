@@ -4943,14 +4943,18 @@ components:
       - success
       - message
 
+  headers:
+    x-bamboohr-error-message:
+      description: Error message
+      schema:
+        type: string
+
   responses:
     Error:
       description: Error
       headers:
         x-bamboohr-error-message:
-          description: Error message
-          schema:
-            type: string
+          $ref: '#/components/headers/x-bamboohr-error-message'
       x-ms-error-response: true
 
     ReportResponse:
@@ -5092,9 +5096,7 @@ paths:
             User doesn't have access to add the benefit group plan cost.
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
 
   /v1/benefitgroupplancosts/{id}:
@@ -5161,9 +5163,7 @@ paths:
             User doesn't have access to add the benefit group plan.
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
 
   /v1/benefitgroupplans/{id}:
@@ -5232,9 +5232,7 @@ paths:
             Current user doesn't have access to add the benefit group.
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
 
   /v1/benefitgroups/{id}:
@@ -5286,9 +5284,7 @@ paths:
             this way.
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
 
   /v1/benefitplancoverages/:
@@ -5335,9 +5331,7 @@ paths:
             Current user doesn't have access to add the benefit plan coverage.
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
 
   /v1/benefitplancoverages/{id}:
@@ -5389,9 +5383,7 @@ paths:
             coverage in this way.
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
 
   /v1/benefitplans/:
@@ -5438,9 +5430,7 @@ paths:
             Current user doesn't have access to add the benefit plan.
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
 
   /v1/benefitplans/{id}:
@@ -5492,9 +5482,7 @@ paths:
             this way.
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
 
   /v1/benefits/settings/deduction_types/all:
@@ -5650,9 +5638,7 @@ paths:
             Current user doesn't have access to add a dependent.
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
 
   /v1/employeedependents/{id}:
@@ -5709,9 +5695,7 @@ paths:
             requested way.
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
 
   /v1/employees/:
@@ -5781,9 +5765,7 @@ paths:
           description: The directory has not been shared company-wide.
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
 
   /v1/employees/{id}:
@@ -5810,17 +5792,13 @@ paths:
           description: User does not have permission to view employee
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
         '404':
           description: Employee not found
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
     post:
       tags:
@@ -5844,17 +5822,13 @@ paths:
           description: User does not have permission to update ANY of the requested fields
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
         '404':
           description: Employee not found
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
 
   /v1/employees/{id}/files/:
@@ -5882,17 +5856,13 @@ paths:
           description: The employee ID was not found.
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
         '413':
           description: The file size exceeds 20MB or the storage limit for the company.
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
 
   /v1/employees/files/categories/:
@@ -5918,17 +5888,13 @@ paths:
           description: User does not have permission to see the requested employee or the employee's files.
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
         '404':
           description: No files are found for the requested employee.
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
 
   /v1/employees/{id}/files/view/:
@@ -5954,17 +5920,13 @@ paths:
           description: User does not have permission to see the requested employee or the employee's files.
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
         '404':
           description: No files are found for the requested employee.
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
 
   /v1/employees/{id}/files/{fileId}/:
@@ -5987,17 +5949,13 @@ paths:
           description: User does not have permission to see the requested employee or the employee's files.
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
         '404':
           description: The requested employee or file was not found
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
     get:
       tags:
@@ -6024,17 +5982,13 @@ paths:
           description: User does not have permission to see the requested employee or the employee's files.
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
         '404':
           description: The requested employee or file was not found
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
     post:
       tags:
@@ -6061,17 +6015,13 @@ paths:
           description: User does not have permission to see the requested employee or the employee's files.
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
         '404':
           description: The requested employee or category was not found
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
 
   /v1/employees/{id}/photo:
@@ -6113,25 +6063,19 @@ paths:
           description: The employee ID was not found.
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
         '413':
           description: The file size exceeds 20MB or the storage limit for the company.
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
         '415':
           description: The file format is not supported or the width doesn't match the height.
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
 
   /v1/employees/{id}/photo/{size}:
@@ -6963,9 +6907,7 @@ paths:
           description: Invalid employee ID
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
         '403':
           description: >-
@@ -6973,9 +6915,7 @@ paths:
             information.
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
     get:
       tags:
@@ -6999,9 +6939,7 @@ paths:
           description: Invalid employee ID
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
     post:
       tags:
@@ -7034,9 +6972,7 @@ paths:
             User doesn't have access to add employee direct deposit information.
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
 
   /v1/employee_pay_stub:
@@ -7068,9 +7004,7 @@ paths:
           description: Invalid employee ID
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
 
   /v1/employee_pay_stub/{id}:
@@ -7096,18 +7030,14 @@ paths:
           description: Invalid employee ID
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
         '403':
           description: >-
             User doesn't have access to edit the employee's paystub.
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
     get:
       tags:
@@ -7131,9 +7061,7 @@ paths:
           description: Invalid employee ID
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
 
   /v1/employee_unpaid_pay_stubs:
@@ -7165,9 +7093,7 @@ paths:
           description: Invalid employee ID
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
 
   /v1/employee_unpaid_pay_stubs/{id}:
@@ -7193,9 +7119,7 @@ paths:
           description: Invalid employee ID
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
         '403':
           description: >-
@@ -7203,9 +7127,7 @@ paths:
             information.
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
     get:
       tags:
@@ -7229,9 +7151,7 @@ paths:
           description: Invalid employee ID
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
 
   /v1/employee_withholding/{id}:
@@ -7257,18 +7177,14 @@ paths:
           description: Invalid employee ID
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
         '403':
           description: >-
             User doesn't have access to edit employee withholdings information.
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
     get:
       tags:
@@ -7292,9 +7208,7 @@ paths:
           description: Invalid employee ID
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
     post:
       tags:
@@ -7327,9 +7241,7 @@ paths:
             User doesn't have access to add employee withholdings information.
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
 
   /v1/files/view/:
@@ -7353,17 +7265,13 @@ paths:
           description: User does not have permission to see the company files.
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
         '404':
           description: No files or categories are found.
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
 
   /v1/files/categories/:
@@ -7389,17 +7297,13 @@ paths:
           description: User does not have permission to see the requested employee or the employee's files.
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
         '404':
           description: No files are found for the requested employee.
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
 
   /v1/files/{fileId}/:
@@ -7421,17 +7325,13 @@ paths:
           description: User does not have permission to see the requested file.
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
         '404':
           description: The file was not found.
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
     get:
       tags:
@@ -7457,17 +7357,13 @@ paths:
           description: User does not have permission to see the company files.
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
         '404':
           description: The file was not found.
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
     post:
       tags:
@@ -7493,17 +7389,13 @@ paths:
           description: User does not have permission to see the company files.
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
         '404':
           description: The file or category was not found.
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
 
   /v1/files/:
@@ -7529,25 +7421,19 @@ paths:
           description: User does not have permission to see the company files.
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
         '404':
           description: The category ID was not found.
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
         '413':
           description: The file size exceeds 20MB or the storage limit for the company.
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
 
   /v1/login:
@@ -7640,17 +7526,13 @@ paths:
           description: Nonexistent list or option ID specified
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
         '409':
           description: Duplicate value would be created
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
 
   /v1/meta/tables/:
@@ -7779,9 +7661,7 @@ paths:
           description: Nonexistent report id
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
 
   /v1/reports/{id}:
@@ -7813,9 +7693,7 @@ paths:
           description: Nonexistent report id
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
 
   /v1/reports/custom?format=JSON:
@@ -7903,9 +7781,7 @@ paths:
             the posted JSON is not valid.
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
 
   /v1/timetracking/adjust:
@@ -7937,9 +7813,7 @@ paths:
             the posted JSON is not valid.
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
 
   /v1/timetracking/delete/{id}:
@@ -7966,9 +7840,7 @@ paths:
             Time tracking id cannot be found.
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
 
   /v1/timetracking/record:
@@ -8004,9 +7876,7 @@ paths:
             the posted JSON is not valid.
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
   /v1/timetracking/record/{id}:
     get:
@@ -8105,17 +7975,13 @@ paths:
           description: User doesn't have access to change the status in this way.
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
         '404':
           description: The time off request ID doesn't exist.
           headers:
             x-bamboohr-error-message:
-              description: Error message
-              schema:
-                type: string
+              $ref: '#/components/headers/x-bamboohr-error-message'
           x-ms-error-response: true
 
   /v1/time_off/whos_out/:
