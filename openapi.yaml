@@ -2936,7 +2936,7 @@ components:
       - benetracStatus
       - gusto
 
-    JobInfoChange:
+    JobInfo:
       type: object
       properties:
         id:
@@ -6565,7 +6565,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/JobInfoChange'
+                  $ref: '#/components/schemas/JobInfo'
 
   /v1/employees/all/tables/jobInfo:
     get:
@@ -6585,7 +6585,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/JobInfoChange'
+                  $ref: '#/components/schemas/JobInfo'
 
   /v1/employees/changed/tables/jobInfo:
     get:
@@ -6607,7 +6607,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/JobInfoChange'
+                  $ref: '#/components/schemas/JobInfo'
 
   /v1_1/employees/{id}/tables/jobInfo:
     post:
@@ -6624,7 +6624,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/JobInfoChange'
+              $ref: '#/components/schemas/JobInfo'
       responses:
         default:
           $ref: '#/components/responses/Error'
@@ -6647,7 +6647,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/JobInfoChange'
+              $ref: '#/components/schemas/JobInfo'
       responses:
         default:
           $ref: '#/components/responses/Error'
