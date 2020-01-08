@@ -1541,7 +1541,7 @@ components:
 
     EmploymentStatus:
       description: >-
-        Compensation change reason, as defined in Employee Fields Settings
+        Employment Status, as defined in Employee Fields Settings
         https://{company}.bamboohr.com/settings/list.php?id=3475
       type: string
 
