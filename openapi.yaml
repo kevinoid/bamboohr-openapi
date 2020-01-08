@@ -2758,6 +2758,7 @@ components:
       - id
       - employeeId
       # Other fields are required in responses, but not in request bodies
+      # https://github.com/OAI/OpenAPI-Specification/issues/1873
 
     Dependent:
       type: object
@@ -4500,6 +4501,7 @@ components:
       required:
       - employeeId
       # Always present in responses, not required in requests:
+      # https://github.com/OAI/OpenAPI-Specification/issues/1873
       # - id
       # - firstName
       # - middleName
@@ -4945,6 +4947,7 @@ components:
         required:
         - hoursWorked
         # Required by addRequest:
+        # https://github.com/OAI/OpenAPI-Specification/issues/1873
         # - employeeId
         # - dateHoursWorked
         # - rateType
