@@ -932,12 +932,6 @@ components:
       - training_type
       - twitter_handle
 
-    AcademicDegree:
-      description: >-
-        Degree list values, as defined in Employee Fields Settings and Lists
-        in the Metadata API.
-      type: string
-
     CompensationChangeReason:
       description: >-
         Compensation Change Reason list values, as defined in Employee Fields
@@ -8069,9 +8063,6 @@ paths:
 x-suppress-warning:
 - $ref: '#/components/schemas/AddTimeOffHistoryEntryRequest'
 - $ref: '#/components/schemas/AddTimeOffHistoryOverrideRequest'
-# Employee education table not currently exposed in the API.
-# Keep for future use
-- $ref: '#/components/schemas/AcademicDegree'
 # Not currently used for enforcement
 - $ref: '#/components/schemas/StateCode'
 - $ref: '#/components/schemas/StateName'
