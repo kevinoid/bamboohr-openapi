@@ -934,14 +934,14 @@ components:
 
     AcademicDegree:
       description: >-
-        Degree, as defined in Employee Fields Settings
-        https://{company}.bamboohr.com/settings/list.php?id=3500
+        Degree list values, as defined in Employee Fields Settings and Lists
+        in the Metadata API.
       type: string
 
     CompensationChangeReason:
       description: >-
-        Compensation change reason, as defined in Employee Fields Settings
-        https://{company}.bamboohr.com/settings/list.php?id=3493
+        Compensation Change Reason list values, as defined in Employee Fields
+        Settings and Lists in the Metadata API.
       type: string
 
     Country:
@@ -1476,8 +1476,8 @@ components:
 
     Department:
       description: >-
-        Department, as defined in Employee Fields Settings
-        https://{company}.bamboohr.com/settings/list.php?id=3478
+        Department list values, as defined in Employee Fields Settings and
+        Lists in the Metadata API.
       type: string
 
     DependentRelationship:
@@ -1506,8 +1506,8 @@ components:
 
     Division:
       description: >-
-        Division, as defined in Employee Fields Settings
-        https://{company}.bamboohr.com/settings/list.php?id=3487
+        Division list values, as defined in Employee Fields Settings and
+        Lists in the Metadata API.
       type: string
 
     EEOJobCategory:
@@ -1529,8 +1529,8 @@ components:
 
     EmergencyContactRelationship:
       description: >-
-        Emergency contact relationship, as defined in Employee Fields Settings
-        https://{company}.bamboohr.com/settings/list.php?id=3491
+        Emergency Contact Relationship list values, as defined in Employee
+        Fields Settings and Lists in the Metadata API.
       type: string
 
     EmployeeStatus:
@@ -1541,8 +1541,8 @@ components:
 
     EmploymentStatus:
       description: >-
-        Employment Status, as defined in Employee Fields Settings
-        https://{company}.bamboohr.com/settings/list.php?id=3475
+        Employment Status list values, as defined in Employee Fields Settings
+        and Lists in the Metadata API.
       type: string
 
     Ethnicity:
@@ -1564,14 +1564,14 @@ components:
 
     JobTitle:
       description: >-
-        Job title, as defined in Employee Fields Settings
-        https://{company}.bamboohr.com/settings/list.php?id=3476
+        Job Title list values, as defined in Employee Fields Settings and
+        Lists in the Metadata API.
       type: string
 
     Location:
       description: >-
-        Location, as defined in Employee Fields Settings
-        https://{company}.bamboohr.com/settings/list.php?id=3477
+        Location list values, as defined in Employee Fields Settings and
+        Lists in the Metadata API.
       type: string
 
     MaritalStatus:
@@ -1601,7 +1601,8 @@ components:
 
     PayGroup:
       description: >-
-        Pay groups, as defined in Employee Fields Settings
+        Pay Groups list values, as defined in Employee Fields Settings and
+        Lists in the Metadata API.
         https://{company}.bamboohr.com/settings/list.php?id=pay_group
       type: string
 
@@ -1937,8 +1938,8 @@ components:
 
     TerminationReason:
       description: >-
-        Termination reason, as defined in Employee Fields Settings
-        https://{company}.bamboohr.com/settings/list.php?id=3483
+        Termination Reason list values, as defined in Employee Fields Settings
+        and Lists in the Metadata API.
       type: string
 
     TerminationType:
