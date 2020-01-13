@@ -2923,14 +2923,8 @@ components:
       required:
       - id
       - employeeId
-      - date
-      - employmentStatus
-      - comment
-      - terminationReasonId
-      - terminationTypeId
-      - terminationRehireId
-      - benetracStatus
-      - gusto
+      # Other fields are required in responses, but not in request bodies
+      # https://github.com/OAI/OpenAPI-Specification/issues/1873
 
     JobInfo:
       type: object
