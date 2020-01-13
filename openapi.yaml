@@ -3745,6 +3745,12 @@ components:
             attribute: true
           allOf:
           - $ref: '#/components/schemas/EmployeeFieldName'
+      required:
+      - fieldId
+      - manageable
+      - multiple
+      - name
+      - options
 
     ListsMetadata:
       xml:
