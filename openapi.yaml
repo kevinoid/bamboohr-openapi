@@ -2963,7 +2963,8 @@ components:
 
             Responses contain an empty string, if no other value is specified.
 
-            Note: Unrecognized/Invalid values in requests are ignored.
+            Note: Values which do not match a `name` from the "Location" list
+            (case insensitively, ignoring trailing spaces) are ignored.
           allOf:
           - $ref: '#/components/schemas/Location'
         division:
@@ -2972,7 +2973,8 @@ components:
 
             Responses contain an empty string, if no other value is specified.
 
-            Note: Unrecognized/Invalid values in requests are ignored.
+            Note: Values which do not match a `name` from the "Division" list
+            (case insensitively, ignoring trailing spaces) are ignored.
           allOf:
           - $ref: '#/components/schemas/Division'
         department:
@@ -2981,7 +2983,8 @@ components:
 
             Responses contain an empty string, if no other value is specified.
 
-            Note: Unrecognized/Invalid values in requests are ignored.
+            Note: Values which do not match a `name` from the "Department" list
+            (case insensitively, ignoring trailing spaces) are ignored.
           allOf:
           - $ref: '#/components/schemas/Department'
         jobTitle:
@@ -2990,7 +2993,8 @@ components:
 
             Responses contain an empty string, if no other value is specified.
 
-            Note: Unrecognized/Invalid values in requests are ignored.
+            Note: Values which do not match a `name` from the "Job Title" list
+            (case insensitively, ignoring trailing spaces) are ignored.
           allOf:
           - $ref: '#/components/schemas/JobTitle'
         reportsTo:
@@ -3000,11 +3004,9 @@ components:
             Responses use value from `fullName1` employee field, or an empty
             string if not specified.
 
-            Request bodies may use `fullName1`, `fullName2`, `fullName4`,
-            or `fullName5` (but not `fullName3` when it differs from
-            `fullName4`) with any capitalization.
-
-            Note: Unrecognized/Invalid values in requests are ignored.
+            Note: Values which do not match `fullName1`, `fullName2`,
+            `fullName4`, or `fullName5` for a current employee (case
+            insensitively, ignoring trailing spaces) are ignored.
           type: string
       required:
       - id
