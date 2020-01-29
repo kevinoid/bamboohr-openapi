@@ -3194,6 +3194,14 @@ components:
       items:
         $ref: '#/components/schemas/TimeOffPolicy'
 
+    AddTimeOffRequestStatus:
+      type: string
+      enum:
+      - approved
+      - declined
+      - denied
+      - requested
+
     TimeOffRequestStatus:
       type: string
       enum:
@@ -3312,8 +3320,12 @@ components:
       type: object
       properties:
         status:
-          $ref: '#/components/schemas/TimeOffRequestStatus'
+          $ref: '#/components/schemas/AddTimeOffRequestStatus'
         start:
+          description: >-
+            Although dates in the past are accepted, the request will not
+            appear in the "Upcoming Time Off" section of the "Time Off" tab and
+            therefore may be difficult to approve.
           type: string
           format: date
         end:
@@ -3325,10 +3337,12 @@ components:
           description: >-
             The number of days/hours to update the employee's balance by.
             The unit will be whatever the time off type is configured for.
+
+            The number may be positive, negative, or zero.  (Note: This author
+            does not know in what cases negative values might be requested.)
           type: number
           format: decimal
-          minimum: 0
-          exclusiveMinimum: true
+          default: 0
         notes:
           $ref: '#/components/schemas/TimeOffRequestNotes'
         dates:
@@ -3363,6 +3377,11 @@ components:
             request must list the same employee ID as the original request.
           type: integer
           minimum: 1
+      required:
+      - timeOffTypeId
+      - start
+      - end
+      - status
 
     UpdateTimeOffRequestStatusRequest:
       xml:
