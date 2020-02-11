@@ -2888,6 +2888,11 @@ components:
         workPhoneExtension:
           type: string
           nullable: true
+      required:
+      - id
+      - employeeId
+      # Other fields are required in responses, but not in request bodies
+      # https://github.com/OAI/OpenAPI-Specification/issues/1873
 
     EmploymentStatusChange:
       type: object
