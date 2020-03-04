@@ -1955,6 +1955,12 @@ components:
       - Regular
       - Overtime
 
+    RgbColor:
+      description: >-
+        String representation of a 24-bit RGB (aka true color) color value.
+      type: string
+      pattern: '^[0-9a-f]{6}$'
+
     MonthDay:
       description: String representation of a 2-digit month and 2-digit day.
       type: string
@@ -2920,10 +2926,16 @@ components:
           type: string
           nullable: true
         terminationReasonId:
+          # anyOf:
+          # - '#/components/schemas/EmptyString'
           $ref: '#/components/schemas/TerminationReason'
         terminationTypeId:
+          # anyOf:
+          # - '#/components/schemas/EmptyString'
           $ref: '#/components/schemas/TerminationType'
         terminationRehireId:
+          # anyOf:
+          # - '#/components/schemas/EmptyString'
           $ref: '#/components/schemas/YesNo'
         benetracStatus:
           type: string
@@ -3145,8 +3157,7 @@ components:
           units:
             $ref: '#/components/schemas/TimeOffUnit'
           color:
-            type: string
-            pattern: '^[0-9a-f]{6}$'
+            $ref: '#/components/schemas/RgbColor'
         required:
         - units
         - color
