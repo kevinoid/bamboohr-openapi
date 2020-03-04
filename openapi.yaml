@@ -7579,6 +7579,22 @@ paths:
                 $ref: '#/components/schemas/ListsMetadata'
 
   /v1/meta/lists/{id}:
+    get:
+      tags:
+      - Metadata
+      operationId: getList
+      summary: Get the details for a "list" field in an account
+      parameters:
+      - $ref: '#/components/parameters/fieldId'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListMetadata'
     post:
       tags:
       - Metadata
