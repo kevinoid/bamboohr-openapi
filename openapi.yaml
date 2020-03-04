@@ -1955,6 +1955,11 @@ components:
       - Regular
       - Overtime
 
+    MonthDay:
+      description: String representation of a 2-digit month and 2-digit day.
+      type: string
+      pattern: '^[01][0-9]-[0-3][0-9]$'
+
     # Not currently used, since tableName parameter was removed in favor of
     # treating each table path as a separate operation, since it returns a
     # different schema.
@@ -2027,8 +2032,9 @@ components:
 
             Is empty string if dateOfBirth is unspecified.
           readOnly: true
-          type: string
-          pattern: '^([01][0-9]-[0-3][0-9])?$'
+          # FIXME: Should be anyOf: [MonthDay, EmptyString]
+          allOf:
+          - $ref: '#/components/schemas/MonthDay'
         city:
           description: The employee's city.
           type: string
