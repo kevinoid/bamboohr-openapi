@@ -3520,9 +3520,18 @@ components:
           allOf:
           - $ref: '#/components/schemas/TimeOffTypeId'
         amount:
-          description: The number of hours/days to adjust the balance by.
+          description: >-
+            The number of hours by which to adjust the balance.
+
+            Although adjustments are limited to +/-24, the sum of adjustment
+            amounts on the same day is not limited.
           type: number
           format: decimal
+          min: -24
+          max: 24
+          # Values which are not multiples of 0.01 will be rounded.
+          # Disallow by schema to avoid silent unintended behavior.
+          multipleOf: 0.01
         note:
           description: This is an optional note to show in history.
           type: string
