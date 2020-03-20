@@ -3031,6 +3031,10 @@ components:
       - accruing
       - discretionary
       - manual
+      x-enum-descriptions:
+      - Available time-off is automatically accrued at a defined rate.
+      - Available time-off is at the discretion of the employee (i.e. unlimited)
+      - Available time-off is manually adjusted.
 
     TimeOffRequestAction:
       type: string
