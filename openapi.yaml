@@ -3110,6 +3110,24 @@ components:
       - time-off-calendar
       - time-off-luggage
 
+    TimeOffRequestNoteSource:
+      type: string
+      enum:
+      - employee
+      - manager
+
+    TimeOffRequestNote:
+      description: A note made on a time off request.
+      type: object
+      properties:
+        from:
+          $ref: '#/components/schemas/TimeOffRequestNoteSource'
+        note:
+          type: string
+      required:
+      - from
+      - note
+
     TimeOffRequestNotes:
       description: >-
         Earliest note made on a time off request by the employee and manager.
@@ -3370,7 +3388,14 @@ components:
           format: decimal
           default: 0
         notes:
-          $ref: '#/components/schemas/TimeOffRequestNotes'
+          description: >-
+            Notes/Comments from the employee and/or manager about this request.
+
+            If multiple notes from the same source are included, all but the
+            last are currently ignored.
+          type: array
+          items:
+            $ref: '#/components/schemas/TimeOffRequestNote'
         dates:
           description: >-
             The <dates></dates> section is optional. If you don't provide it
