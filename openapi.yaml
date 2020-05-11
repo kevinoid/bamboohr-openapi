@@ -3527,8 +3527,8 @@ components:
             amounts on the same day is not limited.
           type: number
           format: decimal
-          min: -24
-          max: 24
+          minimum: -24
+          maximum: 24
           # Values which are not multiples of 0.01 will be rounded.
           # Disallow by schema to avoid silent unintended behavior.
           multipleOf: 0.01
