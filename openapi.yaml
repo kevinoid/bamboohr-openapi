@@ -3358,7 +3358,7 @@ components:
       items:
         $ref: '#/components/schemas/TimeOffRequest'
 
-    AddTimeOffRequest:
+    AddTimeOffRequestBody:
       xml:
         name: request
       type: object
@@ -3508,7 +3508,7 @@ components:
             format: decimal
             # Note: example amount in docs is -5
 
-    AdjustTimeOffBalance:
+    AdjustTimeOffBalanceRequest:
       type: object
       properties:
         date:
@@ -6784,7 +6784,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AdjustTimeOffBalance'
+              $ref: '#/components/schemas/AdjustTimeOffBalanceRequest'
       responses:
         default:
           $ref: '#/components/responses/Error'
@@ -6929,7 +6929,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AddTimeOffRequest'
+              $ref: '#/components/schemas/AddTimeOffRequestBody'
       responses:
         default:
           $ref: '#/components/responses/Error'
