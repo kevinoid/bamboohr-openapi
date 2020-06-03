@@ -3446,17 +3446,13 @@ components:
       required:
       - status
 
+    # Note: Should be abstract, since request must be a subtype:
+    # https://github.com/OpenAPITools/openapi-generator/issues/3962
+    # https://github.com/Azure/autorest/issues/995
     AddTimeOffHistoryRequest:
       description: >-
-        Base type for addHistoryEntryOrOverride operation.
-        **Do not use this class directly, use a subclass!**
-
-
-        Should be abstract, since request must be a subtype:
-
-        - https://github.com/OpenAPITools/openapi-generator/issues/3962
-
-        - https://github.com/Azure/autorest/issues/995
+        Base type for `addHistoryEntryOrOverride` request body.
+        **Do not use this class directly.  Use a subclass.**
       xml:
         name: history
       type: object
