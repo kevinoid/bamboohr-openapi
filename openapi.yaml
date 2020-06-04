@@ -3451,7 +3451,7 @@ components:
     # https://github.com/Azure/autorest/issues/995
     AddTimeOffHistoryRequest:
       description: >-
-        Base type for `addHistoryEntryOrOverride` request body.
+        Base type for `addHistoryItem` request body.
         **Do not use this class directly.  Use a subclass.**
       xml:
         name: history
@@ -3459,31 +3459,31 @@ components:
       discriminator:
         propertyName: eventType
         mapping:
-          used: AddTimeOffHistoryEntryRequest
+          used: AddTimeOffHistoryItemRequest
           override: AddTimeOffHistoryOverrideRequest
       properties:
         date:
           description: >-
-            By convention, the date of the history entry should be the first
+            By convention, the date of the history item should be the first
             date of the time off range.
           type: string
           format: date
         eventType:
           type: string
         note:
-          description: Note attached to the history entry.
+          description: Note attached to the history item.
           type: string
       required:
       - date
       - eventType
 
-    AddTimeOffHistoryEntryRequest:
+    AddTimeOffHistoryItemRequest:
       allOf:
       - $ref: '#/components/schemas/AddTimeOffHistoryRequest'
       - type: object
         properties:
           timeOffRequestId:
-            description: Time off request this history entry is linked to.
+            description: Time off request this history item is linked to.
             type: integer
             minimum: 1
         required:
@@ -3497,12 +3497,13 @@ components:
           timeOffTypeId:
             $ref: '#/components/schemas/TimeOffTypeId'
           amount:
-            description: >-
+            description: |-
               The number of days/hours of requested time off.
               The unit will be whatever the time off type is configured for.
+              May be positive (to accrue), negative (to use), or zero.
+              Is not limited to 24 hours, unlike `AdjustTimeOffBalanceRequest`.
             type: number
             format: decimal
-            # Note: example amount in docs is -5
 
     AdjustTimeOffBalanceRequest:
       type: object
@@ -6771,6 +6772,9 @@ paths:
       - TimeOff
       operationId: adjustTimeOffBalance
       summary: Adjust Time Off Balance
+      description: >-
+        Same effect as `addHistoryItem` with `AddTimeOffHistoryOverrideRequest`
+        except that each adjustement is limited to -24 to 24 hours.
       externalDocs:
         url: https://documentation.bamboohr.com/reference#time-off-adjust-time-off-balance
       parameters:
@@ -6824,19 +6828,27 @@ paths:
       - TimeOff
       # Can't define multiple operations on same path in OAS3
       # https://github.com/OAI/OpenAPI-Specification/issues/182
-      operationId: addHistoryEntryOrOverride
-      summary: Add a time off history entry or override
+      operationId: addHistoryItem
+      summary: Add a time-off history item.
       description: >-
-        This operation is a combination of two operations with the same path:
+        Adds a time-off history item to accrue or use time-off on a given date.
 
-        https://www.bamboohr.com/api/documentation/time_off.php#addHistoryOverride
+        The history item can be for used time-off which is associated with a
+        time-off request.  This is added using `AddTimeOffHistoryItemRequest`
+        and documented as [Add a time off history
+        entry](https://www.bamboohr.com/api/documentation/time_off.php#addHistoryEntry).
 
-        https://www.bamboohr.com/api/documentation/time_off.php#addHistoryEntry
-      externalDocs:
-        # Only one url is permitted in OAS3
-        # https://github.com/OAI/OpenAPI-Specification/issues/1034
-        # url: https://www.bamboohr.com/api/documentation/time_off.php#addHistoryOverride
-        url: https://www.bamboohr.com/api/documentation/time_off.php#addHistoryEntry
+        Alternatively the history item can be an override which is not
+        associated with a time-off request.  This is added using
+        `AddTimeOffHistoryOverrideRequest` and documented as [Add a time off
+        history
+        override](https://www.bamboohr.com/api/documentation/time_off.php#addHistoryOverride).  This has the same effect as the `adjustTimeOffBalance`
+        operation without the restriction for hours to be between -24 and 24.
+      # Only one url is permitted in OAS3
+      # https://github.com/OAI/OpenAPI-Specification/issues/1034
+      # externalDocs:
+      #   url: https://www.bamboohr.com/api/documentation/time_off.php#addHistoryOverride
+      #   url: https://www.bamboohr.com/api/documentation/time_off.php#addHistoryEntry
       parameters:
       - $ref: '#/components/parameters/employeeId'
       requestBody:
@@ -8146,7 +8158,7 @@ paths:
 # Suppress incorrect warnings for schemas only referenced by allOf/anyOf/oneOf
 # https://github.com/OpenAPITools/openapi-generator/issues/4193
 x-suppress-warning:
-- $ref: '#/components/schemas/AddTimeOffHistoryEntryRequest'
+- $ref: '#/components/schemas/AddTimeOffHistoryItemRequest'
 - $ref: '#/components/schemas/AddTimeOffHistoryOverrideRequest'
 # Not currently used for enforcement
 - $ref: '#/components/schemas/StateCode'
