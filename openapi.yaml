@@ -2839,6 +2839,41 @@ components:
           type: string
           nullable: true
 
+    DriversLicense:
+      type: object
+      properties:
+        id:
+          type: string
+          format: integer
+          readOnly: true
+        employeeId:
+          type: string
+          format: integer
+          readOnly: true
+        customLicenseNumber1:
+          x-ms-client-name: licenseNumber
+          type: string
+          nullable: true
+        customStateIssued1:
+          x-ms-client-name: stateIssued
+          nullable: true
+          allOf:
+          - $ref: '#/components/schemas/StateCode'
+        customExpirationDate2:
+          x-ms-client-name: expirationDate
+          type: string
+          format: date
+          nullable: true
+        customLicenseComments1:
+          x-ms-client-name: comment
+          type: string
+          nullable: true
+      required:
+      - id
+      - employeeId
+      # Other fields are required in responses, but not in request bodies
+      # https://github.com/OAI/OpenAPI-Specification/issues/1873
+
     EmergencyContact:
       type: object
       properties:
@@ -6321,6 +6356,119 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/CompensationChange'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+
+  /v1/employees/{id}/tables/customDriversLicenseInformation:
+    get:
+      tags:
+      - Tables
+      operationId: getDriversLicenses
+      summary: Get the Driver's License Information table rows for an employee.
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/tables.php#getTable
+      parameters:
+      - $ref: '#/components/parameters/employeeId'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DriversLicense'
+
+  /v1/employees/all/tables/customDriversLicenseInformation:
+    get:
+      tags:
+      - Tables
+      operationId: getAllDriversLicenses
+      summary: >-
+        Get the Driver's License Information table rows for all employees.
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/tables.php#getTables
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DriversLicense'
+
+  /v1/employees/changed/tables/customDriversLicenseInformation:
+    get:
+      tags:
+      - Tables
+      operationId: getChangedDriversLicenses
+      summary: >-
+        Get the Driver's License Information table rows for changed employees.
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/tables.php#getTables
+      parameters:
+      - $ref: '#/components/parameters/since'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DriversLicense'
+
+  /v1_1/employees/{id}/tables/customDriversLicenseInformation:
+    post:
+      tags:
+      - Tables
+      operationId: addDriversLicense
+      summary: >-
+        Add a row to the Driver's License Information table for an employee.
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/tables.php#addRowOnePointOne
+      parameters:
+      - $ref: '#/components/parameters/employeeId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DriversLicense'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+
+  /v1_1/employees/{id}/tables/customDriversLicenseInformation/{rowId}:
+    post:
+      tags:
+      - Tables
+      operationId: updateDriversLicense
+      summary: >-
+        Update a row of the Driver's License Information table for an employee.
+      externalDocs:
+        url: https://www.bamboohr.com/api/documentation/tables.php#updateRowOnePointOne
+      parameters:
+      - $ref: '#/components/parameters/employeeId'
+      - $ref: '#/components/parameters/rowId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DriversLicense'
       responses:
         default:
           $ref: '#/components/responses/Error'
