@@ -3832,9 +3832,6 @@ components:
       - commission
       - compensation
       - contacts
-      - customAssets
-      - customDirectDepositInformation
-      - customDriver'sLicenseInformation
       - dependents
       - earnings
       - emergencyContacts
