@@ -4000,9 +4000,13 @@ components:
       - status
 
     Users:
+      description: Map from user ID to user.
       xml:
         name: users
       type: object
+      # https://github.com/OAI/OpenAPI-Specification/issues/687
+      # patternProperties:
+      #   '^[0-9]+$':
       additionalProperties:
         $ref: '#/components/schemas/User'
 
@@ -4033,7 +4037,12 @@ components:
           type: string
           format: date-time
         employees:
+          description: >-
+            Map from employee ID to change information for the employee.
           type: object
+          # https://github.com/OAI/OpenAPI-Specification/issues/687
+          # patternProperties:
+          #   '^[0-9]+$':
           additionalProperties:
             $ref: '#/components/schemas/EmployeeChange'
       required:
