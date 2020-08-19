@@ -2206,7 +2206,13 @@ components:
           type: string
           format: date
         originalHireDate:
-          description: The date the employee was originally hired. Available starting with version 1.1.
+          description: >-
+            The date the employee was originally hired.
+            Available starting with version 1.1.
+
+
+            Note: Attempting to update to "0000-00-00" has no effect.
+            Use "" or null to clear.
           type: string
           format: date
         homeEmail:
