@@ -6035,15 +6035,17 @@ paths:
         url: https://www.bamboohr.com/api/documentation/employees.php#updateEmployee
       parameters:
       - $ref: '#/components/parameters/employeeId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employee'
       responses:
         default:
           $ref: '#/components/responses/Error'
         '200':
           description: Success
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Employee'
         '403':
           description: User does not have permission to update ANY of the requested fields
           headers:
