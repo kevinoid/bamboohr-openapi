@@ -8003,6 +8003,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/PayrollDeductionsHolder'
 
+  # Note: Moved to x-ms-paths during build
   /v1/reports/{id}?format=JSON:
     get:
       tags:
