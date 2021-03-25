@@ -6461,8 +6461,12 @@ paths:
             application/json:
               schema:
                 type: array
+                maxItems: 1
+                minItems: 1
                 items:
-                  $ref: '#/components/schemas/DriversLicense'
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/DriversLicense'
 
   /v1/employees/all/tables/customDriversLicenseInformation:
     get:
@@ -6483,7 +6487,9 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/DriversLicense'
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/DriversLicense'
 
   /v1/employees/changed/tables/customDriversLicenseInformation:
     get:
