@@ -2537,12 +2537,9 @@ components:
           description: The employee's Twitter username or URL
           nullable: true
           type: string
-      # https://github.com/OAI/OpenAPI-Specification/issues/687
-      # patternProperties:
-      #   '^customField':
-      #     type: string
-      additionalProperties:
-        type: string
+      patternProperties:
+        '^customField':
+          type: string
       # Note: Only id is required due to how employeeFields parameter works
       required:
       - id
@@ -3419,14 +3416,10 @@ components:
           description: >-
             Maps ISO date string to number of time-off hours requested.
           type: object
-          # https://github.com/OAI/OpenAPI-Specification/issues/687
-          # patternProperties:
-          #   '^[0-9]{4}-[0-2]{2}-[0-2]{2}$':
-          #     type: string
-          #     format: integer
-          additionalProperties:
-            type: string
-            format: integer
+          patternProperties:
+            '^[0-9]{4}-[0-2]{2}-[0-2]{2}$':
+              type: string
+              format: integer
         notes:
           description: >-
             Earliest note made on a time off request by the employee and manager.
@@ -3514,14 +3507,10 @@ components:
 
             Keys are ISO date strings, values are number of hours requested.
           type: object
-          # https://github.com/OAI/OpenAPI-Specification/issues/687
-          # patternProperties:
-          #   '^[0-9]{4}-[0-2]{2}-[0-2]{2}$':
-          #     type: string
-          #     format: integer
-          additionalProperties:
-            type: string
-            format: integer
+          patternProperties:
+            '^[0-9]{4}-[0-2]{2}-[0-2]{2}$':
+              type: string
+              format: integer
         previousRequest:
           description: >-
             If you supply the "previousRequest" parameter with a valid "time
@@ -4010,11 +3999,9 @@ components:
       xml:
         name: users
       type: object
-      # https://github.com/OAI/OpenAPI-Specification/issues/687
-      # patternProperties:
-      #   '^[0-9]+$':
-      additionalProperties:
-        $ref: '#/components/schemas/User'
+      patternProperties:
+        '^[0-9]+$':
+          $ref: '#/components/schemas/User'
 
     EmployeeChange:
       xml:
@@ -4046,11 +4033,9 @@ components:
           description: >-
             Map from employee ID to change information for the employee.
           type: object
-          # https://github.com/OAI/OpenAPI-Specification/issues/687
-          # patternProperties:
-          #   '^[0-9]+$':
-          additionalProperties:
-            $ref: '#/components/schemas/EmployeeChange'
+          patternProperties:
+            '^[0-9]+$':
+              $ref: '#/components/schemas/EmployeeChange'
       required:
       - latest
       - employees
