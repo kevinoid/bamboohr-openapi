@@ -3625,7 +3625,7 @@ components:
         note:
           description: This is an optional note to show in history.
           type: string
-          maximum: 255
+          maxLength: 255
       required:
       - date
       - timeOffTypeId
