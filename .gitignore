@@ -1,4 +1,7 @@
 /doc/
+autorest2.json
+autorest3.json
 node_modules/
 npm-debug.log
 openapi.json
+swagger.json

@@ -1,0 +1,46 @@
+// ESLint configuration <https://eslint.org/docs/user-guide/configuring>
+{
+  "extends": "@kevinoid/eslint-config/node.js",
+
+  "rules": {
+    // Allow requiring devDependencies for build and test
+    "import/no-extraneous-dependencies": ["error", {
+      "devDependencies": [
+        "build/**",
+        "gulpfile.js",
+        "scripts/**",
+        "script-lib/**",
+        "test-bin/**",
+        "test-lib/**",
+        "test/**"
+      ]
+    }]
+  },
+
+  "overrides": [
+    {
+      "files": [
+        "scripts/*.js"
+      ],
+      "rules": {
+        // Executable scripts are not expected to have exports
+        "import/no-unused-modules": "off",
+
+        // Executable scripts should have a shebang
+        "n/hashbang": "off"
+      }
+    },
+    {
+      // imports with no exports
+      "files": [
+        "script-lib/jgexml-issue17-workaround.js"
+      ],
+      "rules": {
+        "import/no-unused-modules": ["error", {
+          "missingExports": false,
+          "unusedExports": true
+        }]
+      }
+    }
+  ]
+}
