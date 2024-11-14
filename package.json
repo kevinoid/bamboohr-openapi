@@ -38,7 +38,7 @@
     "preversion": "depcheck --ignore-dirs doc --ignores=\"bootprint-openapi,eslint-*,rimraf\" && david && git-branch-is main && hub-ci-status -vv --wait",
     "test": "npm run lint && npm run validate",
     "validate": "npm run validate-autorest && npm run validate-openapi-generator && npm run validate-spectral",
-    "validate-autorest": "autorest --azure-validator --semantic-validator --input-file=openapi.yaml",
+    "validate-autorest": "autorest --semantic-validator --input-file=autorest2.json",
     "validate-openapi-generator": "openapi-generator validate --recommend -i openapi.yaml",
     "validate-spectral": "spectral lint openapi.yaml",
     "version": "sed -i.bak \"1,20s/^\\(  version:\\) 0\\.[0-9.]*$/\\1 $npm_package_version/\" openapi.yaml && rm openapi.yaml.bak && github_changelog_generator -t \"$npm_config_gcg_github_token\" --future-release \"$npm_package_version\" && echo && echo === Please edit CHANGELOG.md as desired, then exit === && echo && $npm_config_shell && git commit -m \"Update CHANGELOG.md for $npm_package_version\" CHANGELOG.md && git commit -m \"Update OpenAPI spec version to $npm_package_version\" openapi.yaml",
