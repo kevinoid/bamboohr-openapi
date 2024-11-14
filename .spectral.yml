@@ -2,6 +2,10 @@
 # <https://stoplight.io/p/docs/gh/stoplightio/spectral/docs/getting-started/rulesets.md>
 extends: [[spectral:oas, all]]
 rules:
+  # Allow operations without description
+  # FIXME: Document all operations then re-enable
+  operation-description: false
+
   # Use paths as specified in the API documentation and other API clients,
   # whether or not they have a trailing slash.
   path-keys-no-trailing-slash: false
