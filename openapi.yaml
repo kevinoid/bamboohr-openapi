@@ -4530,7 +4530,7 @@ components:
         employeeBenefitDeductions:
           type: array
           items:
-            $ref: '#/components/schemas/EmployeeBenefitDeductions'
+            $ref: '#/components/schemas/EmployeeBenefitDeduction'
       required:
       - employeeBenefitDeductions
 
