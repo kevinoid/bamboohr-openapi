@@ -9,3 +9,7 @@ rules:
   # Use paths as specified in the API documentation and other API clients,
   # whether or not they have a trailing slash.
   path-keys-no-trailing-slash: false
+
+  # Paths with query strings are moved to x-ms-paths as part of the build
+  # process.
+  path-not-include-query: false
