@@ -98,11 +98,11 @@ export default class Autorest2Transformer extends OpenApiTransformerPipeline {
       new RemoveResponseHeadersTransformer(),
       new RemovePathsWithServersTransformer(),
       new ClearHtmlResponseSchemaTransformer(),
-      // FIXME: Some properties of parent (allOf $ref) schemas are required,
-      // which is not handled correctly by NullableNotRequiredTransformer.
-      // Since there are no unconstrained required properties, set
-      // requireUnconstrained as a workaround.
-      new NullableNotRequiredTransformer({ requireUnconstrained: true }),
+      // Note: Removes properties of $ref parent required in child.
+      // This is a bug in NullableNotRequiredTransformer, but is the desired
+      // behavior, since Autorest doesn't support it and OAV produces
+      // OBJECT_MISSING_REQUIRED_PROPERTY_DEFINITION errors for it.
+      new NullableNotRequiredTransformer(),
       new PathParametersToOperationTransformer(),
       new ServerVarsToPathParamsTransformer({ omitDefault: ['subdomain'] }),
       new ServerVarsToParamHostTransformer({ omitDefault: ['subdomain'] }),
