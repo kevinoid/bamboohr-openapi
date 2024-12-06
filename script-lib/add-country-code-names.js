@@ -3,8 +3,7 @@
  * @license MIT
  */
 
-import microsoftCase
-  from '@kevinoid/openapi-transformers/lib/microsoft-case.js';
+import dotnetCase from '@kevinoid/dotnet-identifier-case';
 import OpenApiTransformerBase from 'openapi-transformer-base';
 
 function addCountryToCode(CountryCode, Country) {
@@ -36,7 +35,7 @@ function addCountryToCode(CountryCode, Country) {
     'x-enum-descriptions':
       Country.enum.map((country) => `ISO 3166-2 code for ${country}.`),
     'x-enum-varnames':
-      Country.enum.map(microsoftCase),
+      Country.enum.map(dotnetCase),
   };
 }
 

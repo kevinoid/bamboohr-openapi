@@ -46,6 +46,7 @@
     "version-deps": "npm install david depcheck git-branch-is hub-ci-status"
   },
   "devDependencies": {
+    "@kevinoid/dotnet-identifier-case": "^1.0.0",
     "@kevinoid/eslint-config": "^33.0.0",
     "@kevinoid/openapi-transformers": "^0.1.0",
     "@kevinoid/openapi-transformer-pipeline": "^0.1.0",
