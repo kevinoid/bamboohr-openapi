@@ -14,8 +14,8 @@ import ClearHtmlResponseSchemaTransformer
   from '@kevinoid/openapi-transformers/clear-html-response-schema.js';
 import FormatToTypeTransformer
   from '@kevinoid/openapi-transformers/format-to-type.js';
-import MergeSubschemasTransformer
-  from '@kevinoid/openapi-transformers/merge-subschemas.js';
+import MergeAllOfTransformer
+  from '@kevinoid/openapi-transformers/merge-all-of.js';
 import PathParametersToOperationTransformer
   from '@kevinoid/openapi-transformers/path-parameters-to-operations.js';
 import PatternPropertiesToAdditionalPropertiesTransformer from
@@ -41,11 +41,6 @@ import GenerateEmployeeFieldNamesTransformer
   from './generate-employee-fields.js';
 import RemoveAnyOfEmptyArrayTransformer from './remove-any-of-empty-array.js';
 
-function skipAllOf(allOf) {
-  // Only merge allOf which contains a single element.
-  return allOf.length > 1;
-}
-
 /**
  * Transformer to convert the BambooHR OpenAPI document to a format suitable
  * for use by Autorest version 3.
@@ -68,7 +63,7 @@ export default class Autorest3Transformer extends OpenApiTransformerPipeline {
       new AddXMsEnumNameTransformer(),
       new XEnumToXMsEnumTransformer(),
       new CapitalizeCurrencyCodeTransformer(),
-      new MergeSubschemasTransformer({ skipAllOf }),
+      new MergeAllOfTransformer({ onlySingle: true }),
       new RemoveRefSiblingsTransformer({ remove: ['xml'] }),
       new RemoveResponseHeadersTransformer(),
       new RemovePathsWithServersTransformer(),
