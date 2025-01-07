@@ -5,6 +5,7 @@
 
 import { readFile, writeFile } from 'node:fs/promises';
 
+import deepmerge from 'deepmerge';
 import { load as loadYaml } from 'js-yaml';
 import jsonReplaceExponentials from 'json-replace-exponentials';
 
@@ -46,8 +47,8 @@ async function transform(openApi, Transformer, output) {
  * arguments with invalid type (or args.length < 2).
  */
 export default async function runTransformersMain(args, options) {
-  if (!Array.isArray(args) || args.length !== 2) {
-    throw new TypeError('args must be an Array with exactly 2 items');
+  if (!Array.isArray(args) || args.length < 2) {
+    throw new TypeError('args must be an Array with at least 2 items');
   }
 
   if (!options || typeof options !== 'object') {
@@ -63,19 +64,29 @@ export default async function runTransformersMain(args, options) {
     throw new TypeError('options.stderr must be a stream.Writable');
   }
 
+  if (args.length < 3) {
+    options.stderr.write('Error: At least one argument is required.\n'
+      + `Usage: ${args[1]} <OpenAPI Document...>\n`);
+    return 1;
+  }
+
   function onWarning(errYaml) {
     options.stderr.write(`${errYaml}\n`);
   }
 
-  const filename = 'openapi.yaml';
-
-  try {
-    const openApiYaml = await readFile(filename, { encoding: 'utf8' });
-    const openApi = loadYaml(openApiYaml, {
+  async function readYaml(filename) {
+    const yaml = await readFile(filename, { encoding: 'utf8' });
+    return loadYaml(yaml, {
       filename,
       onWarning,
       json: true, // don't throw on duplicate keys
     });
+  }
+
+  try {
+    const openApis = await Promise.all(args.slice(2).map(readYaml));
+    const openApi = openApis.length === 1 ? openApis[0]
+      : deepmerge.all(openApis, { clone: false });
 
     const results = await Promise.allSettled([
       transform(openApi, Autorest2Transformer, 'autorest2.json'),
