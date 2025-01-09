@@ -22,8 +22,6 @@ import OpenApi31To30Transformer from
   '@kevinoid/openapi-transformers/openapi31to30.js';
 import PathParametersToOperationTransformer
   from '@kevinoid/openapi-transformers/path-parameters-to-operations.js';
-import PatternPropertiesToAdditionalPropertiesTransformer from
-  '@kevinoid/openapi-transformers/pattern-properties-to-additional-properties.js';
 import QueriesToXMsPathsTransformer
   from '@kevinoid/openapi-transformers/queries-to-x-ms-paths.js';
 import RemovePathsWithServersTransformer
