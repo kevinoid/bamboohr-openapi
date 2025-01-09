@@ -32,10 +32,10 @@ import MergeAnyOfTransformer
   from '@kevinoid/openapi-transformers/merge-any-of.js';
 import NullableNotRequiredTransformer
   from '@kevinoid/openapi-transformers/nullable-not-required.js';
+import OpenApi31To30Transformer from
+  '@kevinoid/openapi-transformers/openapi31to30.js';
 import PathParametersToOperationTransformer
   from '@kevinoid/openapi-transformers/path-parameters-to-operations.js';
-import PatternPropertiesToAdditionalPropertiesTransformer from
-  '@kevinoid/openapi-transformers/pattern-properties-to-additional-properties.js';
 import QueriesToXMsPathsTransformer
   from '@kevinoid/openapi-transformers/queries-to-x-ms-paths.js';
 import ReadOnlyNotRequiredTransformer
@@ -77,7 +77,7 @@ export default class Autorest2Transformer extends OpenApiTransformerPipeline {
     super([
       new GenerateEmployeeFieldNamesTransformer(),
       new AddCountryCodeNamesTransformer(),
-      new PatternPropertiesToAdditionalPropertiesTransformer(),
+      new OpenApi31To30Transformer(),
       new RemoveAnyOfEmptyArrayTransformer(),
       new RenameComponentsTransformer({
         schemas: {

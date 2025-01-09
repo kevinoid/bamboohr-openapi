@@ -18,6 +18,8 @@ import MergeAllOfTransformer
   from '@kevinoid/openapi-transformers/merge-all-of.js';
 import MergeAnyOfTransformer
   from '@kevinoid/openapi-transformers/merge-any-of.js';
+import OpenApi31To30Transformer from
+  '@kevinoid/openapi-transformers/openapi31to30.js';
 import PathParametersToOperationTransformer
   from '@kevinoid/openapi-transformers/path-parameters-to-operations.js';
 import PatternPropertiesToAdditionalPropertiesTransformer from
@@ -52,7 +54,7 @@ export default class Autorest3Transformer extends OpenApiTransformerPipeline {
     super([
       new GenerateEmployeeFieldNamesTransformer(),
       new AddCountryCodeNamesTransformer(),
-      new PatternPropertiesToAdditionalPropertiesTransformer(),
+      new OpenApi31To30Transformer(),
       new RemoveAnyOfEmptyArrayTransformer(),
       new RenameComponentsTransformer({
         schemas: {

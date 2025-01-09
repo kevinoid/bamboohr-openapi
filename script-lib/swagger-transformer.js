@@ -10,8 +10,8 @@ import ClientParamsToGlobalTransformer
   from '@kevinoid/openapi-transformers/client-params-to-global.js';
 import MergeAnyOfTransformer
   from '@kevinoid/openapi-transformers/merge-any-of.js';
-import PatternPropertiesToAdditionalPropertiesTransformer from
-  '@kevinoid/openapi-transformers/pattern-properties-to-additional-properties.js';
+import OpenApi31To30Transformer from
+  '@kevinoid/openapi-transformers/openapi31to30.js';
 import RefPathParametersTransformer
   from '@kevinoid/openapi-transformers/ref-path-parameters.js';
 import RemovePathsWithServersTransformer
@@ -35,7 +35,7 @@ export default class SwaggerTransformer extends OpenApiTransformerPipeline {
     super([
       new GenerateEmployeeFieldNamesTransformer(),
       new AddCountryCodeNamesTransformer(),
-      new PatternPropertiesToAdditionalPropertiesTransformer(),
+      new OpenApi31To30Transformer(),
       new MergeAnyOfTransformer(),
       new RemovePathsWithServersTransformer(),
       new ServerVarsToPathParamsTransformer({ omitDefault: ['subdomain'] }),
