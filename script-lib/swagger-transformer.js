@@ -25,6 +25,7 @@ import AddCountryCodeNamesTransformer from './add-country-code-names.js';
 import GenerateEmployeeFieldNamesTransformer
   from './generate-employee-fields.js';
 import bambooHrV3ToV2Factory from './oas3-to-oas2.js';
+import SimplifyBambooHRTransformer from './simplify-bamboo-hr.js';
 
 /**
  * Transformer to convert the BambooHR OpenAPI document to OpenAPI 2 (fka
@@ -35,6 +36,7 @@ export default class SwaggerTransformer extends OpenApiTransformerPipeline {
     super([
       new GenerateEmployeeFieldNamesTransformer(),
       new AddCountryCodeNamesTransformer(),
+      new SimplifyBambooHRTransformer(),
       new OpenApi31To30Transformer(),
       new MergeAnyOfTransformer(),
       new RemovePathsWithServersTransformer(),

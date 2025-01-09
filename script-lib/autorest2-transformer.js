@@ -67,6 +67,7 @@ import GenerateEmployeeFieldNamesTransformer
   from './generate-employee-fields.js';
 import bambooHrV3ToV2Factory from './oas3-to-oas2.js';
 import RemoveAnyOfEmptyArrayTransformer from './remove-any-of-empty-array.js';
+import SimplifyBambooHRTransformer from './simplify-bamboo-hr.js';
 
 /**
  * Transformer to convert the BambooHR OpenAPI document to a format suitable
@@ -77,6 +78,7 @@ export default class Autorest2Transformer extends OpenApiTransformerPipeline {
     super([
       new GenerateEmployeeFieldNamesTransformer(),
       new AddCountryCodeNamesTransformer(),
+      new SimplifyBambooHRTransformer(),
       new OpenApi31To30Transformer(),
       new RemoveAnyOfEmptyArrayTransformer(),
       new RenameComponentsTransformer({
