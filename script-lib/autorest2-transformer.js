@@ -28,6 +28,8 @@ import InlineNonObjectSchemaTransformer
   from '@kevinoid/openapi-transformers/inline-non-object-schemas.js';
 import MergeAllOfTransformer
   from '@kevinoid/openapi-transformers/merge-all-of.js';
+import MergeAnyOfTransformer
+  from '@kevinoid/openapi-transformers/merge-any-of.js';
 import NullableNotRequiredTransformer
   from '@kevinoid/openapi-transformers/nullable-not-required.js';
 import PathParametersToOperationTransformer
@@ -91,6 +93,7 @@ export default class Autorest2Transformer extends OpenApiTransformerPipeline {
       new AddXMsEnumValueNamesTransformer(),
       new CapitalizeCurrencyCodeTransformer(),
       new MergeAllOfTransformer({ onlySingle: true }),
+      new MergeAnyOfTransformer(),
       new RemoveRefSiblingsTransformer({ remove: ['xml'] }),
       new RemoveResponseHeadersTransformer(),
       new RemovePathsWithServersTransformer(),

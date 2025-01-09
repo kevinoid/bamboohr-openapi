@@ -8,6 +8,8 @@ import AssertPropertiesTransformer
   from '@kevinoid/openapi-transformers/assert-properties.js';
 import ClientParamsToGlobalTransformer
   from '@kevinoid/openapi-transformers/client-params-to-global.js';
+import MergeAnyOfTransformer
+  from '@kevinoid/openapi-transformers/merge-any-of.js';
 import PatternPropertiesToAdditionalPropertiesTransformer from
   '@kevinoid/openapi-transformers/pattern-properties-to-additional-properties.js';
 import RefPathParametersTransformer
@@ -34,6 +36,7 @@ export default class SwaggerTransformer extends OpenApiTransformerPipeline {
       new GenerateEmployeeFieldNamesTransformer(),
       new AddCountryCodeNamesTransformer(),
       new PatternPropertiesToAdditionalPropertiesTransformer(),
+      new MergeAnyOfTransformer(),
       new RemovePathsWithServersTransformer(),
       new ServerVarsToPathParamsTransformer({ omitDefault: ['subdomain'] }),
       new ServerVarsToParamHostTransformer({ omitDefault: ['subdomain'] }),

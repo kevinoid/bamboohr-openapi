@@ -16,6 +16,8 @@ import FormatToTypeTransformer
   from '@kevinoid/openapi-transformers/format-to-type.js';
 import MergeAllOfTransformer
   from '@kevinoid/openapi-transformers/merge-all-of.js';
+import MergeAnyOfTransformer
+  from '@kevinoid/openapi-transformers/merge-any-of.js';
 import PathParametersToOperationTransformer
   from '@kevinoid/openapi-transformers/path-parameters-to-operations.js';
 import PatternPropertiesToAdditionalPropertiesTransformer from
@@ -64,6 +66,7 @@ export default class Autorest3Transformer extends OpenApiTransformerPipeline {
       new XEnumToXMsEnumTransformer(),
       new CapitalizeCurrencyCodeTransformer(),
       new MergeAllOfTransformer({ onlySingle: true }),
+      new MergeAnyOfTransformer(),
       new RemoveRefSiblingsTransformer({ remove: ['xml'] }),
       new RemoveResponseHeadersTransformer(),
       new RemovePathsWithServersTransformer(),
