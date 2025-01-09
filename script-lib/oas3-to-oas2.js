@@ -67,7 +67,7 @@ function tuneBambooHrV2Spec(v2Spec) {
 
 async function bambooHrV3ToV2(openApi) {
   if (typeof openApi !== 'object' || openApi === null) {
-    return openApi;
+    throw new TypeError('openApi must be an object');
   }
 
   const format = await Converter.convert({
