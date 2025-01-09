@@ -4361,15 +4361,8 @@ components:
       type: object
       properties:
         id:
-          anyOf:
-          # TODO: Replace with const once supported by OpenAPI
-          # https://github.com/OAI/OpenAPI-Specification/issues/1313
-          # https://github.com/OAI/OpenAPI-Specification/issues/1666
-          - type: string
-            enum:
-            - pretax_subtype
-          - type: integer
-            minimum: 1
+          type: integer
+          minimum: 1
         deductionTypeName:
           type: string
         defaultDeductionCode:
