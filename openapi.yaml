@@ -2074,12 +2074,10 @@ components:
       properties:
         address1:
           description: The employee's first address line.
-          type: string
-          nullable: true
+          type: [string, 'null']
         address2:
           description: The employee's second address line.
-          type: string
-          nullable: true
+          type: [string, 'null']
         age:
           description: >-
             The employee's age. To change age, update dateOfBirth field.
@@ -2091,9 +2089,8 @@ components:
         bestEmail:
           description: The employee's work email if set, otherwise their home email.
           readOnly: true
-          type: string
+          type: [string, 'null']
           format: email
-          nullable: true
         birthday:
           description: >-
             The employee's month and day of birth. To change birthday, update
@@ -2106,66 +2103,62 @@ components:
           - $ref: '#/components/schemas/MonthDay'
         city:
           description: The employee's city.
-          type: string
-          nullable: true
+          type: [string, 'null']
         country:
           description: The employee's country.
-          nullable: true
-          allOf:
+          anyOf:
           - $ref: '#/components/schemas/Country'
+          - type: 'null'
         dateOfBirth:
           description: The date the employee was born.
-          nullable: true
-          type: string
+          type: [string, 'null']
           format: date
         department:
           description: The employee's CURRENT department.
-          nullable: true
-          allOf:
+          anyOf:
           - $ref: '#/components/schemas/Department'
+          - type: 'null'
         division:
           description: The employee's CURRENT division.
-          nullable: true
-          allOf:
+          anyOf:
           - $ref: '#/components/schemas/Division'
+          - type: 'null'
         eeo:
           description: The employee's EEO job category
-          nullable: true
-          allOf:
+          anyOf:
           - $ref: '#/components/schemas/EEOJobCategory'
+          - type: 'null'
         employeeNumber:
           description: Employee number (assigned by your company).
-          nullable: true
-          type: string
+          type: [string, 'null']
         employmentHistoryStatus:
           description: The employee's CURRENT employment status. Options are customized by account. Read-only starting with version 1.1; update using the employmentStatus table.
-          nullable: true
           readOnly: true
-          allOf:
+          anyOf:
           - $ref: '#/components/schemas/EmploymentStatus'
+          - type: 'null'
         ethnicity:
           description: The employee's ethnicity.
-          nullable: true
-          allOf:
+          anyOf:
           - $ref: '#/components/schemas/Ethnicity'
+          - type: 'null'
         exempt:
           description: The employee's FLSA Overtime Status
-          nullable: true
-          allOf:
+          anyOf:
           - $ref: '#/components/schemas/OvertimeExemptStatus'
+          - type: 'null'
         firstName:
           description: The employee's first name.
-          nullable: true
-          type: string
+          type: [string, 'null']
           minLength: 1
         flsaCode:
           description: The employee's FLSA Overtime Status
           deprecated: true
           x-deprecated:
             replaced-by: exempt
-          nullable: true
-          allOf:
+          anyOf:
           - $ref: '#/components/schemas/OvertimeExemptStatus'
+          - type: 'null'
         fullName1:
           description: The employee's first and last name. (e.g., John Doe).
           readOnly: true
@@ -2198,9 +2191,9 @@ components:
           minLength: 1
         gender:
           description: The employee's gender.
-          nullable: true
-          allOf:
+          anyOf:
           - $ref: '#/components/schemas/Gender'
+          - type: 'null'
         hireDate:
           description: The date the employee was hired.
           type: string
@@ -2217,13 +2210,11 @@ components:
           format: date
         homeEmail:
           description: The employee's home email address.
-          nullable: true
-          type: string
+          type: [string, 'null']
           format: email
         homePhone:
           description: The employee's home phone number.
-          nullable: true
-          type: string
+          type: [string, 'null']
         id:
           description: The employee ID automatically assigned by BambooHR.
           readOnly: true
@@ -2231,9 +2222,9 @@ components:
           minimum: 1
         jobTitle:
           description: The CURRENT value of the employee's job title, updating this field will create a new row in position history.
-          nullable: true
-          allOf:
+          anyOf:
           - $ref: '#/components/schemas/JobTitle'
+          - type: 'null'
         lastChanged:
           description: The date and time that the employee record was last changed.
           readOnly: true
@@ -2245,81 +2236,76 @@ components:
           minLength: 1
         location:
           description: The employee's CURRENT location.
-          nullable: true
-          allOf:
+          anyOf:
           - $ref: '#/components/schemas/Location'
+          - type: 'null'
         maritalStatus:
           description: The employee's marital status
-          nullable: true
-          allOf:
+          anyOf:
           - $ref: '#/components/schemas/MaritalStatus'
+          - type: 'null'
         middleName:
           description: The employee's middle name.
-          nullable: true
-          type: string
+          type: [string, 'null']
         mobilePhone:
           description: The employee's mobile phone number.
-          nullable: true
-          type: string
+          type: [string, 'null']
         payChangeReason:
           description: The reason for the employee's last pay rate change.
-          nullable: true
-          allOf:
+          anyOf:
           - $ref: '#/components/schemas/CompensationChangeReason'
+          - type: 'null'
         payGroup:
           description: The custom pay group that the employee belongs to.
-          nullable: true
-          allOf:
+          anyOf:
           - $ref: '#/components/schemas/PayGroup'
+          - type: 'null'
         payGroupId:
           description: The ID value corresponding to the pay group that an employee belongs to.
-          nullable: true
-          type: integer
+          type: [integer, 'null']
           minimum: 1
         payRate:
           description: The employee's CURRENT pay rate
-          nullable: true
-          allOf:
+          anyOf:
           - $ref: '#/components/schemas/CurrencyAmountString'
+          - type: 'null'
         payRateEffectiveDate:
           description: The day the most recent change was made.
           readOnly: true
-          nullable: true
-          type: string
+          type: [string, 'null']
           format: date
         payType:
           description: The employee's CURRENT pay type.
-          nullable: true
-          allOf:
+          anyOf:
           - $ref: '#/components/schemas/PayType'
+          - type: 'null'
         payPer:
           description: The employee's CURRENT pay per.
-          nullable: true
-          allOf:
+          anyOf:
           - $ref: '#/components/schemas/PayPer'
+          - type: 'null'
         paidPer:
           description: The employee's CURRENT pay per.
-          nullable: true
           deprecated: true
           x-deprecated:
             replaced-by: payPer
-          allOf:
+          anyOf:
           - $ref: '#/components/schemas/PayPer'
+          - type: 'null'
         paySchedule:
           description: The employee's CURRENT pay schedule.
-          nullable: true
-          allOf:
+          anyOf:
           - $ref: '#/components/schemas/PaySchedule'
+          - type: 'null'
         payScheduleId:
           description: The ID value corresponding to the pay schedule that an employee belongs to.
-          nullable: true
-          type: integer
+          type: [integer, 'null']
           minimum: 1
         payFrequency:
           description: The employee's CURRENT pay frequency.
-          nullable: true
-          allOf:
+          anyOf:
           - $ref: '#/components/schemas/PayFrequency'
+          - type: 'null'
         includeInPayroll:
           description: Should employee be included in payroll
           type: boolean
@@ -2328,18 +2314,17 @@ components:
           type: boolean
         preferredName:
           description: The employee's preferred name.
-          nullable: true
-          type: string
+          type: [string, 'null']
         ssn:
           description: The employee's Social Security number.
-          nullable: true
-          allOf:
+          anyOf:
           - $ref: '#/components/schemas/SocialSecurityNumber'
+          - type: 'null'
         sin:
           description: The employee's Canadian Social Insurance Number.
-          nullable: true
-          allOf:
+          anyOf:
           - $ref: '#/components/schemas/SocialInsuranceNumber'
+          - type: 'null'
         state:
           description: >-
             In responses from getEmployee:  The employee's state code (if USA),
@@ -2359,9 +2344,9 @@ components:
         stateCode:
           description: The 2 character abbreviation for the employee's state (US only).
           readOnly: true
-          nullable: true
-          allOf:
+          anyOf:
           - $ref: '#/components/schemas/StateCode'
+          - type: 'null'
         status:
           description: The employee's employee status.
           allOf:
@@ -2369,18 +2354,15 @@ components:
         supervisor:
           description: The employee’s CURRENT supervisor as last name-comma-first name-space-middle name.
           readOnly: true
-          nullable: true
-          type: string
+          type: [string, 'null']
         supervisorId:
           description: The 'employeeNumber' of the employee's CURRENT supervisor.
           readOnly: true
-          nullable: true
-          type: string
+          type: [string, 'null']
         supervisorEId:
           description: The ID of the employee's CURRENT supervisor.
           readOnly: true
-          nullable: true
-          type: integer
+          type: [integer, 'null']
           minimum: 1
         terminationDate:
           description: The date the employee was terminated. Read-only starting with version 1.1; update using the employmentStatus table.
@@ -2389,33 +2371,27 @@ components:
           format: date
         workEmail:
           description: The employee's work email address.
-          nullable: true
-          type: string
+          type: [string, 'null']
           format: email
         workPhone:
           description: The employee's work phone number, without extension.
-          nullable: true
-          type: string
+          type: [string, 'null']
         workPhonePlusExtension:
           description: The employee's work phone and extension.
-          nullable: true
           readOnly: true
-          type: string
+          type: [string, 'null']
         workPhoneExtension:
           description: The employee's work phone extension (if any).
-          nullable: true
-          type: string
+          type: [string, 'null']
         zipcode:
           description: The employee's ZIP code.
-          nullable: true
-          type: string
+          type: [string, 'null']
         isPhotoUploaded:
           description: Whether a photo has been uploaded for the employee.
           readOnly: true
           type: boolean
         acaStatus:
           description: The employee's ACA (Affordable Care Act) Full-Time status.
-          nullable: true
           deprecated: true
           x-deprecated:
             description: >-
@@ -2423,22 +2399,22 @@ components:
 
               See https://documentation.bamboohr.com/docs/planned-changes-to-the-api#section-20191001-acastatus-field-deprecation
             replaced-by: acaStatusCategory
-          allOf:
+          anyOf:
           - $ref: '#/components/schemas/YesNoNonAssessment'
+          - type: 'null'
         acaStatusCategory:
           description: The employee's ACA (Affordable Care Act) status.
           readOnly: true
-          nullable: true
-          allOf:
+          anyOf:
           - $ref: '#/components/schemas/AcaStatusCategory'
+          - type: 'null'
         standardHoursPerWeek:
           description: The number of hours the employee works in a standard week.
           type: integer
           minimum: 0
         bonusDate:
           description: The date of the last bonus.
-          nullable: true
-          type: string
+          type: [string, 'null']
           format: date
         bonusAmount:
           description: The amount of the most recent bonus
@@ -2446,12 +2422,10 @@ components:
           - $ref: '#/components/schemas/CurrencyAmountString'
         bonusReason:
           description: The reason for the most recent bonus.
-          nullable: true
-          type: string
+          type: [string, 'null']
         bonusComment:
           description: Comment about the most recent bonus.
-          nullable: true
-          type: string
+          type: [string, 'null']
         commissionDate:
           description: The date of the last commission.
           type: string
@@ -2479,8 +2453,7 @@ components:
           - $ref: '#/components/schemas/EmployeeStatus'
         nickname:
           description: The employee's preferred name.
-          nullable: true
-          type: string
+          type: [string, 'null']
           deprecated: true
           x-deprecated:
             replaced-by: preferredName
@@ -2523,20 +2496,17 @@ components:
           type: string
         facebook:
           description: The employee's Facebook username or URL
-          nullable: true
-          type: string
+          type: [string, 'null']
         linkedIn:
           description: The employee's LinkedIn URL
-          nullable: true
-          type: string
+          type: [string, 'null']
           format: url
         skypeUsername:
           description: The employee's Skype username
           type: string
         twitterFeed:
           description: The employee's Twitter username or URL
-          nullable: true
-          type: string
+          type: [string, 'null']
       patternProperties:
         '^customField':
           type: string
@@ -2845,65 +2815,55 @@ components:
           format: integer
           readOnly: true
         firstName:
-          type: string
-          nullable: true
+          type: [string, 'null']
         middleName:
-          type: string
-          nullable: true
+          type: [string, 'null']
         lastName:
-          type: string
-          nullable: true
+          type: [string, 'null']
         relationship:
-          nullable: true
-          allOf:
+          anyOf:
           - $ref: '#/components/schemas/DependentRelationship'
+          - type: 'null'
         gender:
-          nullable: true
-          allOf:
+          anyOf:
           - $ref: '#/components/schemas/Gender'
+          - type: 'null'
         addressLine1:
-          type: string
-          nullable: true
+          type: [string, 'null']
         addressLine2:
-          type: string
-          nullable: true
+          type: [string, 'null']
         ssn:
-          nullable: true
-          allOf:
+          anyOf:
           - $ref: '#/components/schemas/SocialSecurityNumber'
+          - type: 'null'
         sin:
-          nullable: true
-          allOf:
+          anyOf:
           - $ref: '#/components/schemas/SocialInsuranceNumber'
+          - type: 'null'
         dateOfBirth:
-          type: string
+          type: [string, 'null']
           format: date
-          nullable: true
         city:
-          type: string
-          nullable: true
+          type: [string, 'null']
         state:
           description: >-
             State code, province code, or province name (if code unavailable)
             of dependent's address
-          nullable: true
           # TODO: Uncomment once OpenAPI Generator or Autorest support anyOf
           # https://github.com/OpenAPITools/openapi-generator/issues/15
           # anyOf:
           # - $ref: '#/components/schemas/StateCode'
           # - $ref: '#/components/schemas/ProvinceCode'
           # - type: string
-          type: string
+          type: [string, 'null']
         homePhone:
-          type: string
-          nullable: true
+          type: [string, 'null']
         country:
-          nullable: true
-          allOf:
+          anyOf:
           - $ref: '#/components/schemas/Country'
+          - type: 'null'
         zipcode:
-          type: string
-          nullable: true
+          type: [string, 'null']
 
     DriversLicense:
       type: object
@@ -2918,22 +2878,19 @@ components:
           readOnly: true
         customLicenseNumber1:
           x-ms-client-name: licenseNumber
-          type: string
-          nullable: true
+          type: [string, 'null']
         customStateIssued1:
           x-ms-client-name: stateIssued
-          nullable: true
-          allOf:
+          anyOf:
           - $ref: '#/components/schemas/StateCode'
+          - type: 'null'
         customExpirationDate2:
           x-ms-client-name: expirationDate
-          type: string
+          type: [string, 'null']
           format: date
-          nullable: true
         customLicenseComments1:
           x-ms-client-name: comment
-          type: string
-          nullable: true
+          type: [string, 'null']
       required:
       - id
       - employeeId
@@ -2954,53 +2911,43 @@ components:
         name:
           type: string
         relationship:
-          nullable: true
-          allOf:
+          anyOf:
           - $ref: '#/components/schemas/EmergencyContactRelationship'
+          - type: 'null'
         homePhone:
-          type: string
-          nullable: true
+          type: [string, 'null']
         addressLine1:
-          type: string
-          nullable: true
+          type: [string, 'null']
         addressLine2:
-          type: string
-          nullable: true
+          type: [string, 'null']
         mobilePhone:
-          type: string
-          nullable: true
+          type: [string, 'null']
         email:
-          type: string
+          type: [string, 'null']
           format: email
-          nullable: true
         zipcode:
-          type: string
-          nullable: true
+          type: [string, 'null']
         city:
-          type: string
-          nullable: true
+          type: [string, 'null']
         state:
           description: >-
             State code, province code, or province name (if code unavailable)
             of emergency contact's address
-          nullable: true
           # TODO: Uncomment once OpenAPI Generator or Autorest support anyOf
           # https://github.com/OpenAPITools/openapi-generator/issues/15
           # anyOf:
           # - $ref: '#/components/schemas/StateCode'
           # - $ref: '#/components/schemas/ProvinceCode'
-          # - type: string
-          type: string
+          # - type: [string, 'null']
+          type: [string, 'null']
         country:
-          nullable: true
-          allOf:
+          anyOf:
           - $ref: '#/components/schemas/Country'
+          - type: 'null'
         workPhone:
-          type: string
-          nullable: true
+          type: [string, 'null']
         workPhoneExtension:
-          type: string
-          nullable: true
+          type: [string, 'null']
       required:
       - id
       - employeeId
@@ -3024,8 +2971,7 @@ components:
         employmentStatus:
           $ref: '#/components/schemas/EmploymentStatus'
         comment:
-          type: string
-          nullable: true
+          type: [string, 'null']
         terminationReasonId:
           # anyOf:
           # - '#/components/schemas/EmptyString'
@@ -3039,11 +2985,9 @@ components:
           # - '#/components/schemas/EmptyString'
           $ref: '#/components/schemas/YesNo'
         benetracStatus:
-          type: string
-          nullable: true
+          type: [string, 'null']
         gusto:
-          type: string
-          nullable: true
+          type: [string, 'null']
       required:
       - id
       - employeeId
@@ -3066,9 +3010,8 @@ components:
             Date on which the employee began working this job.
 
             Note: Invalid date values in requests are ignored.
-          type: string
+          type: [string, 'null']
           format: date
-          nullable: true
         location:
           description: >-
             Location where the employee worked for this job.
@@ -3319,9 +3262,8 @@ components:
         name:
           type: string
         effectiveDate:
-          type: string
+          type: [string, 'null']
           format: date
-          nullable: true
         type:
           $ref: '#/components/schemas/TimeOffPolicyType'
       required:
@@ -3648,9 +3590,8 @@ components:
 
             Must be _after_ employee `hireDate` or 400 "There is already a
             policy assigned for that time off type" will be returned.
-          type: string
+          type: [string, 'null']
           format: date
-          nullable: true
       required:
       - timeOffPolicyId
       - timeOffTypeId
@@ -3821,9 +3762,8 @@ components:
           type: string
           format: date-time
         archivedDate:
-          type: string
+          type: [string, 'null']
           format: date-time
-          nullable: true
         name:
           type: string
       required:
@@ -4138,15 +4078,13 @@ components:
         shortName:
           type: string
         description:
-          type: string
-          nullable: true
+          type: [string, 'null']
         sortOrder:
           type: string
           format: integer
           minimum: 1
         benefitPlanId:
-          type: string
-          nullable: true
+          type: [string, 'null']
           format: integer
           minimum: 1
       required:
@@ -4182,9 +4120,8 @@ components:
           type: string
           format: date
         endDate:
-          type: string
+          type: [string, 'null']
           format: date
-          nullable: true
         archived:
           type: boolean
 
@@ -4218,9 +4155,8 @@ components:
           type: string
           format: date
         endDate:
-          type: string
+          type: [string, 'null']
           format: date
-          nullable: true
         archived:
           type: boolean
       required:
@@ -4266,9 +4202,8 @@ components:
           type: string
           format: date
         endDate:
-          type: string
+          type: [string, 'null']
           format: date
-          nullable: true
         archived:
           type: boolean
       required:
@@ -4314,9 +4249,8 @@ components:
           type: string
           format: date
         endDate:
-          type: string
+          type: [string, 'null']
           format: date
-          nullable: true
         archived:
           type: boolean
       required:
@@ -4387,28 +4321,24 @@ components:
         type:
           $ref: '#/components/schemas/BenefitTypeName'
         deductionTypeId:
-          type: string
-          nullable: true
+          type: [string, 'null']
           format: integer
           minimum: 1
         startDate:
           type: string
           format: date
         endDate:
-          type: string
-          nullable: true
+          type: [string, 'null']
           format: date
         url:
-          type: string
-          nullable: true
+          type: [string, 'null']
           format: url
         meetAcaMin:
-          nullable: true
-          allOf:
+          anyOf:
           - $ref: '#/components/schemas/YesNoDoesNotApply'
+          - type: 'null'
         description:
-          type: string
-          nullable: true
+          type: [string, 'null']
         archived:
           type: boolean
         reimbursementAmount:
@@ -4515,8 +4445,7 @@ components:
             $ref: '#/components/schemas/PayGroupPayFrequency'
           coverage:
             # FIXME: What type is this?  Always null in examples.
-            type: string
-            nullable: true
+            type: [string, 'null']
         required:
         - employeeId
         - employeeNumber
@@ -4544,9 +4473,9 @@ components:
             # FIXME: Examples have MM/DD/YYYY
             format: date
           coverageType:
-            nullable: true
-            allOf:
+            anyOf:
             - $ref: '#/components/schemas/BenefitCoverageType'
+            - type: 'null'
         required:
         - effectiveDate
         - coverageType
@@ -4594,41 +4523,34 @@ components:
         firstName:
           type: string
         middleName:
-          type: string
-          nullable: true
+          type: [string, 'null']
         lastName:
           type: string
         relationship:
-          nullable: true
-          allOf:
+          anyOf:
           - $ref: '#/components/schemas/DependentRelationship'
+          - type: 'null'
         gender:
-          nullable: true
-          allOf:
+          anyOf:
           - $ref: '#/components/schemas/Gender'
+          - type: 'null'
         maskedSSN:
-          type: string
-          nullable: true
+          type: [string, 'null']
           format: ssn
           pattern: '^x{3}-x{2}-[0-9]{4}$'
         maskedSIN:
-          type: string
-          nullable: true
+          type: [string, 'null']
           format: sin
           pattern: '^x{3}-x{3}-[0-9]{3}$'
         dateOfBirth:
-          type: string
-          nullable: true
+          type: [string, 'null']
           format: date
         addressLine1:
-          type: string
-          nullable: true
+          type: [string, 'null']
         addressLine2:
-          type: string
-          nullable: true
+          type: [string, 'null']
         city:
-          type: string
-          nullable: true
+          type: [string, 'null']
         state:
           description: >-
             In responses, State/Province name, or `false` if not specified.
@@ -4644,28 +4566,26 @@ components:
           # - $ref: '#/components/schemas/StateName'
           - type: string
         zipCode:
-          type: string
-          nullable: true
+          type: [string, 'null']
         homePhone:
-          nullable: true
-          type: string
+          type: [string, 'null']
         country:
           description: >-
             In responses, the country name.
 
             In requests, 2-character ISO country code.
-          nullable: true
           anyOf:
           - $ref: '#/components/schemas/Country'
           - $ref: '#/components/schemas/CountryCode'
+          - type: 'null'
         isUsCitizen:
-          nullable: true
-          allOf:
+          anyOf:
           - $ref: '#/components/schemas/YesNo'
+          - type: 'null'
         isStudent:
-          nullable: true
-          allOf:
+          anyOf:
           - $ref: '#/components/schemas/YesNo'
+          - type: 'null'
       required:
       - employeeId
       # Always present in responses, not required in requests:
@@ -4760,17 +4680,15 @@ components:
         ruleType:
           $ref: '#/components/schemas/DirectDepositRuleType'
         ruleAmount:
-          type: string
+          type: [string, 'null']
           format: decimal
-          nullable: true
           minimum: 0
         createdAt:
           type: string
           format: date-time
         updatedAt:
-          type: string
+          type: [string, 'null']
           format: date-time
-          nullable: true
       required:
       - id
       - employeeId
@@ -4880,13 +4798,11 @@ components:
           format: decimal
           minimum: 0
         wageRate:
-          type: string
-          nullable: true
+          type: [string, 'null']
           format: decimal
           minimum: 0
         hours:
-          type: string
-          nullable: true
+          type: [string, 'null']
           format: decimal
           minimum: 0
       required:
