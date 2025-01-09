@@ -8,6 +8,8 @@ import AssertPropertiesTransformer
   from '@kevinoid/openapi-transformers/assert-properties.js';
 import ClientParamsToGlobalTransformer
   from '@kevinoid/openapi-transformers/client-params-to-global.js';
+import MergeAllOfTransformer
+  from '@kevinoid/openapi-transformers/merge-all-of.js';
 import MergeAnyOfTransformer
   from '@kevinoid/openapi-transformers/merge-any-of.js';
 import OpenApi31To30Transformer from
@@ -25,6 +27,7 @@ import AddCountryCodeNamesTransformer from './add-country-code-names.js';
 import GenerateEmployeeFieldNamesTransformer
   from './generate-employee-fields.js';
 import bambooHrV3ToV2Factory from './oas3-to-oas2.js';
+import RemoveAnyOfEmptyArrayTransformer from './remove-any-of-empty-array.js';
 import SimplifyBambooHRTransformer from './simplify-bamboo-hr.js';
 
 /**
@@ -38,6 +41,8 @@ export default class SwaggerTransformer extends OpenApiTransformerPipeline {
       new AddCountryCodeNamesTransformer(),
       new SimplifyBambooHRTransformer(),
       new OpenApi31To30Transformer(),
+      new RemoveAnyOfEmptyArrayTransformer(),
+      new MergeAllOfTransformer({ onlySingle: true }),
       new MergeAnyOfTransformer(),
       new RemovePathsWithServersTransformer(),
       new ServerVarsToPathParamsTransformer({ omitDefault: ['subdomain'] }),
