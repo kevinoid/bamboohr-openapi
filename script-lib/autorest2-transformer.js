@@ -12,6 +12,8 @@ import AddXMsEnumValueNamesTransformer
   from '@kevinoid/openapi-transformers/add-x-ms-enum-value-names.js';
 import AdditionalPropertiesToUnconstrainedTransformer from
   '@kevinoid/openapi-transformers/additional-properties-to-unconstrained.js';
+import AssertPropertiesTransformer
+  from '@kevinoid/openapi-transformers/assert-properties.js';
 import BinaryStringToFileTransformer
   from '@kevinoid/openapi-transformers/binary-string-to-file.js';
 import ClearHtmlResponseSchemaTransformer
@@ -104,6 +106,22 @@ export default class Autorest2Transformer extends OpenApiTransformerPipeline {
       new ReadOnlyNotRequiredTransformer({
         removeValidation: true,
         setNonNullable: true,
+      }),
+      // Assert that properties not convertible to Swagger are not present
+      new AssertPropertiesTransformer({
+        schema: {
+          excludes: [
+            'anyOf',
+            'const',
+            'contains',
+            'not',
+            'oneOf',
+            'patternProperties',
+            'prefixItems',
+            'propertyNames',
+            'unevaluatedItems',
+          ],
+        },
       }),
       bambooHrV3ToV2Factory(),
       new BinaryStringToFileTransformer(),

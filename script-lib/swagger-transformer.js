@@ -4,6 +4,8 @@
  */
 
 import OpenApiTransformerPipeline from '@kevinoid/openapi-transformer-pipeline';
+import AssertPropertiesTransformer
+  from '@kevinoid/openapi-transformers/assert-properties.js';
 import ClientParamsToGlobalTransformer
   from '@kevinoid/openapi-transformers/client-params-to-global.js';
 import PatternPropertiesToAdditionalPropertiesTransformer from
@@ -35,6 +37,22 @@ export default class SwaggerTransformer extends OpenApiTransformerPipeline {
       new RemovePathsWithServersTransformer(),
       new ServerVarsToPathParamsTransformer({ omitDefault: ['subdomain'] }),
       new ServerVarsToParamHostTransformer({ omitDefault: ['subdomain'] }),
+      // Assert that properties not convertible to Swagger are not present
+      new AssertPropertiesTransformer({
+        schema: {
+          excludes: [
+            'anyOf',
+            'const',
+            'contains',
+            'not',
+            'oneOf',
+            'patternProperties',
+            'prefixItems',
+            'propertyNames',
+            'unevaluatedItems',
+          ],
+        },
+      }),
       bambooHrV3ToV2Factory(),
       new ClientParamsToGlobalTransformer(),
       new RefPathParametersTransformer(),
