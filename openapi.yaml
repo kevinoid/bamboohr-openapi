@@ -4550,14 +4550,11 @@ components:
 
             In request body, State/Province code.
           anyOf:
-          - type: boolean
-            enum:
-            - false
-          # - $ref: '#/components/schemas/ProvinceCode'
-          # - $ref: '#/components/schemas/StateCode'
-          # - $ref: '#/components/schemas/ProvinceName'
-          # - $ref: '#/components/schemas/StateName'
-          - type: string
+          - const: false
+          - $ref: '#/components/schemas/ProvinceCode'
+          - $ref: '#/components/schemas/StateCode'
+          - $ref: '#/components/schemas/ProvinceName'
+          - $ref: '#/components/schemas/StateName'
         zipCode:
           type: [string, 'null']
         homePhone:
