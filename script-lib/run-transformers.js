@@ -14,6 +14,15 @@ import Autorest3Transformer from './autorest3-transformer.js';
 import OpenApiTransformer from './openapi-transformer.js';
 import SwaggerTransformer from './swagger-transformer.js';
 
+// Only merge plain objects which are non-empty.
+// Note: Merging empty objects would have no effect.  Instead, overwrite.
+function isMergeableObject(value) {
+  return typeof value === 'object'
+    && value !== null
+    && Object.prototype.toString.call(value) === '[object Object]'
+    && Object.keys(value).length > 0;
+}
+
 async function transform(openApi, Transformer, output) {
   const transformer = new Transformer();
   const transformed = await transformer.transformOpenApi(openApi);
@@ -86,7 +95,7 @@ export default async function runTransformersMain(args, options) {
   try {
     const openApis = await Promise.all(args.slice(2).map(readYaml));
     const openApi = openApis.length === 1 ? openApis[0]
-      : deepmerge.all(openApis, { clone: false });
+      : deepmerge.all(openApis, { clone: false, isMergeableObject });
 
     const results = await Promise.allSettled([
       transform(openApi, Autorest2Transformer, 'autorest2.json'),
