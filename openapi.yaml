@@ -6310,6 +6310,27 @@ paths:
         '200':
           description: Success
 
+  /v1/employees/{id}/tables/compensation/{rowId}:
+    delete:
+      tags:
+      - Tables
+      operationId: deleteCompensationTableRow
+      summary: Delete a row of the Compensation table for an employee
+      externalDocs:
+        url: https://documentation.bamboohr.com/reference/delete-employee-table-row-v1
+      parameters:
+      - $ref: '#/components/parameters/employeeId'
+      - $ref: '#/components/parameters/rowId'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result'
+
   /v1_1/employees/{id}/tables/compensation/{rowId}:
     post:
       tags:
@@ -6428,6 +6449,27 @@ paths:
         '200':
           description: Success
 
+  /v1/employees/{id}/tables/customDriversLicenseInformation/{rowId}:
+    delete:
+      tags:
+      - Tables
+      operationId: deleteDriversLicense
+      summary: Delete a row of the Driver's License Information table for an employee.
+      externalDocs:
+        url: https://documentation.bamboohr.com/reference/delete-employee-table-row-v1
+      parameters:
+      - $ref: '#/components/parameters/employeeId'
+      - $ref: '#/components/parameters/rowId'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result'
+
   /v1_1/employees/{id}/tables/customDriversLicenseInformation/{rowId}:
     post:
       tags:
@@ -6538,6 +6580,27 @@ paths:
         '200':
           description: Success
 
+  /v1/employees/{id}/tables/dependents/{rowId}:
+    delete:
+      tags:
+      - Tables
+      operationId: deleteDependentsTableRow
+      summary: Delete a row of the Dependents table for an employee
+      externalDocs:
+        url: https://documentation.bamboohr.com/reference/delete-employee-table-row-v1
+      parameters:
+      - $ref: '#/components/parameters/employeeId'
+      - $ref: '#/components/parameters/rowId'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result'
+
   /v1_1/employees/{id}/tables/dependents/{rowId}:
     post:
       tags:
@@ -6646,6 +6709,27 @@ paths:
           $ref: '#/components/responses/Error'
         '200':
           description: Success
+
+  /v1/employees/{id}/tables/emergencyContacts/{rowId}:
+    delete:
+      tags:
+      - Tables
+      operationId: deleteEmergencyContactsTableRow
+      summary: Delete a row of the Emergency Contacts table for an employee
+      externalDocs:
+        url: https://documentation.bamboohr.com/reference/delete-employee-table-row-v1
+      parameters:
+      - $ref: '#/components/parameters/employeeId'
+      - $ref: '#/components/parameters/rowId'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result'
 
   /v1_1/employees/{id}/tables/emergencyContacts/{rowId}:
     post:
@@ -6756,6 +6840,27 @@ paths:
         '200':
           description: Success
 
+  /v1/employees/{id}/tables/employmentStatus/{rowId}:
+    delete:
+      tags:
+      - Tables
+      operationId: deleteEmploymentStatusTableRow
+      summary: Delete a row of the Employment Status table for an employee
+      externalDocs:
+        url: https://documentation.bamboohr.com/reference/delete-employee-table-row-v1
+      parameters:
+      - $ref: '#/components/parameters/employeeId'
+      - $ref: '#/components/parameters/rowId'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result'
+
   /v1_1/employees/{id}/tables/employmentStatus/{rowId}:
     post:
       tags:
@@ -6864,6 +6969,27 @@ paths:
           $ref: '#/components/responses/Error'
         '200':
           description: Success
+
+  /v1/employees/{id}/tables/jobInfo/{rowId}:
+    delete:
+      tags:
+      - Tables
+      operationId: deleteJobInfoTableRow
+      summary: Delete a row of the Job Info table for an employee
+      externalDocs:
+        url: https://documentation.bamboohr.com/reference/delete-employee-table-row-v1
+      parameters:
+      - $ref: '#/components/parameters/employeeId'
+      - $ref: '#/components/parameters/rowId'
+      responses:
+        default:
+          $ref: '#/components/responses/Error'
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Result'
 
   /v1_1/employees/{id}/tables/jobInfo/{rowId}:
     post:
