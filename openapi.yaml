@@ -6358,7 +6358,7 @@ paths:
     get:
       tags:
       - Tables
-      operationId: getDriversLicenses
+      operationId: getDriversLicenseTable
       summary: Get the Driver's License Information table rows for an employee.
       externalDocs:
         url: https://www.bamboohr.com/api/documentation/tables.php#getTable
@@ -6384,7 +6384,7 @@ paths:
     get:
       tags:
       - Tables
-      operationId: getAllDriversLicenses
+      operationId: getAllDriversLicenseTables
       summary: >-
         Get the Driver's License Information table rows for all employees.
       externalDocs:
@@ -6407,7 +6407,7 @@ paths:
     get:
       tags:
       - Tables
-      operationId: getChangedDriversLicenses
+      operationId: getChangedDriversLicenseTable
       summary: >-
         Get the Driver's License Information table rows for changed employees.
       externalDocs:
@@ -6430,7 +6430,7 @@ paths:
     post:
       tags:
       - Tables
-      operationId: addDriversLicense
+      operationId: addDriversLicenseTableRow
       summary: >-
         Add a row to the Driver's License Information table for an employee.
       externalDocs:
@@ -6453,7 +6453,7 @@ paths:
     delete:
       tags:
       - Tables
-      operationId: deleteDriversLicense
+      operationId: deleteDriversLicenseTableRow
       summary: Delete a row of the Driver's License Information table for an employee.
       externalDocs:
         url: https://documentation.bamboohr.com/reference/delete-employee-table-row-v1
@@ -6474,7 +6474,7 @@ paths:
     post:
       tags:
       - Tables
-      operationId: updateDriversLicense
+      operationId: updateDriversLicenseTableRow
       summary: >-
         Update a row of the Driver's License Information table for an employee.
       externalDocs:
