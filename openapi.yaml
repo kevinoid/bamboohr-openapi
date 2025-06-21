@@ -2797,6 +2797,8 @@ components:
           $ref: '#/components/schemas/PayPer'
         paySchedule:
           $ref: '#/components/schemas/PaySchedule'
+        overtimeRate:
+          $ref: '#/components/schemas/CurrencyAmount'
       required:
       - id
       - employeeId
